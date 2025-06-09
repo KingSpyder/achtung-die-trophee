@@ -1,0 +1,21 @@
+{
+	"config": "air",
+	"compilerOptions": {
+		"source-path": [
+			"src"
+		],
+		"library-path": [
+			"libs"
+		],
+		"output": "bin/flashcode.swf",
+		"default-background-color": "#000000",
+		"default-frame-rate": 25,
+		"default-size": {
+			"width": 904,
+			"height": 904
+		},
+		"swf-version": 10
+	},
+	"application": "src/flashcode-app.xml",
+	"mainClass": "flashachtung_fla.MainTimeline"
+}
