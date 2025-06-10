@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://dp4578uvik3mj"]
+
+[ext_resource type="Script" uid="uid://binbkcu3g8dh7" path="res://multiplayerController.gd" id="1_06t4h"]
+
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_06t4h")
+
+[node name="Host" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.088
+anchor_top = 0.073
+anchor_right = 0.088
+anchor_bottom = 0.073
+offset_left = -67.376
+offset_top = -15.304
+offset_right = 67.624
+offset_bottom = 15.696
+text = "Créer une partie"
+
+[node name="Join" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.073
+anchor_right = 0.25
+anchor_bottom = 0.073
+offset_left = -84.0
+offset_top = -15.304
+offset_right = 83.0
+offset_bottom = 15.696
+text = "Rejoindre une partie"
+
+[node name="Start" type="Button" parent="."]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 152.0
+offset_right = 285.0
+offset_bottom = 183.0
+text = "Démarrer une partie"
+
+[connection signal="button_down" from="Host" to="." method="_on_host_button_down"]
+[connection signal="button_down" from="Join" to="." method="_on_join_button_down"]
+[connection signal="button_down" from="Start" to="." method="_on_start_button_down"]
