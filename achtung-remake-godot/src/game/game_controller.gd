@@ -3,7 +3,6 @@ extends Node2D
 @export var playerScene: PackedScene
 
 func _ready():
-	
 	spawn_players()
 	pass
 	

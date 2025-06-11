@@ -44,12 +44,21 @@ func send_player_information(id, name):
 			send_player_information.rpc(GameManager.players[i].id, GameManager.players[i].name)
 
 @rpc("any_peer", "call_local")
+func start_game_online():
+	var scene = load("res://src/game/gameScene.tscn").instantiate()
+	get_tree().root.add_child(scene)
+	self.hide()
+	
+@rpc("any_peer", "call_local")
 func start_game():
-	var scene = load("res://game.tscn").instantiate()
+	var scene = load("res://src/game/gameScene.tscn").instantiate()
 	get_tree().root.add_child(scene)
 	self.hide()
 
 func _on_host_button_down():
+	start_host_server()
+	
+func start_host_server():
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)
 	
@@ -62,7 +71,7 @@ func _on_host_button_down():
 	multiplayer.multiplayer_peer = peer
 	print("Server host created")
 	send_player_information(multiplayer.get_unique_id(), "host")
-	pass
+	
 	
 func _on_join_button_down():
 	peer = ENetMultiplayerPeer.new()
@@ -78,4 +87,15 @@ func _on_join_button_down():
 
 func _on_start_button_down() -> void:
 	start_game.rpc()
+	pass # Replace with function body.
+
+
+func _on_add_player_button_down() -> void:
+	var playerSize = GameManager.players.size()
+	var id = str(playerSize + 2)
+	GameManager.players[id] = {
+			"id": id,
+			"name": "guest" + id,
+			"score": 0
+		}
 	pass # Replace with function body.

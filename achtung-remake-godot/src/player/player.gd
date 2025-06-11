@@ -16,9 +16,10 @@ func _process(delta):
 	if(_is_player_authority()):
 		move(delta)
 
-# Check whether this player scene belongs to the client
+# Check whether this playerScene belongs to the client
 func _is_player_authority():
-	return $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id()
+	return true
+	# return $MultiplayerSynchronizer.get_multiplayer_authority() == multiplayer.get_unique_id()
 
 func move(delta):
 	#Rotation & Movement
