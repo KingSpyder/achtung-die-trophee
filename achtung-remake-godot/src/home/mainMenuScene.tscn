@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dp4578uvik3mj"]
 
-[ext_resource type="Script" uid="uid://binbkcu3g8dh7" path="res://src/network/network_controller.gd" id="1_6jcod"]
+[ext_resource type="Script" uid="uid://cda7b4gu3c714" path="res://src/home/main_menu.gd" id="1_bv18f"]
 [ext_resource type="Script" uid="uid://c8m1iek7tosyc" path="res://src/home/player_number.gd" id="2_bv18f"]
 
 [node name="Main Menu" type="Control"]
@@ -10,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_6jcod")
+script = ExtResource("1_bv18f")
 
 [node name="Host" type="Button" parent="."]
 layout_mode = 1
@@ -67,7 +67,13 @@ offset_right = 19.44
 offset_bottom = 12.688
 script = ExtResource("2_bv18f")
 
-[connection signal="button_down" from="Host" to="." method="_on_host_button_down"]
-[connection signal="button_down" from="Join" to="." method="_on_join_button_down"]
+[node name="Start Online" type="Button" parent="."]
+layout_mode = 0
+offset_left = 479.0
+offset_top = 281.0
+offset_right = 737.0
+offset_bottom = 312.0
+text = "Démarrer un partie en ligne WIP"
+
 [connection signal="button_down" from="Start" to="." method="_on_start_button_down"]
 [connection signal="button_down" from="AddPlayer" to="." method="_on_add_player_button_down"]

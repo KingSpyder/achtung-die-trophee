@@ -5,33 +5,33 @@ extends Control
 
 var peer
 
-func _ready():
+func _ready() -> void:
 	multiplayer.peer_connected.connect(peer_connected)
 	multiplayer.peer_disconnected.connect(peer_disconnected)
 	multiplayer.connected_to_server.connect(connected_to_server)
 	multiplayer.connection_failed.connect(connection_failed)
 	
-func _process(delta: float):
+func _process(delta: float) -> void:
 	pass
 	
 # Peer id 1 is the server
-func peer_connected(id):
+func peer_connected(id: int) -> void:
 	print("Peer Connected %s" % str(id))
 	
-func peer_disconnected(id):
+func peer_disconnected(id: int) -> void:
 	print("Peer Connected %s" % str(id))
 	GameManager.players.erase(id)
 	#Todo handle if player is erased
 	
-func connected_to_server():
+func connected_to_server() -> void:
 	print("Connected to server")
 	send_player_information.rpc_id(1, multiplayer.get_unique_id(), "guest" + str(multiplayer.get_unique_id()))
 	
-func connection_failed():
+func connection_failed() -> void:
 	print("Connection to server failed...")
 	
 @rpc("any_peer")
-func send_player_information(id, name):
+func send_player_information(id: int, name: String) -> void:
 	if( not GameManager.players.has(id) ):
 		GameManager.players[id] = {
 			"id": id,
@@ -43,22 +43,20 @@ func send_player_information(id, name):
 		for i in GameManager.players:
 			send_player_information.rpc(GameManager.players[i].id, GameManager.players[i].name)
 
+func _on_start_online_button_down() -> void:
+	start_game.rpc()
+
 @rpc("any_peer", "call_local")
-func start_game_online():
-	var scene = load("res://src/game/gameScene.tscn").instantiate()
-	get_tree().root.add_child(scene)
-	self.hide()
-	
-@rpc("any_peer", "call_local")
-func start_game():
+func start_game() -> void:
 	var scene = load("res://src/game/gameScene.tscn").instantiate()
 	get_tree().root.add_child(scene)
 	self.hide()
 
-func _on_host_button_down():
+
+func _on_host_button_down() -> void:
 	start_host_server()
 	
-func start_host_server():
+func start_host_server() -> void:
 	peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(port, 2)
 	
@@ -73,7 +71,7 @@ func start_host_server():
 	send_player_information(multiplayer.get_unique_id(), "host")
 	
 	
-func _on_join_button_down():
+func _on_join_button_down() -> void:
 	peer = ENetMultiplayerPeer.new()
 	
 	peer.create_client(address, port)
@@ -83,19 +81,3 @@ func _on_join_button_down():
 	
 	print("Connected to server")
 	pass
-
-
-func _on_start_button_down() -> void:
-	start_game.rpc()
-	pass # Replace with function body.
-
-
-func _on_add_player_button_down() -> void:
-	var playerSize = GameManager.players.size()
-	var id = str(playerSize + 2)
-	GameManager.players[id] = {
-			"id": id,
-			"name": "guest" + id,
-			"score": 0
-		}
-	pass # Replace with function body.

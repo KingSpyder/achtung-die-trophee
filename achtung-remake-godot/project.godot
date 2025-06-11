@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameManager="*res://src/game/game_manager.gd"
+NetworkController="*res://src/network/network_controller.gd"
 
 [input]
 
