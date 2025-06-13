@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="achtung-remake-godot"
-run/main_scene="uid://s4dac2cod3c6"
+run/main_scene="uid://dp4578uvik3mj"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
