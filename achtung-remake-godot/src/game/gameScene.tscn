@@ -1,8 +1,78 @@
-[gd_scene load_steps=3 format=3 uid="uid://s4dac2cod3c6"]
+[gd_scene load_steps=7 format=3 uid="uid://s4dac2cod3c6"]
 
 [ext_resource type="Script" uid="uid://djp65rn0m6w3x" path="res://src/game/game_controller.gd" id="1_omymb"]
-[ext_resource type="PackedScene" uid="uid://cnf4kpvum4l7e" path="res://src/player/playerScene.tscn" id="2_06v2v"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_omymb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jadrl"]
+size = Vector2(2.75621, 58.0645)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_omymb"]
+size = Vector2(108.505, 1.66667)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06v2v"]
+size = Vector2(3.7687, 58.172)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bsexf"]
+size = Vector2(108.224, 3.44086)
 
 [node name="Game" type="Node2D"]
+position = Vector2(960, 540)
 script = ExtResource("1_omymb")
-playerScene = ExtResource("2_06v2v")
+
+[node name="Background" type="MeshInstance2D" parent="."]
+modulate = Color(0, 0, 0, 1)
+light_mask = 512
+visibility_layer = 512
+z_index = -10
+scale = Vector2(1920, 1080)
+mesh = SubResource("QuadMesh_omymb")
+
+[node name="Walls" type="Node2D" parent="."]
+scale = Vector2(17.778, 18.6)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
+modulate = Color(1, 1, 0, 1)
+self_modulate = Color(1, 1, 0, 1)
+position = Vector2(52.7618, -0.430108)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D"]
+position = Vector2(1.20937, 0.430107)
+shape = SubResource("RectangleShape2D_jadrl")
+
+[node name="Line2D" type="Line2D" parent="Walls/StaticBody2D"]
+points = PackedVector2Array(1.01254, -26.7204, 0.61879, -11.7742, 1.18128, 4.83871, 1.18128, 28.4409)
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Walls"]
+modulate = Color(1, 1, 0, 1)
+self_modulate = Color(1, 1, 0, 1)
+visibility_layer = 258
+position = Vector2(-1.01249, 29.1398)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
+position = Vector2(0.421869, -0.188173)
+shape = SubResource("RectangleShape2D_omymb")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Walls"]
+modulate = Color(1, 1, 0, 1)
+self_modulate = Color(1, 1, 0, 1)
+visibility_layer = 258
+position = Vector2(-53.8868, 0.268817)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D3"]
+position = Vector2(0.534374, -0.376344)
+shape = SubResource("RectangleShape2D_06v2v")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Walls"]
+modulate = Color(1, 1, 0, 1)
+self_modulate = Color(1, 1, 0, 1)
+visibility_layer = 258
+position = Vector2(-0.112499, -29.3548)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
+position = Vector2(0.168748, 0.537634)
+shape = SubResource("RectangleShape2D_bsexf")
