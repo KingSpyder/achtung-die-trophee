@@ -34,7 +34,7 @@ scale = Vector2(17.778, 18.6)
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
-position = Vector2(52.7618, -0.430108)
+position = Vector2(53.6618, 0.053763)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D"]
@@ -42,37 +42,58 @@ position = Vector2(1.20937, 0.430107)
 shape = SubResource("RectangleShape2D_jadrl")
 
 [node name="Line2D" type="Line2D" parent="Walls/StaticBody2D"]
-points = PackedVector2Array(1.01254, -26.7204, 0.61879, -11.7742, 1.18128, 4.83871, 1.18128, 28.4409)
+position = Vector2(0.579339, -0.0109723)
+scale = Vector2(0.890561, 1.2002)
+points = PackedVector2Array(1.29373, -25.1658, 1.01249, 25.1841)
+width = 4.0
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="Walls"]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 visibility_layer = 258
-position = Vector2(-1.01249, 29.1398)
+position = Vector2(-1.40623, 29.6774)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
 position = Vector2(0.421869, -0.188173)
 shape = SubResource("RectangleShape2D_omymb")
 
+[node name="Line2D" type="Line2D" parent="Walls/StaticBody2D2"]
+position = Vector2(0.579339, -0.0109723)
+scale = Vector2(0.890561, 1.2002)
+points = PackedVector2Array(-62.3594, -0.0804482, 62.4479, 0.188324)
+width = 4.0
+
 [node name="StaticBody2D3" type="StaticBody2D" parent="Walls"]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 visibility_layer = 258
-position = Vector2(-53.8868, 0.268817)
+position = Vector2(-56.1368, 0.107527)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D3"]
 position = Vector2(0.534374, -0.376344)
 shape = SubResource("RectangleShape2D_06v2v")
 
+[node name="Line2D" type="Line2D" parent="Walls/StaticBody2D3"]
+position = Vector2(0.579339, -0.0109723)
+scale = Vector2(0.890561, 1.2002)
+points = PackedVector2Array(1.29373, -25.1658, 1.01249, 25.1841)
+width = 4.0
+
 [node name="StaticBody2D4" type="StaticBody2D" parent="Walls"]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 visibility_layer = 258
-position = Vector2(-0.112499, -29.3548)
+position = Vector2(-0.112499, -31.5054)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
 position = Vector2(0.168748, 0.537634)
 shape = SubResource("RectangleShape2D_bsexf")
+
+[node name="Line2D" type="Line2D" parent="Walls/StaticBody2D4"]
+position = Vector2(0.579339, -0.0109723)
+scale = Vector2(0.890561, 1.2002)
+points = PackedVector2Array(-62.3594, -0.0804482, 62.4479, 0.188324)
+width = 4.0

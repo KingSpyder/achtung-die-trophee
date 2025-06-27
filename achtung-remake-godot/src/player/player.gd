@@ -1,19 +1,28 @@
 extends CharacterBody2D
 
-@export var speed : float = 500.0
-@export var angular_speed : float = 2.05
+@export var speed : float = 400.0
+@export var angular_speed : float = 2.85
+@export var t_gate : float = 60/speed
 
 var direction : Vector2 = Vector2.RIGHT
 var last_point := Vector2.ZERO
 
-#var trailScene: PackedScene = preload("res://src/trail/trailScene2.tscn")
-#@onready var trail
+var trailScene: PackedScene = preload("res://src/trail/trailScene.tscn")
+@onready var trail
 @onready var head := $Head
 @onready var playercoll := $CollisionShape2D
+@onready var timer: Timer = $Timer
+@onready var gate_timer: Timer = $GateTimer
 
 func _ready() -> void:
 	var screen_size = get_viewport_rect().size
 	global_position = screen_size / 2 # A remplacer par le spawn aléatoire
+	
+	trail = trailScene.instantiate()
+	head.add_child(trail)
+	
+	# Launch first random timer for gates
+	start_timer()
 	
 	#$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
 
@@ -39,4 +48,35 @@ func move(delta) -> void:
 	move_and_slide()
 		
 func check_collision() -> void:
+	#if collision :
+	# player.set_process(false)
+	# alive = false
 	pass
+	
+func gate(t: float) -> void:
+	# Stop Trail drawing
+	if trail:
+		print('Gate')
+		trail.set_process(false) 
+	# Gate during t seconds
+	gate_timer.wait_time = t
+	gate_timer.start()
+
+func start_timer():
+	# Random delay between 3 and 10s (value to change)
+	var random_delay = randf_range(3.0, 10.0)
+	print(random_delay, 's')
+	timer.wait_time = random_delay
+	timer.start()
+
+func _on_Timer_timeout():
+	# Launch gate
+	gate(t_gate)
+	# Start Timer again with new delay
+	start_timer()
+	
+func _on_GateTimer_timeout():
+	# Recommencer un nouveau tracé de la queue
+	print('New trail')
+	trail = trailScene.instantiate()
+	head.add_child(trail)

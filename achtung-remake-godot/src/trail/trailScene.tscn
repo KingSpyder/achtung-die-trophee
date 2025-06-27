@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://gc55ays5vd2s" path="res://src/trail/trail.gd" id="1_y0n5k"]
 
 [sub_resource type="Curve" id="Curve_a3bi6"]
-_data = [Vector2(0.552083, 0.343528), 0.0, 0.0, 0, 0]
+_data = [Vector2(0.607287, 0.51461), 0.0, 0.0, 0, 0]
 point_count = 1
 
 [node name="TrailScene" type="Line2D"]
@@ -11,6 +11,7 @@ top_level = true
 visibility_layer = 1023
 z_index = -1
 points = PackedVector2Array(101, 85, 30, 53, 64, 19, 213, 31)
+width = 20.0
 width_curve = SubResource("Curve_a3bi6")
 joint_mode = 2
 begin_cap_mode = 2
