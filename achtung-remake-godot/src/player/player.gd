@@ -29,7 +29,8 @@ func _ready() -> void:
 func _process(delta) -> void:
 	if(_is_player_authority()):
 		move(delta)
-		check_collision()
+		if check_collision():
+			death()
 
 # Check whether this playerScene belongs to the client
 func _is_player_authority() -> bool:
@@ -47,16 +48,23 @@ func move(delta) -> void:
 	velocity = speed * direction
 	move_and_slide()
 		
-func check_collision() -> void:
-	#if collision :
-	# player.set_process(false)
-	# alive = false
-	pass
+func check_collision() -> bool:
+	if get_slide_collision_count() > 0:
+		#print('Collision')
+		#var collision = get_slide_collision(0)
+		#print("Collided with: ", collision.get_collider().name)
+		return true
+	else:
+		return false
+
+func death() -> void:
+	# Stop process when player dies
+	set_process(false)
 	
 func gate(t: float) -> void:
 	# Stop Trail drawing
 	if trail:
-		print('Gate')
+		#print('Gate')
 		trail.set_process(false) 
 	# Gate during t seconds
 	gate_timer.wait_time = t
@@ -65,7 +73,7 @@ func gate(t: float) -> void:
 func start_timer():
 	# Random delay between 3 and 10s (value to change)
 	var random_delay = randf_range(3.0, 10.0)
-	print(random_delay, 's')
+	#print(random_delay, 's')
 	timer.wait_time = random_delay
 	timer.start()
 
@@ -77,6 +85,6 @@ func _on_Timer_timeout():
 	
 func _on_GateTimer_timeout():
 	# Recommencer un nouveau tracé de la queue
-	print('New trail')
+	#print('New trail')
 	trail = trailScene.instantiate()
 	head.add_child(trail)

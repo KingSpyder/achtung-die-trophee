@@ -51,7 +51,7 @@ width = 4.0
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 visibility_layer = 258
-position = Vector2(-1.40623, 29.6774)
+position = Vector2(0.112499, 29.5161)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
@@ -59,16 +59,16 @@ position = Vector2(0.421869, -0.188173)
 shape = SubResource("RectangleShape2D_omymb")
 
 [node name="Line2D" type="Line2D" parent="Walls/StaticBody2D2"]
-position = Vector2(0.579339, -0.0109723)
-scale = Vector2(0.890561, 1.2002)
-points = PackedVector2Array(-62.3594, -0.0804482, 62.4479, 0.188324)
+position = Vector2(0, 0.747831)
+scale = Vector2(1, 0.80242)
+points = PackedVector2Array(-54.5056, -0.215054, 54.8993, -0.215054)
 width = 4.0
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="Walls"]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 visibility_layer = 258
-position = Vector2(-56.1368, 0.107527)
+position = Vector2(-55.5743, 0.430107)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D3"]
@@ -76,16 +76,16 @@ position = Vector2(0.534374, -0.376344)
 shape = SubResource("RectangleShape2D_06v2v")
 
 [node name="Line2D" type="Line2D" parent="Walls/StaticBody2D3"]
-position = Vector2(0.579339, -0.0109723)
-scale = Vector2(0.890561, 1.2002)
-points = PackedVector2Array(1.29373, -25.1658, 1.01249, 25.1841)
+position = Vector2(0.0381838, 0)
+scale = Vector2(0.977646, 1)
+points = PackedVector2Array(0.393745, 28.9785, 0.506244, -29.7849)
 width = 4.0
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="Walls"]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 visibility_layer = 258
-position = Vector2(-0.112499, -31.5054)
+position = Vector2(-0.0562497, -30.4301)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
@@ -93,7 +93,7 @@ position = Vector2(0.168748, 0.537634)
 shape = SubResource("RectangleShape2D_bsexf")
 
 [node name="Line2D" type="Line2D" parent="Walls/StaticBody2D4"]
-position = Vector2(0.579339, -0.0109723)
-scale = Vector2(0.890561, 1.2002)
-points = PackedVector2Array(-62.3594, -0.0804482, 62.4479, 0.188324)
+position = Vector2(0, -0.0283272)
+scale = Vector2(1, 0.94086)
+points = PackedVector2Array(-54.1118, 0.430107, 54.5056, 0.430107)
 width = 4.0
