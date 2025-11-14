@@ -20,8 +20,10 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameManager="*res://src/game/game_manager.gd"
-NetworkController="*res://src/network/network_controller.gd"
 Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
+ClientController="*res://src/network/client_controller.gd"
+MultiplayerController="*res://src/network/multiplayer_controller.gd"
+ServerController="*res://src/network/server_controller.gd"
 
 [display]
 
