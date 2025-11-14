@@ -29,7 +29,6 @@ func create_match() -> void:
 	
 
 func join_match(match_code_input: LineEdit) -> void:
-	print("TEST", match_code_input.text)
 	var match_code = match_code_input.text
 	signaling_match = await ServerController.socket.create_match_async(match_code)
 	if signaling_match.is_exception():
@@ -71,9 +70,7 @@ func generate_peer_id() -> int :
 func create_peer(peer_id: int) -> void :
 	var peer = WebRTCPeerConnection.new()
 	
-	peer.initialize({
-		"iceServers": [ { "urls": ["stun:stun.l.google.com:19302"] } ]
-	})
+	peer.initialize({ "IceServers": NetworkConfigs.IceServers })
 	
 	var local_peer_id = rtc_mp.get_unique_id()
 	

@@ -20,7 +20,10 @@ var device_id : String
 
 func init_server_socket() -> void:
 	print("Starting nakama client...")
-	client = Nakama.create_client("defaultkey", "127.0.0.1", 7350)
+	client = Nakama.create_client(NetworkConfigs.Nakama.server_key,
+		NetworkConfigs.Nakama.host,
+		NetworkConfigs.Nakama.port,
+		NetworkConfigs.Nakama.scheme)
 	
 	device_id = generate_device_id()
 

@@ -24,6 +24,7 @@ Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
 ClientController="*res://src/network/client_controller.gd"
 MultiplayerController="*res://src/network/multiplayer_controller.gd"
 ServerController="*res://src/network/server_controller.gd"
+NetworkConfigs="*res://src/configs/network_configs.gd"
 
 [display]
 
