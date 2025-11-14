@@ -35,8 +35,16 @@ offset_left = 50.0
 offset_top = 273.0
 offset_right = 341.0
 offset_bottom = 331.0
-text = "Envoyer un message aux autres"
+text = "Envoyer un message via nakama"
+
+[node name="SendMessageWebRTC" type="Button" parent="."]
+offset_left = 54.0
+offset_top = 349.0
+offset_right = 341.0
+offset_bottom = 411.0
+text = "Envoyer un message via webrtc"
 
 [connection signal="button_down" from="createMatch" to="." method="_on_create_match_button_down"]
 [connection signal="button_down" from="JoinMatch" to="." method="_on_join_match_button_down"]
 [connection signal="button_down" from="SendMessage" to="." method="_on_send_message_button_down"]
+[connection signal="button_down" from="SendMessageWebRTC" to="." method="_on_send_message_web_rtc_button_down"]
