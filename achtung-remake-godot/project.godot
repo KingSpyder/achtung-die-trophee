@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://src/game/game_manager.gd"
 NetworkController="*res://src/network/network_controller.gd"
+Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
 
 [display]
 
