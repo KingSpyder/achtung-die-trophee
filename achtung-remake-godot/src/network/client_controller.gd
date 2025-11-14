@@ -4,7 +4,7 @@ extends Node
 
 const HOST_PEER_ID = 1
 
-var signaling_match = NakamaRTAPI.Match
+var signaling_match: NakamaRTAPI.Match
 
 var rtc_mp = WebRTCMultiplayerPeer.new()
 	
@@ -13,10 +13,12 @@ func _on_host_button_down() -> void:
 
 func _on_join_button_down(match_code_input: LineEdit) -> void:
 	join_match(match_code_input)
+	
+func _on_leave_button_down() -> void:
+	leave_match()
 
 func create_match() -> void:
-	#var match_code = generate_match_code()
-	var match_code = "AAAAA"
+	var match_code = generate_match_code()
 	signaling_match = await ServerController.socket.create_match_async(match_code)
 	if signaling_match.is_exception():
 		print("An error occurred: %s" % signaling_match)
@@ -51,6 +53,14 @@ func join_match(match_code_input: LineEdit) -> void:
 #	# The host will always have 1 as a peer_id
 	create_peer(1)
 	print("joined with id %s from %s with %s people in" % [signaling_match.match_id, match_code, signaling_match.presences.size()])
+
+func leave_match() -> void:
+	if(signaling_match) :
+		var result = await ServerController.socket.leave_match_async(signaling_match.match_id)
+		if result.is_exception():
+			print("Error leaving match: %s" % result)
+		signaling_match = null
+		return
 
 func generate_match_code() -> String:
 	const chars = "abcdefghijklmnopqrstuvwxyz0123456789"

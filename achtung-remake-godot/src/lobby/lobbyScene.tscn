@@ -43,3 +43,10 @@ offset_bottom = 189.0
 placeholder_text = "Code du match"
 max_length = 5
 clear_button_enabled = true
+
+[node name="Leave" type="Button" parent="."]
+offset_left = 410.0
+offset_top = 37.0
+offset_right = 563.0
+offset_bottom = 90.0
+text = "Quitter Match"
