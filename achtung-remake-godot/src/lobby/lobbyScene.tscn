@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://nvt8swxayufj"]
+
+[ext_resource type="Script" uid="uid://buwfxh4282h5x" path="res://src/lobby/lobby.gd" id="1_5reb6"]
+
+[node name="LobbyScene" type="Node2D" node_paths=PackedStringArray("match_code_input")]
+script = ExtResource("1_5reb6")
+match_code_input = NodePath("MatchCodeInput")
+
+[node name="Host" type="Button" parent="."]
+offset_left = 41.0
+offset_top = 37.0
+offset_right = 189.0
+offset_bottom = 80.0
+text = "Créer Match"
+
+[node name="Join" type="Button" parent="."]
+offset_left = 216.0
+offset_top = 138.0
+offset_right = 385.0
+offset_bottom = 201.0
+text = "Rejoindre match
+"
+
+[node name="SendMessage" type="Button" parent="."]
+offset_left = 50.0
+offset_top = 273.0
+offset_right = 341.0
+offset_bottom = 331.0
+text = "Envoyer un message via nakama"
+
+[node name="SendMessageWebRTC" type="Button" parent="."]
+offset_left = 54.0
+offset_top = 349.0
+offset_right = 341.0
+offset_bottom = 411.0
+text = "Envoyer un message via webrtc"
+
+[node name="MatchCodeInput" type="LineEdit" parent="."]
+offset_left = 42.0
+offset_top = 143.0
+offset_right = 184.0
+offset_bottom = 189.0
+placeholder_text = "Code du match"
+max_length = 5
+clear_button_enabled = true
+
+[node name="Leave" type="Button" parent="."]
+offset_left = 410.0
+offset_top = 37.0
+offset_right = 563.0
+offset_bottom = 90.0
+text = "Quitter Match"
