@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://3guia1odquyy"
-path="res://.godot/imported/8_Font1_Verdana.ttf-58457336888add3daccb04b09b553fda.fontdata"
+uid="uid://dt7pc7pnid0bo"
+path="res://.godot/imported/Chicken Hotty.otf-c49828bb8f0e1da14e7853730ffa8967.fontdata"
 
 [deps]
 
-source_file="res://font/8_Font1_Verdana.ttf"
-dest_files=["res://.godot/imported/8_Font1_Verdana.ttf-58457336888add3daccb04b09b553fda.fontdata"]
+source_file="res://assets/fonts/Chicken Hotty.otf"
+dest_files=["res://.godot/imported/Chicken Hotty.otf-c49828bb8f0e1da14e7853730ffa8967.fontdata"]
 
 [params]
 

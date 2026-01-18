@@ -1,42 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://dp4578uvik3mj"]
+[gd_scene load_steps=2 format=3 uid="uid://dp4578uvik3mj"]
 
 [ext_resource type="Script" uid="uid://cda7b4gu3c714" path="res://src/home/main_menu.gd" id="1_bv18f"]
-[ext_resource type="Script" uid="uid://c8m1iek7tosyc" path="res://src/home/player_number.gd" id="2_bv18f"]
 
 [node name="Main Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1.0
+offset_top = -2.0
+offset_right = -1.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bv18f")
-
-[node name="Host" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.088
-anchor_top = 0.073
-anchor_right = 0.088
-anchor_bottom = 0.073
-offset_left = -43.376
-offset_top = 233.696
-offset_right = 128.624
-offset_bottom = 264.696
-text = "Créer un serveur WIP"
-
-[node name="Join" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.25
-anchor_top = 0.073
-anchor_right = 0.25
-anchor_bottom = 0.073
-offset_left = -39.0
-offset_top = 232.696
-offset_right = 165.0
-offset_bottom = 263.696
-text = "Rejoindre un serveur WIP"
 
 [node name="Start" type="Button" parent="."]
 layout_mode = 0
@@ -46,34 +23,4 @@ offset_right = 229.0
 offset_bottom = 108.0
 text = "Démarrer une partie"
 
-[node name="AddPlayer" type="Button" parent="."]
-layout_mode = 0
-offset_left = 270.0
-offset_top = 78.0
-offset_right = 415.0
-offset_bottom = 109.0
-text = "Ajouter un joueur"
-
-[node name="PlayerNumber" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.405
-anchor_top = 0.144
-anchor_right = 0.405
-anchor_bottom = 0.144
-offset_left = -20.56
-offset_top = -10.312
-offset_right = 19.44
-offset_bottom = 12.688
-script = ExtResource("2_bv18f")
-
-[node name="Start Online" type="Button" parent="."]
-layout_mode = 0
-offset_left = 479.0
-offset_top = 281.0
-offset_right = 737.0
-offset_bottom = 312.0
-text = "Démarrer un partie en ligne WIP"
-
 [connection signal="button_down" from="Start" to="." method="_on_start_button_down"]
-[connection signal="button_down" from="AddPlayer" to="." method="_on_add_player_button_down"]
