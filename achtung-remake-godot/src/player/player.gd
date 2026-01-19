@@ -1,12 +1,17 @@
 class_name Player
 extends CharacterBody2D
 
+signal player_died(player: Player)
+
+const default_speed: float = 100
+
 @export var player_name: String
 @export var color: Color
 @export var left_control: String
 @export var right_control: String
+@export var order: int
 
-@export var speed : float = 100
+@export var speed: float = 100
 @export var angular_speed : float = 2.85
 @export var gate_open_time : float = 50/speed
 
@@ -127,6 +132,7 @@ func _on_gate_close_timer_timeout() -> void:
 func death() -> void:
 	# Stop process when player dies
 	set_process(false)
+	player_died.emit(self)
 	
 func reset() -> void:
 	set_process(true)

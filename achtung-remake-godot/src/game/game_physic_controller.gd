@@ -2,33 +2,30 @@ class_name GamePhysicController
 extends Node2D
 
 func _ready() -> void:
-	spawn_players()
 	pass
 
-func add_players() -> void:
-	for player in GameManager.players:
-		add_child(player)
+func add_player(player: Player) -> void:
+	add_child(player)
 
-func remove_players() -> void:
+func exit_game() -> void:
 	for player in GameManager.players:
 		player.set_process(true)
 		player.clean_trails()
 		remove_child(player)
 
-func spawn_players() -> void:
-	for player in GameManager.players:
-		player.position = get_random_position()
-		player.direction = get_random_direction()
-		player.speed = 0
-		if(player.arrow):
-			player.arrow.visible = true
-		#player.position = Vector2(400, 400)
+func spawn_player(player: Player) -> void:
+	player.position = get_random_position()
+	player.direction = get_random_direction()
+	# we don't use set_process(false), to allow to turn before starting
+	player.speed = 0
+	player.set_process(true)
+	if(player.arrow):
+		player.arrow.visible = true
 
-func start_players() -> void:
-	for player in GameManager.players:
-		player.arrow.visible = false
-		player.speed = 100
-		player.add_trail()
+func start_player(player: Player) -> void:
+	player.arrow.visible = false
+	player.speed = player.default_speed
+	player.add_trail()
 
 func get_random_position() -> Vector2:
 	var width = 800
