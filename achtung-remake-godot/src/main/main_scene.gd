@@ -12,7 +12,7 @@ func _on_start_game() -> void:
 	game_scene = preload("res://src/game/gameScene.tscn").instantiate()
 	get_tree().root.add_child(game_scene)
 	%LobbyScene.hide()
-	GameManager.game_status = GameManager.GAME_STATUS.START
+	GameManager.game_status = GameManager.GAME_STATUS.START_GAME
 
 func _on_quit_game() -> void:
 	if(GameManager.game_status == GameManager.GAME_STATUS.LOBBY):
@@ -30,8 +30,13 @@ func _on_pause_game() -> void:
 		GameManager.GAME_STATUS.LOBBY:
 			input_detected = false
 			return
-		GameManager.GAME_STATUS.START:
+		GameManager.GAME_STATUS.START_GAME:
 			print('game started')
+			GameManager.game_status = GameManager.GAME_STATUS.START_ROUND
+			game_scene.start_game()
+			input_detected = false
+		GameManager.GAME_STATUS.START_ROUND:
+			print('round started')
 			GameManager.game_status = GameManager.GAME_STATUS.IN_GAME
 			game_scene.start_round()
 			input_detected = false

@@ -10,13 +10,16 @@ extends CharacterBody2D
 @export var angular_speed : float = 2.85
 @export var gate_open_time : float = 50/speed
 
+@export var score := 0
+
 var direction := Vector2.RIGHT
 var last_point := Vector2.ZERO
 
 var trailScene: PackedScene = preload("res://src/trail/trailScene.tscn")
 
 @onready var trail
-@onready var head: Sprite2D = $Head
+@onready var head: Sprite2D = %Head
+@onready var arrow: Sprite2D = %Arrow
 @onready var playercoll: CollisionShape2D = $CollisionShape2D
 @onready var gate_open_timer: Timer = %GateOpenTimer
 @onready var gate_close_timer: Timer = %GateCloseTimer
@@ -27,15 +30,14 @@ var trail_count := 0
 func _ready() -> void:
 	update_shader()
 	
-	
 func update_shader() -> void:
 	%Head.material = shader_material
 	if(color):
 		shader_material.set_shader_parameter("circle_color", color)
 
-func start() -> void:
-	speed = 100
-	add_trail()
+func show_arrow() -> void:
+	if(arrow):
+		arrow.visible = true
 
 func _process(delta) -> void:
 	if(_is_player_authority()):
@@ -55,6 +57,10 @@ func move(delta) -> void:
 	if Input.is_action_pressed(player_name + "_right"):
 		direction = direction.rotated(angular_speed * delta)
 	direction = direction.normalized()
+	
+	# we make sure the arrow point in the right direction
+	arrow.position = Vector2(10 * direction.x, 10 * direction.y)
+	arrow.rotation = direction.angle() + PI/2
 	
 	velocity = speed * direction
 	move_and_slide()
@@ -121,3 +127,7 @@ func _on_gate_close_timer_timeout() -> void:
 func death() -> void:
 	# Stop process when player dies
 	set_process(false)
+	
+func reset() -> void:
+	set_process(true)
+	score = 0
