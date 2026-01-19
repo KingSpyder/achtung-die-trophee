@@ -1,10 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://b62dwds736bda"]
+[gd_scene load_steps=4 format=3 uid="uid://b62dwds736bda"]
 
 [ext_resource type="Script" uid="uid://bl5rrbu4n2trb" path="res://src/main/main_scene.gd" id="1_m11ow"]
 [ext_resource type="PackedScene" uid="uid://5kfamwx1s240" path="res://src/lobby/LobbyScene.tscn" id="1_o4swk"]
+[ext_resource type="Script" uid="uid://fyybw3h2f0wi" path="res://src/main/input_catcher.gd" id="2_ow4wo"]
 
 [node name="MainScene" type="Node"]
 script = ExtResource("1_m11ow")
+
+[node name="MainInputCatcher" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("2_ow4wo")
 
 [node name="LobbyScene" parent="." instance=ExtResource("1_o4swk")]
 unique_name_in_owner = true

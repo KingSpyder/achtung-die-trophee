@@ -8,18 +8,22 @@ func _ready() -> void:
 
 func add_players() -> void:
 	for player in GameManager.players:
-			add_child(player)
+		add_child(player)
 
 func remove_players() -> void:
 	for player in GameManager.players:
-		player.remove_trails()
+		player.set_process(true)
+		player.clean_trails()
 		remove_child(player)
-			
+
 func spawn_players() -> void:
 	for player in GameManager.players:
-		#player.position = get_random_position()
-		player.position = Vector2(400, 400)
-	
+		player.position = get_random_position()
+		#player.position = Vector2(400, 400)
+
+func start_players() -> void:
+	for player in GameManager.players:
+		player.start()
 
 func get_random_position() -> Vector2i:
 	var width = 800

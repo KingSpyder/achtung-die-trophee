@@ -18,7 +18,7 @@ properties/0/replication_mode = 1
 [sub_resource type="CircleShape2D" id="CircleShape2D_gsamq"]
 radius = 1.2
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Players"]]
 modulate = Color(0.160784, 0.388235, 1, 1)
 self_modulate = Color(1, 0.105882, 0.513726, 1)
 visibility_layer = 1023
@@ -39,10 +39,12 @@ replication_config = SubResource("SceneReplicationConfig_i3pqv")
 shape = SubResource("CircleShape2D_gsamq")
 one_way_collision_margin = 0.0
 
-[node name="Timer" type="Timer" parent="."]
+[node name="GateOpenTimer" type="Timer" parent="."]
+unique_name_in_owner = true
 
-[node name="GateTimer" type="Timer" parent="."]
+[node name="GateCloseTimer" type="Timer" parent="."]
+unique_name_in_owner = true
 one_shot = true
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="timeout" from="GateTimer" to="." method="_on_GateTimer_timeout"]
+[connection signal="timeout" from="GateOpenTimer" to="." method="_on_gate_open_timer_timeout"]
+[connection signal="timeout" from="GateCloseTimer" to="." method="_on_gate_close_timer_timeout"]

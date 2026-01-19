@@ -23,7 +23,6 @@ var name_button: Button
 var map_state := MAP_STATE.DONE
 
 func _ready() -> void:
-	#process_mode = Node.PROCESS_MODE_ALWAYS
 	$InputCatcher.key_captured.connect(_on_key_captured)
 	
 # We need to init data when instantiating, so the node may not be "onready" yet
