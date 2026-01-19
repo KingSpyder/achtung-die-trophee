@@ -14,7 +14,7 @@ config/name="achtung-remake-godot"
 config/description="Refonte de Achtung die Kurve aka the best game for brain"
 config/version="1.0"
 run/main_scene="uid://dp4578uvik3mj"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -25,6 +25,7 @@ ClientController="*res://src/network/client_controller.gd"
 MultiplayerController="*res://src/network/multiplayer_controller.gd"
 ServerController="*res://src/network/server_controller.gd"
 NetworkConfigs="*res://src/configs/network_configs.gd"
+PlayersConstants="*res://src/res/constants/players_constants.gd"
 
 [display]
 
@@ -48,3 +49,30 @@ move_left={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[shader_globals]
+
+fred_color={
+"type": "color",
+"value": Color(0.99607843, 0, 0, 1)
+}
+greenlee_color={
+"type": "color",
+"value": Color(0, 0.99607843, 0, 1)
+}
+pinkney_color={
+"type": "color",
+"value": Color(0.99607843, 0, 0.99607843, 1)
+}
+bluebell_color={
+"type": "color",
+"value": Color(0, 0.99607843, 0.99607843, 1)
+}
+willem_color={
+"type": "color",
+"value": Color(0.99607843, 0.5019608, 0, 1)
+}
+greydon_color={
+"type": "color",
+"value": Color(0.79607844, 0.79607844, 0.79607844, 1)
+}

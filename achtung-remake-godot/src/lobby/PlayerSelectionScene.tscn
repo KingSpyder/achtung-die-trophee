@@ -1,0 +1,91 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0kod8dgo8d06"]
+
+[ext_resource type="Script" uid="uid://du1ilrm5fleor" path="res://src/lobby/player_selection.gd" id="1_5aw82"]
+[ext_resource type="FontFile" uid="uid://binkv08f2jgxo" path="res://assets/fonts/Verdana.ttf" id="1_uomer"]
+[ext_resource type="Theme" uid="uid://c54ilsacrbd3k" path="res://src/lobby/themes/WaitingInput.tres" id="2_5aw82"]
+[ext_resource type="Script" uid="uid://b7hvmgwkvab6g" path="res://src/lobby/input_catcher.gd" id="2_ook0q"]
+
+[sub_resource type="Theme" id="Theme_ook0q"]
+default_font = ExtResource("1_uomer")
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_fqyus"]
+
+[node name="PlayerSelectionNode" type="HBoxContainer"]
+script = ExtResource("1_5aw82")
+
+[node name="InputCatcher" type="Control" parent="."]
+layout_mode = 2
+script = ExtResource("2_ook0q")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="OrderLabel" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme = SubResource("Theme_ook0q")
+
+[node name="Name" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="NameButton" type="Button" parent="Name"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("1_uomer")
+theme_override_font_sizes/font_size = 30
+toggle_mode = true
+
+[node name="LeftInputContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+
+[node name="LeftInput" type="Label" parent="LeftInputContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_ook0q")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LeftWaitInputLabel" type="Label" parent="LeftInputContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme = ExtResource("2_5aw82")
+text = "Press desired
+left key"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightInputContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = SubResource("Theme_fqyus")
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+
+[node name="RightInput" type="Label" parent="RightInputContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_ook0q")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RightWaitInputLabel" type="Label" parent="RightInputContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme = ExtResource("2_5aw82")
+text = "Press desired
+right key"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="toggled" from="Name/NameButton" to="." method="_on_name_button_toggled"]

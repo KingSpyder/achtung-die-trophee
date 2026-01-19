@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://nvt8swxayufj"]
 
-[ext_resource type="Script" uid="uid://buwfxh4282h5x" path="res://src/lobby/lobby.gd" id="1_5reb6"]
+[ext_resource type="Script" uid="uid://buwfxh4282h5x" path="res://src/lobby_mtp/lobby_mtp.gd" id="1_5reb6"]
 
-[node name="LobbyScene" type="Node2D" node_paths=PackedStringArray("match_code_input")]
+[node name="LobbyMtpScene" type="Node2D" node_paths=PackedStringArray("match_code_input")]
 script = ExtResource("1_5reb6")
 match_code_input = NodePath("MatchCodeInput")
 

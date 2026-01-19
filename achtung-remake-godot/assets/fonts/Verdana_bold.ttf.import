@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cbw4q4sxsoe64"
-path="res://.godot/imported/4_Font6_Castellar.ttf-fdc5006ed1a0e8ac95bdea1df1708a5c.fontdata"
+uid="uid://cx2cpbufgqwxv"
+path="res://.godot/imported/Verdana_bold.ttf-5d7cff303eee9a2220d58ca0dbc7ad9c.fontdata"
 
 [deps]
 
-source_file="res://font/4_Font6_Castellar.ttf"
-dest_files=["res://.godot/imported/4_Font6_Castellar.ttf-fdc5006ed1a0e8ac95bdea1df1708a5c.fontdata"]
+source_file="res://assets/fonts/Verdana_bold.ttf"
+dest_files=["res://.godot/imported/Verdana_bold.ttf-5d7cff303eee9a2220d58ca0dbc7ad9c.fontdata"]
 
 [params]
 

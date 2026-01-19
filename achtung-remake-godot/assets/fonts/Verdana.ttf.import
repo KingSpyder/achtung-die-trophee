@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://212jetuxx3n5"
-path="res://.godot/imported/7_Font2_Verdana.ttf-e45b2d26ba95b3d711014f5ec883068f.fontdata"
+uid="uid://binkv08f2jgxo"
+path="res://.godot/imported/Verdana.ttf-6b64f2d19a86fe3a2deafd5de3c1e6be.fontdata"
 
 [deps]
 
-source_file="res://font/7_Font2_Verdana.ttf"
-dest_files=["res://.godot/imported/7_Font2_Verdana.ttf-e45b2d26ba95b3d711014f5ec883068f.fontdata"]
+source_file="res://assets/fonts/Verdana.ttf"
+dest_files=["res://.godot/imported/Verdana.ttf-6b64f2d19a86fe3a2deafd5de3c1e6be.fontdata"]
 
 [params]
 
@@ -21,6 +21,7 @@ msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
+modulate_color_glyphs=false
 hinting=1
 subpixel_positioning=4
 keep_rounding_remainders=true
