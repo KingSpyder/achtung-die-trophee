@@ -9,7 +9,6 @@ point_count = 1
 [node name="TrailScene" type="Line2D"]
 top_level = true
 visibility_layer = 1023
-z_index = -1
 points = PackedVector2Array(101, 85, 30, 53, 64, 19, 213, 31)
 width = 20.0
 width_curve = SubResource("Curve_a3bi6")

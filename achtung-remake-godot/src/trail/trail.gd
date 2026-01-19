@@ -20,6 +20,7 @@ func _process(_delta) -> void:
 		var collision = collisionTrailScene.instantiate()
 		collision.global_position = points_list[-COLL_DELAY]
 		add_child(collision)
+		collision.add_to_group("Trails")
 		
 		var collision_shape = collision.get_node("CollisionShape2D")
 		collision_shape.shape.radius = width/4

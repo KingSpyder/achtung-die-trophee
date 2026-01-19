@@ -36,7 +36,6 @@ texture = ExtResource("3_02chd")
 replication_config = SubResource("SceneReplicationConfig_i3pqv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(4, 4)
 shape = SubResource("CircleShape2D_gsamq")
 one_way_collision_margin = 0.0
 

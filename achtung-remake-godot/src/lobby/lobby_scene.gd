@@ -79,3 +79,6 @@ func _on_start_button_pressed() -> void:
 	
 func hide() -> void:
 	%LobbyContainer.visible = false
+
+func show() -> void:
+	%LobbyContainer.visible = true

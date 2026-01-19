@@ -5,14 +5,14 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jadrl"]
 size = Vector2(800, 10)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_omymb"]
-size = Vector2(108.505, 1.66667)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ua88q"]
+size = Vector2(10, 800)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_06v2v"]
-size = Vector2(3.7687, 58.172)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ata0v"]
+size = Vector2(800, 10)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bsexf"]
-size = Vector2(108.224, 3.44086)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_es70b"]
+size = Vector2(10, 800)
 
 [node name="GameAreaScene" type="SubViewportContainer"]
 custom_minimum_size = Vector2(800, 800)
@@ -27,11 +27,13 @@ size = Vector2i(800, 800)
 render_target_update_mode = 4
 
 [node name="GameArea" type="Node2D" parent="SubViewport"]
+unique_name_in_owner = true
 script = ExtResource("1_ua88q")
 
 [node name="Background" type="ColorRect" parent="SubViewport/GameArea"]
 light_mask = 512
 visibility_layer = 512
+z_index = -10
 custom_minimum_size = Vector2(800, 800)
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,7 +46,7 @@ color = Color(0, 0, 0, 1)
 
 [node name="Walls" type="Node2D" parent="SubViewport/GameArea"]
 
-[node name="TopWall" type="StaticBody2D" parent="SubViewport/GameArea/Walls"]
+[node name="TopWall" type="StaticBody2D" parent="SubViewport/GameArea/Walls" groups=["Walls"]]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 metadata/_edit_group_ = true
@@ -58,112 +60,41 @@ debug_color = Color(0.7, 0, 0.19833331, 1)
 points = PackedVector2Array(0, 0, 800, 0)
 default_color = Color(0.8315821, 0.83158237, 0, 1)
 
-[node name="LeftWall" type="StaticBody2D" parent="SubViewport/GameArea/Walls"]
+[node name="LeftWall" type="StaticBody2D" parent="SubViewport/GameArea/Walls" groups=["Walls"]]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/GameArea/Walls/LeftWall"]
-visible = false
-shape = SubResource("RectangleShape2D_jadrl")
+position = Vector2(0, 400)
+shape = SubResource("RectangleShape2D_ua88q")
 
 [node name="Line2D" type="Line2D" parent="SubViewport/GameArea/Walls/LeftWall"]
 points = PackedVector2Array(0, 0, 0, 800)
 default_color = Color(0.8315821, 0.83158237, 0, 1)
 
-[node name="BottomWall" type="StaticBody2D" parent="SubViewport/GameArea/Walls"]
+[node name="BottomWall" type="StaticBody2D" parent="SubViewport/GameArea/Walls" groups=["Walls"]]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/GameArea/Walls/BottomWall"]
-visible = false
-shape = SubResource("RectangleShape2D_jadrl")
+position = Vector2(400, 800)
+shape = SubResource("RectangleShape2D_ata0v")
 
 [node name="Line2D" type="Line2D" parent="SubViewport/GameArea/Walls/BottomWall"]
 points = PackedVector2Array(0, 800, 800, 800)
 default_color = Color(0.8315821, 0.83158237, 0, 1)
 
-[node name="RightWall" type="StaticBody2D" parent="SubViewport/GameArea/Walls"]
+[node name="RightWall" type="StaticBody2D" parent="SubViewport/GameArea/Walls" groups=["Walls"]]
 modulate = Color(1, 1, 0, 1)
 self_modulate = Color(1, 1, 0, 1)
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/GameArea/Walls/RightWall"]
-visible = false
-shape = SubResource("RectangleShape2D_jadrl")
+position = Vector2(800, 400)
+shape = SubResource("RectangleShape2D_es70b")
 
 [node name="Line2D" type="Line2D" parent="SubViewport/GameArea/Walls/RightWall"]
 points = PackedVector2Array(800, 0, 800, 800)
 default_color = Color(0.8315821, 0.83158237, 0, 1)
-
-[node name="WallsOld" type="Node2D" parent="SubViewport/GameArea"]
-visible = false
-scale = Vector2(17.778, 18.6)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="SubViewport/GameArea/WallsOld"]
-modulate = Color(1, 1, 0, 1)
-self_modulate = Color(1, 1, 0, 1)
-position = Vector2(53.6618, 0.053763)
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/GameArea/WallsOld/StaticBody2D"]
-position = Vector2(1.20937, 0.430107)
-shape = SubResource("RectangleShape2D_jadrl")
-
-[node name="Line2D" type="Line2D" parent="SubViewport/GameArea/WallsOld/StaticBody2D"]
-position = Vector2(0.579339, -0.0109723)
-scale = Vector2(0.890561, 1.2002)
-points = PackedVector2Array(1.29373, -25.1658, 1.01249, 25.1841)
-width = 4.0
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="SubViewport/GameArea/WallsOld"]
-modulate = Color(1, 1, 0, 1)
-self_modulate = Color(1, 1, 0, 1)
-visibility_layer = 258
-position = Vector2(0.112499, 29.5161)
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/GameArea/WallsOld/StaticBody2D2"]
-position = Vector2(0.421869, -0.188173)
-shape = SubResource("RectangleShape2D_omymb")
-
-[node name="Line2D" type="Line2D" parent="SubViewport/GameArea/WallsOld/StaticBody2D2"]
-position = Vector2(0, 0.747831)
-scale = Vector2(1, 0.80242)
-points = PackedVector2Array(-54.5056, -0.215054, 54.8993, -0.215054)
-width = 4.0
-
-[node name="StaticBody2D3" type="StaticBody2D" parent="SubViewport/GameArea/WallsOld"]
-modulate = Color(1, 1, 0, 1)
-self_modulate = Color(1, 1, 0, 1)
-visibility_layer = 258
-position = Vector2(-55.5743, 0.430107)
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/GameArea/WallsOld/StaticBody2D3"]
-position = Vector2(0.534374, -0.376344)
-shape = SubResource("RectangleShape2D_06v2v")
-
-[node name="Line2D" type="Line2D" parent="SubViewport/GameArea/WallsOld/StaticBody2D3"]
-position = Vector2(0.0381838, 0)
-scale = Vector2(0.977646, 1)
-points = PackedVector2Array(0.393745, 28.9785, 0.506244, -29.7849)
-width = 4.0
-
-[node name="StaticBody2D4" type="StaticBody2D" parent="SubViewport/GameArea/WallsOld"]
-modulate = Color(1, 1, 0, 1)
-self_modulate = Color(1, 1, 0, 1)
-visibility_layer = 258
-position = Vector2(-0.0562497, -30.4301)
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SubViewport/GameArea/WallsOld/StaticBody2D4"]
-position = Vector2(0.168748, 0.537634)
-shape = SubResource("RectangleShape2D_bsexf")
-
-[node name="Line2D" type="Line2D" parent="SubViewport/GameArea/WallsOld/StaticBody2D4"]
-position = Vector2(0, -0.0283272)
-scale = Vector2(1, 0.94086)
-points = PackedVector2Array(-54.1118, 0.430107, 54.5056, 0.430107)
-width = 4.0
