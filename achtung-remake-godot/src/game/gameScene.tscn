@@ -1,99 +1,66 @@
-[gd_scene load_steps=7 format=3 uid="uid://s4dac2cod3c6"]
+[gd_scene load_steps=5 format=3 uid="uid://c5lppu5lddem8"]
 
-[ext_resource type="Script" uid="uid://djp65rn0m6w3x" path="res://src/game/game_controller.gd" id="1_omymb"]
+[ext_resource type="PackedScene" uid="uid://s4dac2cod3c6" path="res://src/game/gameAreaScene.tscn" id="1_3nvdd"]
+[ext_resource type="Script" uid="uid://djp65rn0m6w3x" path="res://src/game/game_logic_controller.gd" id="1_omymb"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_omymb"]
+[sub_resource type="Theme" id="Theme_omymb"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jadrl"]
-size = Vector2(2.75621, 58.0645)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omymb"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.5649616, 0.5649617, 0.5649613, 1)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_omymb"]
-size = Vector2(108.505, 1.66667)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_06v2v"]
-size = Vector2(3.7687, 58.172)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bsexf"]
-size = Vector2(108.224, 3.44086)
-
-[node name="Game" type="Node2D"]
-position = Vector2(960, 540)
+[node name="GameScene" type="Node"]
 script = ExtResource("1_omymb")
 
-[node name="Background" type="MeshInstance2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-light_mask = 512
-visibility_layer = 512
-z_index = -10
-scale = Vector2(1920, 1080)
-mesh = SubResource("QuadMesh_omymb")
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
 
-[node name="Walls" type="Node2D" parent="."]
-scale = Vector2(17.778, 18.6)
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
-modulate = Color(1, 1, 0, 1)
-self_modulate = Color(1, 1, 0, 1)
-position = Vector2(53.6618, 0.053763)
-metadata/_edit_group_ = true
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D"]
-position = Vector2(1.20937, 0.430107)
-shape = SubResource("RectangleShape2D_jadrl")
+[node name="GameAreaScene" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_3nvdd")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="Line2D" type="Line2D" parent="Walls/StaticBody2D"]
-position = Vector2(0.579339, -0.0109723)
-scale = Vector2(0.890561, 1.2002)
-points = PackedVector2Array(1.29373, -25.1658, 1.01249, 25.1841)
-width = 4.0
+[node name="Node" type="Node" parent="MarginContainer/HBoxContainer"]
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="Walls"]
-modulate = Color(1, 1, 0, 1)
-self_modulate = Color(1, 1, 0, 1)
-visibility_layer = 258
-position = Vector2(0.112499, 29.5161)
-metadata/_edit_group_ = true
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 800)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_omymb")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
-position = Vector2(0.421869, -0.188173)
-shape = SubResource("RectangleShape2D_omymb")
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_omymb")
 
-[node name="Line2D" type="Line2D" parent="Walls/StaticBody2D2"]
-position = Vector2(0, 0.747831)
-scale = Vector2(1, 0.80242)
-points = PackedVector2Array(-54.5056, -0.215054, 54.8993, -0.215054)
-width = 4.0
-
-[node name="StaticBody2D3" type="StaticBody2D" parent="Walls"]
-modulate = Color(1, 1, 0, 1)
-self_modulate = Color(1, 1, 0, 1)
-visibility_layer = 258
-position = Vector2(-55.5743, 0.430107)
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D3"]
-position = Vector2(0.534374, -0.376344)
-shape = SubResource("RectangleShape2D_06v2v")
-
-[node name="Line2D" type="Line2D" parent="Walls/StaticBody2D3"]
-position = Vector2(0.0381838, 0)
-scale = Vector2(0.977646, 1)
-points = PackedVector2Array(0.393745, 28.9785, 0.506244, -29.7849)
-width = 4.0
-
-[node name="StaticBody2D4" type="StaticBody2D" parent="Walls"]
-modulate = Color(1, 1, 0, 1)
-self_modulate = Color(1, 1, 0, 1)
-visibility_layer = 258
-position = Vector2(-0.0562497, -30.4301)
-metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
-position = Vector2(0.168748, 0.537634)
-shape = SubResource("RectangleShape2D_bsexf")
-
-[node name="Line2D" type="Line2D" parent="Walls/StaticBody2D4"]
-position = Vector2(0, -0.0283272)
-scale = Vector2(1, 0.94086)
-points = PackedVector2Array(-54.1118, 0.430107, 54.5056, 0.430107)
-width = 4.0
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+text = "Scores et autres"

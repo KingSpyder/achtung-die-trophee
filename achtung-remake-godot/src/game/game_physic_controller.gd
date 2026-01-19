@@ -1,20 +1,15 @@
 extends Node2D
 
-const playerScene: PackedScene = preload("res://src/player/playerScene.tscn")
-@onready var player
-
 func _ready() -> void:
-	for player in GameManager.players:
-		print(player.player_name)
-	#spawn_players()
+	spawn_players()
+	pass
+
 
 func _process(delta) -> void:
 	pass
 	
 func spawn_players() -> void:
-	for i in GameManager.players:
-		var player = playerScene.instantiate()
-		player.name = str(GameManager.players[i].id)
+	for player in GameManager.players:
 		player.position = get_random_position()
 		add_child(player)
 

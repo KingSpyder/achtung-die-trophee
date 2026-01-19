@@ -2,6 +2,8 @@ extends Node
 
 const playerSelectionScene: PackedScene = preload("res://src/lobby/PlayerSelectionScene.tscn")
 
+signal start_game()
+
 var players_selection_nodes: Array[PlayerSelection]
 var game_mode_button_group := ButtonGroup.new()
 
@@ -73,9 +75,7 @@ func _on_start_button_pressed() -> void:
 			GameManager.players.size() == 0 or 
 			GameManager.game_status != GameManager.GAME_STATUS.LOBBY):
 		return
-		
-	# TODO: put this inside a main Scene
-	var game_scene = preload("res://src/game/gameScene.tscn").instantiate()
-	get_tree().root.add_child(game_scene)
+	start_game.emit()
+	
+func hide() -> void:
 	%LobbyContainer.visible = false
-	GameManager.game_status = GameManager.GAME_STATUS.IN_GAME
