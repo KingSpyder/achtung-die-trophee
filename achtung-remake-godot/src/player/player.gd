@@ -6,43 +6,36 @@ extends CharacterBody2D
 @export var left_control: String
 @export var right_control: String
 
-@export var speed : float = 0
+@export var speed : float = 100
 @export var angular_speed : float = 2.85
-@export var t_gate : float = 60/speed
+@export var gate_open_time : float = 50/speed
 
-var direction : Vector2 = Vector2.RIGHT
+var direction := Vector2.RIGHT
 var last_point := Vector2.ZERO
 
 var trailScene: PackedScene = preload("res://src/trail/trailScene.tscn")
+
 @onready var trail
-@onready var head := $Head
-@onready var playercoll := $CollisionShape2D
-@onready var timer: Timer = $Timer
-@onready var gate_timer: Timer = $GateTimer
+@onready var head: Sprite2D = $Head
+@onready var playercoll: CollisionShape2D = $CollisionShape2D
+@onready var gate_open_timer: Timer = %GateOpenTimer
+@onready var gate_close_timer: Timer = %GateCloseTimer
 @onready var shader_material: ShaderMaterial = %Head.material.duplicate()
 
+var trail_count := 0
 
 func _ready() -> void:
 	update_shader()
-	pass
+	
 	
 func update_shader() -> void:
 	%Head.material = shader_material
 	if(color):
-		print("update shader", color.r, color.g, color.b)
 		shader_material.set_shader_parameter("circle_color", color)
 
-func spawn() -> void:
-	var screen_size = get_viewport_rect().size
-	global_position = screen_size / 2 # A remplacer par le spawn aléatoire
-	
-	trail = trailScene.instantiate()
-	head.add_child(trail)
-	
-	# Launch first random timer for gates
-	start_timer()
-	
-	#$MultiplayerSynchronizer.set_multiplayer_authority(str(name).to_int())
+func start() -> void:
+	speed = 100
+	add_trail()
 
 func _process(delta) -> void:
 	if(_is_player_authority()):
@@ -57,9 +50,9 @@ func _is_player_authority() -> bool:
 		
 func move(delta) -> void:
 	#Rotation & Movement
-	if Input.is_action_pressed("move_left"):
+	if Input.is_action_pressed(player_name + "_left"):
 		direction = direction.rotated(-angular_speed * delta)
-	if Input.is_action_pressed("move_right"):
+	if Input.is_action_pressed(player_name + "_right"):
 		direction = direction.rotated(angular_speed * delta)
 	direction = direction.normalized()
 	
@@ -67,42 +60,64 @@ func move(delta) -> void:
 	move_and_slide()
 		
 func check_collision() -> bool:
-	if get_slide_collision_count() > 0:
-		#print('Collision')
-		#var collision = get_slide_collision(0)
-		#print("Collided with: ", collision.get_collider().name)
-		return true
-	else:
+	if get_slide_collision_count() <= 0:
 		return false
+	var collision = get_slide_collision(0)
+	_identify_collider(collision.get_collider())
+	return true
 
+func _identify_collider(collider: Object) -> void:
+	if collider.is_in_group("Walls"):
+		print(player_name , " hit a wall")
+	elif collider.is_in_group("Trails"):
+		print(player_name , " hit a trail")
+	elif collider.is_in_group("Players"):
+		print(player_name , " hit player ", collider.player_name)
+	else:
+		print(player_name , " hit unknown collider ", collider.name)
+
+func add_trail() -> void:
+	start_gate_open_timer()
+	trail = trailScene.instantiate()
+	trail.default_color = color
+	head.add_child(trail)
+	trail.add_to_group("Trails")
+	trail_count += 1
+	
+func stop_trail() -> void:
+	if(trail):
+		trail.set_process(false)
+	gate_open_timer.stop()
+	gate_close_timer.stop()
+
+func clean_trails() -> void :
+	for trailNode in get_tree().get_nodes_in_group("Trails"):
+		trailNode.queue_free()
+	gate_open_timer.stop()
+	gate_close_timer.stop()
+	
+func open_gate() -> void:
+	stop_trail()
+	playercoll.disabled = true
+	gate_close_timer.wait_time = gate_open_time
+	gate_close_timer.start()
+
+func close_gate() -> void:
+	add_trail()
+	playercoll.disabled = false
+
+func start_gate_open_timer():
+	# Random delay between 3 and 10s (value to change)
+	var random_delay = randf_range(1.0, 4.0)
+	gate_open_timer.wait_time = random_delay
+	gate_open_timer.start()
+
+func _on_gate_open_timer_timeout():
+	open_gate()
+	
+func _on_gate_close_timer_timeout() -> void:
+	close_gate()
+	
 func death() -> void:
 	# Stop process when player dies
 	set_process(false)
-	
-func gate(t: float) -> void:
-	# Stop Trail drawing
-	if trail:
-		#print('Gate')
-		trail.set_process(false) 
-	# Gate during t seconds
-	gate_timer.wait_time = t
-	gate_timer.start()
-
-func start_timer():
-	# Random delay between 3 and 10s (value to change)
-	var random_delay = randf_range(3.0, 10.0)
-	#print(random_delay, 's')
-	timer.wait_time = random_delay
-	timer.start()
-
-func _on_Timer_timeout():
-	# Launch gate
-	gate(t_gate)
-	# Start Timer again with new delay
-	start_timer()
-	
-func _on_GateTimer_timeout():
-	# Recommencer un nouveau tracé de la queue
-	#print('New trail')
-	trail = trailScene.instantiate()
-	head.add_child(trail)
