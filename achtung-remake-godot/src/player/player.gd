@@ -47,7 +47,7 @@ func show_arrow() -> void:
 func _process(delta) -> void:
 	if(_is_player_authority()):
 		move(delta)
-		if check_collision():
+		if check_collision() or check_out_of_bounds():
 			death()
 
 # Check whether this playerScene belongs to the client
@@ -86,6 +86,12 @@ func _identify_collider(collider: Object) -> void:
 		print(player_name , " hit player ", collider.player_name)
 	else:
 		print(player_name , " hit unknown collider ", collider.name)
+
+func check_out_of_bounds() -> bool:
+	if(position.x > 0 and position.x < 800 and position.y > 0 and position.y < 800):
+		return false
+	print(player_name , " out of bounds")
+	return true
 
 func add_trail() -> void:
 	start_gate_open_timer()
