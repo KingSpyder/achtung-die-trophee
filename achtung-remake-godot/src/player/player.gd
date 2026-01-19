@@ -28,17 +28,22 @@ var trailScene: PackedScene = preload("res://src/trail/trailScene.tscn")
 @onready var playercoll: CollisionShape2D = $CollisionShape2D
 @onready var gate_open_timer: Timer = %GateOpenTimer
 @onready var gate_close_timer: Timer = %GateCloseTimer
-@onready var shader_material: ShaderMaterial = %Head.material.duplicate()
+# We need to duplicate resources to be used by multiple instances
+@onready var head_shader_material: ShaderMaterial = %Head.material.duplicate()
+@onready var arrow_shader_material: ShaderMaterial = %Arrow.material.duplicate()
 
 var trail_count := 0
 
 func _ready() -> void:
-	update_shader()
+	update_shaders()
 	
-func update_shader() -> void:
-	%Head.material = shader_material
+func update_shaders() -> void:
+	%Head.material = head_shader_material
+	%Arrow.material = arrow_shader_material
 	if(color):
-		shader_material.set_shader_parameter("circle_color", color)
+		head_shader_material.set_shader_parameter("circle_color", color)
+		arrow_shader_material.set_shader_parameter("color", color)
+
 
 func show_arrow() -> void:
 	if(arrow):
