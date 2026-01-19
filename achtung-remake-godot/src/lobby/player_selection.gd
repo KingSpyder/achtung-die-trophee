@@ -63,6 +63,7 @@ func _add_player() -> void:
 		GameManager.players.push_back(player)
 		player.player_name = player_name
 		player.color = color
+		#player.update_shader()
 		map_state = MAP_STATE.WAITING_LEFT
 		left_wait_input_label.visible = true
 		get_tree().paused = true

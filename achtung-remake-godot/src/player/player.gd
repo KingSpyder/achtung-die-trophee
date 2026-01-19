@@ -6,7 +6,7 @@ extends CharacterBody2D
 @export var left_control: String
 @export var right_control: String
 
-@export var speed : float = 400.0
+@export var speed : float = 0
 @export var angular_speed : float = 2.85
 @export var t_gate : float = 60/speed
 
@@ -19,9 +19,18 @@ var trailScene: PackedScene = preload("res://src/trail/trailScene.tscn")
 @onready var playercoll := $CollisionShape2D
 @onready var timer: Timer = $Timer
 @onready var gate_timer: Timer = $GateTimer
+@onready var shader_material: ShaderMaterial = %Head.material.duplicate()
+
 
 func _ready() -> void:
+	update_shader()
 	pass
+	
+func update_shader() -> void:
+	%Head.material = shader_material
+	if(color):
+		print("update shader", color.r, color.g, color.b)
+		shader_material.set_shader_parameter("circle_color", color)
 
 func spawn() -> void:
 	var screen_size = get_viewport_rect().size
