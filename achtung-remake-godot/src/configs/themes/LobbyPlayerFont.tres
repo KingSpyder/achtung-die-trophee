@@ -1,7 +1,0 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cvejyqnxhc0x0"]
-
-[ext_resource type="FontFile" uid="uid://binkv08f2jgxo" path="res://assets/fonts/Verdana.ttf" id="1_uq2vv"]
-
-[resource]
-default_font = ExtResource("1_uq2vv")
-default_font_size = 30

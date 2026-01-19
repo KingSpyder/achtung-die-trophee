@@ -1,4 +1,10 @@
+class_name Player
 extends CharacterBody2D
+
+@export var player_name: String
+@export var color: Color
+@export var left_control: String
+@export var right_control: String
 
 @export var speed : float = 400.0
 @export var angular_speed : float = 2.85
@@ -15,6 +21,9 @@ var trailScene: PackedScene = preload("res://src/trail/trailScene.tscn")
 @onready var gate_timer: Timer = $GateTimer
 
 func _ready() -> void:
+	pass
+
+func spawn() -> void:
 	var screen_size = get_viewport_rect().size
 	global_position = screen_size / 2 # A remplacer par le spawn aléatoire
 	

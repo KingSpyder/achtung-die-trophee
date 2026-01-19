@@ -4,10 +4,9 @@ const playerScene: PackedScene = preload("res://src/player/playerScene.tscn")
 @onready var player
 
 func _ready() -> void:
+	for player in GameManager.players:
+		print(player.player_name)
 	#spawn_players()
-	player = playerScene.instantiate()
-	player.position = get_random_position()
-	add_child(player)
 
 func _process(delta) -> void:
 	pass
