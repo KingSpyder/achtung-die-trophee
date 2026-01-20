@@ -1,14 +1,21 @@
 class_name Player
 extends CharacterBody2D
 
+signal player_died(player: Player)
+
+const default_speed: float = 100
+
 @export var player_name: String
 @export var color: Color
 @export var left_control: String
 @export var right_control: String
+@export var order: int
 
-@export var speed : float = 100
+@export var speed: float = 100
 @export var angular_speed : float = 2.85
 @export var gate_open_time : float = 50/speed
+
+@export var score := 0
 
 var direction := Vector2.RIGHT
 var last_point := Vector2.ZERO
@@ -16,31 +23,36 @@ var last_point := Vector2.ZERO
 var trailScene: PackedScene = preload("res://src/trail/trailScene.tscn")
 
 @onready var trail
-@onready var head: Sprite2D = $Head
+@onready var head: Sprite2D = %Head
+@onready var arrow: Sprite2D = %Arrow
 @onready var playercoll: CollisionShape2D = $CollisionShape2D
 @onready var gate_open_timer: Timer = %GateOpenTimer
 @onready var gate_close_timer: Timer = %GateCloseTimer
-@onready var shader_material: ShaderMaterial = %Head.material.duplicate()
+# We need to duplicate resources to be used by multiple instances
+@onready var head_shader_material: ShaderMaterial = %Head.material.duplicate()
+@onready var arrow_shader_material: ShaderMaterial = %Arrow.material.duplicate()
 
 var trail_count := 0
 
 func _ready() -> void:
-	update_shader()
+	update_shaders()
 	
-	
-func update_shader() -> void:
-	%Head.material = shader_material
+func update_shaders() -> void:
+	%Head.material = head_shader_material
+	%Arrow.material = arrow_shader_material
 	if(color):
-		shader_material.set_shader_parameter("circle_color", color)
+		head_shader_material.set_shader_parameter("circle_color", color)
+		arrow_shader_material.set_shader_parameter("color", color)
 
-func start() -> void:
-	speed = 100
-	add_trail()
+
+func show_arrow() -> void:
+	if(arrow):
+		arrow.visible = true
 
 func _process(delta) -> void:
 	if(_is_player_authority()):
 		move(delta)
-		if check_collision():
+		if check_collision() or check_out_of_bounds():
 			death()
 
 # Check whether this playerScene belongs to the client
@@ -55,6 +67,10 @@ func move(delta) -> void:
 	if Input.is_action_pressed(player_name + "_right"):
 		direction = direction.rotated(angular_speed * delta)
 	direction = direction.normalized()
+	
+	# we make sure the arrow point in the right direction
+	arrow.position = Vector2(10 * direction.x, 10 * direction.y)
+	arrow.rotation = direction.angle() + PI/2
 	
 	velocity = speed * direction
 	move_and_slide()
@@ -75,6 +91,12 @@ func _identify_collider(collider: Object) -> void:
 		print(player_name , " hit player ", collider.player_name)
 	else:
 		print(player_name , " hit unknown collider ", collider.name)
+
+func check_out_of_bounds() -> bool:
+	if(position.x > 0 and position.x < 800 and position.y > 0 and position.y < 800):
+		return false
+	print(player_name , " out of bounds")
+	return true
 
 func add_trail() -> void:
 	start_gate_open_timer()
@@ -121,3 +143,8 @@ func _on_gate_close_timer_timeout() -> void:
 func death() -> void:
 	# Stop process when player dies
 	set_process(false)
+	player_died.emit(self)
+	
+func reset() -> void:
+	set_process(true)
+	score = 0

@@ -62,6 +62,9 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_omymb")
 
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+[node name="Scores" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
-text = "Scores et autres"
+
+[node name="MaxScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/Scores"]
+unique_name_in_owner = true
+layout_mode = 2
