@@ -80,12 +80,16 @@ func _remove_player() -> void:
 
 func _unset_inputs() -> void:
 	left_input.text = ""
-	InputMap.action_erase_events(player_name + "_left")
-	InputMap.erase_action(player_name + "_left")
+	var left_action = player_name + "_left"
+	if InputMap.has_action(left_action):
+		InputMap.action_erase_events(left_action)
+		InputMap.erase_action(left_action)
 	left_wait_input_label.visible = false
 	right_input.text = ""
-	InputMap.action_erase_events(player_name + "_right")
-	InputMap.erase_action(player_name + "_right")
+	var right_action = player_name + "_right"
+	if InputMap.has_action(right_action):
+		InputMap.action_erase_events(right_action)
+		InputMap.erase_action(right_action)
 	right_wait_input_label.visible = false
 
 func _on_key_captured(event) -> void:
