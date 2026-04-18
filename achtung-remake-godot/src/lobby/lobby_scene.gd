@@ -67,7 +67,7 @@ func _on_classic_button_toggled(toggled_on: bool) -> void:
 		GameManager.game_mode =  GameManager.GAME_MODE_ENUM.CLASSIC_MODE
 
 func _input(event) -> void:
-	if(event.as_text() == "Space"):
+	if(event.is_action_pressed("space")):
 		_on_start_button_pressed()
 
 func _on_start_button_pressed() -> void:
