@@ -79,8 +79,8 @@ func _on_start_button_pressed() -> void:
 	
 func hide() -> void:
 	%LobbyContainer.visible = false
-	$ColorRect.visible = false
+	%LobbyBackground.visible = false
 
 func show() -> void:
 	%LobbyContainer.visible = true
-	$ColorRect.visible = true
+	%LobbyBackground.visible = true
