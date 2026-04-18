@@ -35,13 +35,14 @@ var trailScene: PackedScene = preload("res://src/trail/trailScene.tscn")
 var trail_count := 0
 
 func _ready() -> void:
+	head.z_index = 5
 	update_shaders()
 	
 func update_shaders() -> void:
 	%Head.material = head_shader_material
 	%Arrow.material = arrow_shader_material
 	if(color):
-		head_shader_material.set_shader_parameter("circle_color", color)
+		#head_shader_material.set_shader_parameter("circle_color", color)
 		arrow_shader_material.set_shader_parameter("color", color)
 
 

@@ -12,7 +12,7 @@ shader_parameter/color = Color(1, 0, 0, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hqtel"]
 shader = ExtResource("1_onrkg")
 shader_parameter/radius = 0.50000002375
-shader_parameter/circle_color = Color(1, 0, 0, 1)
+shader_parameter/circle_color = Color(1, 0.8509804, 0, 1)
 shader_parameter/elipse_factor = 45.0000021375
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_i3pqv"]
