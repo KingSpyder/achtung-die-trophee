@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://5kfamwx1s240"]
+[gd_scene load_steps=15 format=3 uid="uid://5kfamwx1s240"]
 
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="1_3gx8m"]
 [ext_resource type="Script" uid="uid://cskqofg5uirf8" path="res://src/lobby/lobby_scene.gd" id="1_abajd"]
@@ -9,8 +9,6 @@
 [ext_resource type="FontFile" uid="uid://binkv08f2jgxo" path="res://assets/fonts/Verdana.ttf" id="7_eqpb7"]
 
 [sub_resource type="Theme" id="Theme_ewlc2"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_3gx8m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ek04j"]
 bg_color = Color(0.288518, 0.288518, 0.2885179, 1)
@@ -29,10 +27,6 @@ content_margin_top = 10.0
 content_margin_right = 10.0
 content_margin_bottom = 10.0
 bg_color = Color(0.2, 0.2, 0.2, 1)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_cuawa"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_53bry"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u31vv"]
 bg_color = Color(0.2, 0.2, 0.2, 1)
@@ -155,16 +149,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(90, 88)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="LobbyContainer/VBoxContainer/Players/LocalPlayers/LocalPlayers/Legende/Arrow/Control"]
-layout_mode = 0
-offset_left = -17.999985
-offset_right = 72.000015
-offset_bottom = 88.0
-rotation = 1.2950343
-pivot_offset = Vector2(45, 44)
-texture = SubResource("ViewportTexture_3gx8m")
-stretch_mode = 3
-
 [node name="LeftController" type="MarginContainer" parent="LobbyContainer/VBoxContainer/Players/LocalPlayers/LocalPlayers/Legende"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
@@ -278,10 +262,9 @@ theme_override_constants/separation = 50
 layout_mode = 2
 theme_override_constants/separation = 37
 
-[node name="TextureRect" type="TextureRect" parent="LobbyContainer/VBoxContainer/Modes/HBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="LobbyContainer/VBoxContainer/Modes/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
-texture = SubResource("ViewportTexture_cuawa")
-expand_mode = 3
 
 [node name="ArcadeButton" type="Button" parent="LobbyContainer/VBoxContainer/Modes/HBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -315,11 +298,9 @@ theme_override_constants/margin_right = 12
 [node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/VBoxContainer/Start"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="LobbyContainer/VBoxContainer/Start/HBoxContainer"]
+[node name="Control" type="Control" parent="LobbyContainer/VBoxContainer/Start/HBoxContainer"]
+custom_minimum_size = Vector2(125, 0)
 layout_mode = 2
-texture = SubResource("ViewportTexture_53bry")
-expand_mode = 2
-stretch_mode = 5
 
 [node name="PanelContainer" type="PanelContainer" parent="LobbyContainer/VBoxContainer/Start/HBoxContainer"]
 visible = false
