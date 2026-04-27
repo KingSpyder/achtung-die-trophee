@@ -50,7 +50,7 @@ func end_round() -> void:
 func next_round():
 	GameManager.game_status = GameManager.GAME_STATUS.START_ROUND
 	for player in GameManager.players:
-		player.clean_trails()
+		player.clean()
 		game_physic_controller.spawn_player(player)
 	
 func end_game():

@@ -14,36 +14,40 @@ const default_speed: float = 100
 @export var speed: float = 100
 @export var angular_speed : float = 2.85
 @export var gate_open_time : float = 50/speed
+@export var size :float = 5
 
 @export var score := 0
 
 var direction := Vector2.RIGHT
-var last_point := Vector2.ZERO
 
-var trailScene: PackedScene = preload("res://src/trail/trailScene.tscn")
+var is_laying_trail := false
+var last_collision: KinematicCollision2D
 
-@onready var trail
 @onready var head: Sprite2D = %Head
 @onready var arrow: Sprite2D = %Arrow
-@onready var playercoll: CollisionShape2D = $CollisionShape2D
-@onready var gate_open_timer: Timer = %GateOpenTimer
-@onready var gate_close_timer: Timer = %GateCloseTimer
+@onready var playercoll: CollisionShape2D = $PlayerCollisionShape
 # We need to duplicate resources to be used by multiple instances
 @onready var head_shader_material: ShaderMaterial = %Head.material.duplicate()
 @onready var arrow_shader_material: ShaderMaterial = %Arrow.material.duplicate()
 
-var trail_count := 0
 
 func _ready() -> void:
 	head.z_index = 5
 	update_shaders()
+	setup_collision_layers()
 	
 func update_shaders() -> void:
 	%Head.material = head_shader_material
+	#%Head.material.set_shader_parameter("radius", size)
 	%Arrow.material = arrow_shader_material
 	if(color):
-		#head_shader_material.set_shader_parameter("circle_color", color)
 		arrow_shader_material.set_shader_parameter("color", color)
+
+func setup_collision_layers() -> void:
+	# Player collides with all masks except its own RecentTrail layer
+	collision_layer = 1  # Player is in layer 1 (everything but RecentTrail layers)
+	collision_mask = 0xFFFFFFFF  # Collide with everything but...(next line)
+	collision_mask &= ~(1 << order)  # Exclude this player's RecentTrail layer
 
 
 func show_arrow() -> void:
@@ -74,24 +78,31 @@ func move(delta) -> void:
 	arrow.rotation = direction.angle() + PI/2
 	
 	velocity = speed * direction
-	move_and_slide()
-		
-func check_collision() -> bool:
-	if get_slide_collision_count() <= 0:
-		return false
-	var collision = get_slide_collision(0)
-	_identify_collider(collision.get_collider())
-	return true
+	last_collision = move_and_collide(velocity * delta)
 
-func _identify_collider(collider: Object) -> void:
+func check_collision() -> bool:
+	if last_collision == null:
+		return false
+	return _identify_collider(last_collision.get_collider())
+
+func _identify_collider(collider: Object) -> bool:
 	if collider.is_in_group("Walls"):
 		print(player_name , " hit a wall")
 	elif collider.is_in_group("Trails"):
+		# Check if this trail belongs to another player
+		var trail_owner = collider.get_parent().player
+		var trail_container = collider.get_name()
+		print("Trail container: ", trail_container)
+		if trail_owner == self and trail_container == "RecentTrail":
+			# Ignore own recent trails
+			print(player_name , " touched own trail (ignored)")
+			return false
 		print(player_name , " hit a trail")
 	elif collider.is_in_group("Players"):
 		print(player_name , " hit player ", collider.player_name)
 	else:
 		print(player_name , " hit unknown collider ", collider.name)
+	return true
 
 func check_out_of_bounds() -> bool:
 	if(position.x > 0 and position.x < 800 and position.y > 0 and position.y < 800):
@@ -99,53 +110,46 @@ func check_out_of_bounds() -> bool:
 	print(player_name , " out of bounds")
 	return true
 
-func add_trail() -> void:
+func start_trail() -> void :
+	is_laying_trail = true
 	start_gate_open_timer()
-	trail = trailScene.instantiate()
-	trail.default_color = color
-	head.add_child(trail)
-	trail.add_to_group("Trails")
-	trail_count += 1
-	
-func stop_trail() -> void:
-	if(trail):
-		trail.set_process(false)
-	gate_open_timer.stop()
-	gate_close_timer.stop()
 
-func clean_trails() -> void :
-	for trailNode in get_tree().get_nodes_in_group("Trails"):
-		trailNode.queue_free()
-	gate_open_timer.stop()
-	gate_close_timer.stop()
+func clean() -> void :
+	$TrailScene.clean_lines()
+	$TrailScene.clean_trails()
+	%GateOpenTimer.stop()
+	%GateCloseTimer.stop()
 	
 func open_gate() -> void:
-	stop_trail()
+	is_laying_trail = false
 	playercoll.disabled = true
-	gate_close_timer.wait_time = gate_open_time
-	gate_close_timer.start()
+	%GateCloseTimer.wait_time = gate_open_time
+	%GateCloseTimer.start()
 
 func close_gate() -> void:
-	add_trail()
-	playercoll.disabled = false
+	$PlayerCollisionShape.disabled = false
+	is_laying_trail = true
+	start_gate_open_timer()
 
 func start_gate_open_timer():
 	# Random delay between 3 and 10s (value to change)
 	var random_delay = randf_range(1.0, 4.0)
-	gate_open_timer.wait_time = random_delay
-	gate_open_timer.start()
+	%GateOpenTimer.wait_time = random_delay
+	%GateOpenTimer.start()
 
 func _on_gate_open_timer_timeout():
 	open_gate()
-	
+
 func _on_gate_close_timer_timeout() -> void:
 	close_gate()
-	
+
 func death() -> void:
 	# Stop process when player dies
 	set_process(false)
+	is_laying_trail = false
 	player_died.emit(self)
-	
+
 func reset() -> void:
 	set_process(true)
+	is_laying_trail = false
 	score = 0

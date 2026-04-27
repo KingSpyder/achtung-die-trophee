@@ -45,10 +45,12 @@ escape={
 ]
 }
 
-[rendering]
+[layer_names]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+2d_physics/layer_1="OldTrails"
+2d_physics/layer_2="RecentTrailPlayer1"
+2d_physics/layer_3="RecentTrailPlayer2"
+2d_physics/layer_4="RecentTrailPlayer3"
 
 [shader_globals]
 

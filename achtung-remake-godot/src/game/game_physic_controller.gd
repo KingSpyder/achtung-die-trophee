@@ -10,7 +10,7 @@ func add_player(player: Player) -> void:
 func exit_game() -> void:
 	for player in GameManager.players:
 		player.set_process(true)
-		player.clean_trails()
+		player.clean()
 		remove_child(player)
 
 func spawn_player(player: Player) -> void:
@@ -25,7 +25,7 @@ func spawn_player(player: Player) -> void:
 func start_player(player: Player) -> void:
 	player.arrow.visible = false
 	player.speed = player.default_speed
-	player.add_trail()
+	player.start_trail()
 
 func get_random_position() -> Vector2:
 	var width = 800
