@@ -9,6 +9,7 @@ extends Node
 
 var _round_end_scheduled := false
 
+## Initialize the game, set up players scores. Finish by calling next_round to prepare the first round.
 func start_game() -> void:
 	print('game started')
 	GameManager.max_points = (GameManager.players.size() - 1) * 10
@@ -26,14 +27,17 @@ func start_game() -> void:
 		player_score_label.text = "0"
 	next_round()
 
+## Start a new round: start moving the players.
+## Status is set to IN_GAME.
 func start_round() -> void:
-	print('round started')
+	print('Round started')
 	GameManager.game_status = GameManager.GAME_STATUS.IN_GAME
 	GameManager.players_alive = GameManager.players.duplicate()
 	for player in GameManager.players:
 		game_physic_controller.start_player(player)
 
-
+## End the current round, calculate scores and check if the game should end.
+## Status is set to ROUND_ENDED, waiting for the player to prepare the next round.
 func end_round() -> void:
 	var scores = GameManager.players.map(func(_player): return _player.score)
 	scores.sort()
@@ -48,6 +52,8 @@ func end_round() -> void:
 	GameManager.game_status = GameManager.GAME_STATUS.ROUND_ENDED
 	print("Round ended, press space to prepare next round")
 
+## Prepare the next round, reset players and spawn them.
+## Status is set to ROUND_READY, waiting for the player to start the round.
 func next_round():
 	for player in GameManager.players:
 		player.clean()
@@ -65,12 +71,12 @@ func end_game():
 	# Here we could show a victory screen or something like that, but for now we do nothing
 
 func pause_game() -> void:
-	print('game paused')
+	print('Game paused')
 	GameManager.game_status = GameManager.GAME_STATUS.PAUSED
 	get_tree().paused = true
 	
 func resume_game() -> void:
-	print('game resumed')
+	print('Game resumed')
 	GameManager.game_status = GameManager.GAME_STATUS.IN_GAME
 	get_tree().paused = false
 
