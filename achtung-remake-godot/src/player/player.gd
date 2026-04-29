@@ -115,6 +115,7 @@ func start_trail() -> void :
 	start_gate_open_timer()
 
 func clean() -> void :
+	is_laying_trail = false
 	$TrailScene.clean_lines()
 	$TrailScene.clean_trails()
 	%GateOpenTimer.stop()

@@ -25,7 +25,7 @@ func _on_quit_game() -> void:
 	GameManager.game_status = GameManager.GAME_STATUS.LOBBY
 	%LobbyScene.show()
 
-func _on_pause_game() -> void:
+func _on_cycle_game() -> void:
 	match GameManager.game_status:
 		GameManager.GAME_STATUS.LOBBY:
 			input_detected = false
@@ -33,7 +33,10 @@ func _on_pause_game() -> void:
 		GameManager.GAME_STATUS.START_GAME:
 			game_scene.start_game()
 			input_detected = false
-		GameManager.GAME_STATUS.START_ROUND:
+		GameManager.GAME_STATUS.ROUND_ENDED:
+			game_scene.next_round()
+			input_detected = false
+		GameManager.GAME_STATUS.ROUND_READY:
 			game_scene.start_round()
 			input_detected = false
 		GameManager.GAME_STATUS.IN_GAME:
@@ -48,4 +51,4 @@ func _on_key_captured(event) -> void:
 	if(event.is_action_pressed("escape")):
 		_on_quit_game()
 	if(event.is_action_pressed("space")):
-		_on_pause_game()
+		_on_cycle_game()
