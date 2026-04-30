@@ -94,17 +94,15 @@ func exit_game() -> void:
 	game_physic_controller.exit_game()
 
 
-func reset_players() -> void:
-	for player in GameManager.players:
-		player.reset()
-
-
-func _on_player_died(player: Player):
+func _on_player_died(player: Player, death_cause: int, collided_player: Player) -> void:
+	print("player ", player.player_name, " died by cause ", death_cause)
 	GameManager.players_alive = GameManager.players_alive.filter(
 		func(_player): return _player.player_name != player.player_name
 	)
 
 	for player_alive in GameManager.players_alive:
+		if death_cause == Player.DeathCause.PLAYER and player_alive == collided_player:
+			continue
 		player_alive.score += 1
 		var player_score = find_child(player_alive.player_name + "_score", true, false)
 		if player_score:

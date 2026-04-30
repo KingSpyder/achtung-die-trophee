@@ -1,7 +1,9 @@
 class_name Player
 extends CharacterBody2D
 
-signal player_died(player: Player)
+signal player_died(player: Player, death_cause: int, collided_player: Player)
+
+enum DeathCause { UNKNOWN, WALL, TRAIL, PLAYER, OUT_OF_BOUNDS }
 
 const DEFAULT_SPEED: float = 100
 
@@ -19,6 +21,8 @@ const DEFAULT_SPEED: float = 100
 @export var score := 0
 
 var direction := Vector2.RIGHT
+var last_death_cause := DeathCause.UNKNOWN
+var last_collided_player: Player = null
 
 var is_laying_trail := false
 var last_collision: KinematicCollision2D
@@ -108,6 +112,8 @@ func check_collision() -> bool:
 ## (e.g. touching own recent trail).
 func _identify_collider(collider: Object) -> bool:
 	if collider.is_in_group("Walls"):
+		last_death_cause = DeathCause.WALL
+		last_collided_player = null
 		print(player_name, " hit a wall")
 	elif collider.is_in_group("Trails"):
 		# Check if this trail belongs to another player
@@ -118,10 +124,16 @@ func _identify_collider(collider: Object) -> bool:
 			# Ignore own recent trails
 			print(player_name, " touched own trail (ignored)")
 			return false
+		last_death_cause = DeathCause.TRAIL
+		last_collided_player = null
 		print(player_name, " hit a trail")
 	elif collider.is_in_group("Players"):
+		last_death_cause = DeathCause.PLAYER
+		last_collided_player = collider as Player
 		print(player_name, " hit player ", collider.player_name)
 	else:
+		last_death_cause = DeathCause.UNKNOWN
+		last_collided_player = null
 		print(player_name, " hit unknown collider ", collider.name)
 	return true
 
@@ -132,6 +144,8 @@ func _identify_collider(collider: Object) -> bool:
 func check_out_of_bounds() -> bool:
 	if position.x > 0 and position.x < 800 and position.y > 0 and position.y < 800:
 		return false
+	last_death_cause = DeathCause.OUT_OF_BOUNDS
+	last_collided_player = null
 	print(player_name, " out of bounds")
 	return true
 
@@ -187,7 +201,10 @@ func death() -> void:
 	# Stop process when player dies
 	set_process(false)
 	is_laying_trail = false
-	player_died.emit(self)
+	if last_death_cause == DeathCause.PLAYER:
+		player_died.emit(self, last_death_cause, last_collided_player)
+	else:
+		player_died.emit(self, last_death_cause, null)
 
 
 ## Reset the player to the initial state: score 0, ready for a new game.
