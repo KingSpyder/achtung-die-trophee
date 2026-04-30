@@ -76,9 +76,9 @@ func _is_player_authority() -> bool:
 ## Player movement and rotation based on input. We use move_and_collide to detect collisions.
 func move(delta) -> void:
 	#Rotation & Movement
-	if Input.is_action_pressed(player_name + "_left"):
+	if _is_action_pressed_safe(player_name + "_left"):
 		direction = direction.rotated(-angular_speed * delta)
-	if Input.is_action_pressed(player_name + "_right"):
+	if _is_action_pressed_safe(player_name + "_right"):
 		direction = direction.rotated(angular_speed * delta)
 	direction = direction.normalized()
 
@@ -88,6 +88,12 @@ func move(delta) -> void:
 
 	velocity = speed * direction
 	last_collision = move_and_collide(velocity * delta)
+
+
+func _is_action_pressed_safe(action_name: String) -> bool:
+	if not InputMap.has_action(action_name):
+		return false
+	return Input.is_action_pressed(action_name)
 
 
 ## Equivalently means: has collided ?

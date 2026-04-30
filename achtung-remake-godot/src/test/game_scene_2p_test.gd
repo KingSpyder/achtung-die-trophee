@@ -40,9 +40,15 @@ static var _applying_forced: bool = false
 @export var player_2_direction := Vector2.UP
 @export var player_2_gate_open_delay := 10
 
+@export_group("Observer (Player 3)")
+@export var player_3_name := "Observer"
+@export var player_3_color := Color(0.8, 0.8, 0.8, 1)
+@export var player_3_position := Vector2(760, 760)
+
 var _player_scene: PackedScene = preload("res://src/player/playerScene.tscn")
 var _player_1: Player
 var _player_2: Player
+var _player_3: Player
 
 
 func _ready() -> void:
@@ -69,6 +75,7 @@ func start_round() -> void:
 	super.start_round()
 	_apply_gate_open_delay(_player_1, player_1_gate_open_delay)
 	_apply_gate_open_delay(_player_2, player_2_gate_open_delay)
+	_setup_observer_player(_player_3)
 
 
 func next_round() -> void:
@@ -78,6 +85,7 @@ func next_round() -> void:
 
 	_spawn_test_player(_player_1, player_1_position, player_1_direction)
 	_spawn_test_player(_player_2, player_2_position, player_2_direction)
+	_spawn_test_player(_player_3, player_3_position, Vector2.LEFT)
 
 	GameManager.game_status = GameManager.GameStatus.ROUND_READY
 	print("Next round prepared (2P test scene)")
@@ -94,9 +102,11 @@ func _setup_test_players() -> void:
 
 	_player_1 = _create_test_player(player_1_name, player_1_color, 1)
 	_player_2 = _create_test_player(player_2_name, player_2_color, 2)
+	_player_3 = _create_test_player(player_3_name, player_3_color, 3)
 
 	GameManager.players.push_back(_player_1)
 	GameManager.players.push_back(_player_2)
+	GameManager.players.push_back(_player_3)
 
 
 func _create_test_player(test_name: String, test_color: Color, test_order: int) -> Player:
@@ -125,6 +135,22 @@ func _apply_gate_open_delay(player: Player, delay_seconds: float) -> void:
 	gate_open_timer.stop()
 	gate_open_timer.wait_time = maxf(delay_seconds, 0.01)
 	gate_open_timer.start()
+
+
+func _setup_observer_player(player: Player) -> void:
+	if not is_instance_valid(player):
+		return
+	player.speed = 0
+	player.is_laying_trail = false
+	player.velocity = Vector2.ZERO
+	player.set_process(false)
+	if player.arrow:
+		player.arrow.visible = false
+	var player_collision_shape := (
+		player.get_node_or_null("PlayerCollisionShape") as CollisionShape2D
+	)
+	if player_collision_shape:
+		player_collision_shape.disabled = true
 
 
 func _sanitize_direction(direction: Vector2) -> Vector2:
