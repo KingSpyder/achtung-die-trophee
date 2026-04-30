@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://cd2aiugpyodyr"]
 
 [ext_resource type="PackedScene" uid="uid://s4dac2cod3c6" path="res://src/game/gameAreaScene.tscn" id="1_3nvdd"]
-[ext_resource type="Script" path="res://src/test/game_scene_2p_test.gd" id="1_test"]
+[ext_resource type="Script" uid="uid://dhiwf2ypqf6sa" path="res://src/test/game_scene_2p_test.gd" id="1_test"]
 
 [sub_resource type="Theme" id="Theme_omymb"]
 
@@ -15,6 +15,7 @@ border_color = Color(0.5649616, 0.5649617, 0.5649613, 1)
 
 [node name="GameScene2PTest" type="Node"]
 script = ExtResource("1_test")
+preset = 2
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -44,7 +45,6 @@ theme_override_constants/separation = 12
 
 [node name="GameAreaScene" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_3nvdd")]
 unique_name_in_owner = true
-layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 

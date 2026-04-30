@@ -1,14 +1,39 @@
 class_name GameScene2PTest
 extends GameLogicController
 
+enum Preset {
+	CUSTOM,
+	GOING_THROUGH_RECENT_TRAIL,  ## Test the collision in other player's recent trail
+	HEAD_ON_COLLISION,  ## 2 players collide head-on
+}
+
+## Survives reload_current_scene (static) to pass the chosen preset to the new instance.
+static var _forced_preset: int = -1
+## Prevents the preset setter from triggering a reload loop when applied during _ready.
+static var _applying_forced: bool = false
+
+@export var preset := Preset.CUSTOM:
+	set(value):
+		preset = value
+		_apply_preset()
+		if (
+			not Engine.is_editor_hint()
+			and is_inside_tree()
+			and not GameScene2PTest._applying_forced
+		):
+			GameScene2PTest._forced_preset = value
+			get_tree().call_deferred("reload_current_scene")
+
 @export var auto_start_round := true
 
+@export_group("Player 1")
 @export var player_1_name := "TestP1"
 @export var player_1_color := Color(1, 0, 0, 1)
 @export var player_1_position := Vector2(200, 400)
 @export var player_1_direction := Vector2.RIGHT
 @export var player_1_gate_open_delay := 1.8
 
+@export_group("Player 2")
 @export var player_2_name := "TestP2"
 @export var player_2_color := Color(0, 1, 1, 1)
 @export var player_2_position := Vector2(380, 600)
@@ -21,6 +46,11 @@ var _player_2: Player
 
 
 func _ready() -> void:
+	if GameScene2PTest._forced_preset >= 0:
+		GameScene2PTest._applying_forced = true
+		preset = GameScene2PTest._forced_preset as Preset
+		GameScene2PTest._forced_preset = -1
+		GameScene2PTest._applying_forced = false
 	_setup_test_players()
 	start_game()
 	if auto_start_round:
@@ -101,6 +131,26 @@ func _sanitize_direction(direction: Vector2) -> Vector2:
 	if direction.length_squared() <= 0.0001:
 		return Vector2.RIGHT
 	return direction.normalized()
+
+
+func _apply_preset() -> void:
+	match preset:
+		Preset.GOING_THROUGH_RECENT_TRAIL:
+			player_1_position = Vector2(200, 400)
+			player_1_direction = Vector2.RIGHT
+			player_1_gate_open_delay = 1.8
+			player_2_position = Vector2(380, 600)
+			player_2_direction = Vector2.UP
+			player_2_gate_open_delay = 10
+		Preset.HEAD_ON_COLLISION:
+			player_1_position = Vector2(200, 400)
+			player_1_direction = Vector2.RIGHT
+			player_1_gate_open_delay = 99
+			player_2_position = Vector2(600, 400)
+			player_2_direction = Vector2.LEFT
+			player_2_gate_open_delay = 99
+		Preset.CUSTOM:
+			pass
 
 
 func _reload_test_scene() -> void:
