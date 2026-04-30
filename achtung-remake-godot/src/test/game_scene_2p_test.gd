@@ -13,16 +13,18 @@ static var _forced_preset: int = -1
 static var _applying_forced: bool = false
 
 @export var preset := Preset.CUSTOM:
+	get:
+		return _preset_internal
 	set(value):
-		preset = value
-		_apply_preset()
+		_preset_internal = value
+		_apply_preset(value)
 		if (
 			not Engine.is_editor_hint()
 			and is_inside_tree()
 			and not GameScene2PTest._applying_forced
 		):
-			GameScene2PTest._forced_preset = value
-			get_tree().call_deferred("reload_current_scene")
+			GameScene2PTest._forced_preset = int(value)
+			call_deferred("_reload_from_runtime_preset_switch")
 
 @export var auto_start_round := true
 
@@ -45,6 +47,7 @@ static var _applying_forced: bool = false
 @export var player_3_color := Color(0.8, 0.8, 0.8, 1)
 @export var player_3_position := Vector2(760, 760)
 
+var _preset_internal: Preset = Preset.CUSTOM
 var _player_scene: PackedScene = preload("res://src/player/playerScene.tscn")
 var _player_1: Player
 var _player_2: Player
@@ -52,11 +55,7 @@ var _player_3: Player
 
 
 func _ready() -> void:
-	if GameScene2PTest._forced_preset >= 0:
-		GameScene2PTest._applying_forced = true
-		preset = GameScene2PTest._forced_preset as Preset
-		GameScene2PTest._forced_preset = -1
-		GameScene2PTest._applying_forced = false
+	_apply_runtime_preset(_consume_runtime_preset())
 	_setup_test_players()
 	start_game()
 	if auto_start_round:
@@ -159,8 +158,8 @@ func _sanitize_direction(direction: Vector2) -> Vector2:
 	return direction.normalized()
 
 
-func _apply_preset() -> void:
-	match preset:
+func _apply_preset(target_preset: Preset = _preset_internal) -> void:
+	match target_preset:
 		Preset.GOING_THROUGH_RECENT_TRAIL:
 			player_1_position = Vector2(200, 400)
 			player_1_direction = Vector2.RIGHT
@@ -179,5 +178,26 @@ func _apply_preset() -> void:
 			pass
 
 
+func _consume_runtime_preset() -> Preset:
+	if GameScene2PTest._forced_preset >= 0:
+		var forced := GameScene2PTest._forced_preset as Preset
+		GameScene2PTest._forced_preset = -1
+		return forced
+	return _preset_internal
+
+
+func _apply_runtime_preset(runtime_preset: Preset) -> void:
+	GameScene2PTest._applying_forced = true
+	_preset_internal = runtime_preset
+	_apply_preset(runtime_preset)
+	GameScene2PTest._applying_forced = false
+
+
+func _reload_from_runtime_preset_switch() -> void:
+	if is_inside_tree():
+		get_tree().reload_current_scene()
+
+
 func _reload_test_scene() -> void:
+	GameScene2PTest._forced_preset = int(_preset_internal)
 	get_tree().reload_current_scene()
