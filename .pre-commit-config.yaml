@@ -1,0 +1,13 @@
+repos:
+  - repo: local
+    hooks:
+      - id: gdformat
+        name: gdformat
+        entry: gdformat
+        language: system
+        files: ^achtung-remake-godot/(?!addons/).*\.gd$
+      - id: gdlint
+        name: gdlint
+        entry: gdlint
+        language: system
+        files: ^achtung-remake-godot/(?!addons/).*\.gd$
