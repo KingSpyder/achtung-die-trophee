@@ -40,7 +40,7 @@ func setup_collision_layers() -> void:
 ## Trail management logic: add line or not, and corresponding collision segments.
 func _process(_delta) -> void:
 	previous_point = latest_point
-	latest_point = get_parent().position
+	latest_point = player.global_position
 	if player.is_laying_trail:
 		if not player_was_laying_trail:
 			#player just started new trail

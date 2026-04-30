@@ -3,9 +3,8 @@ extends Node
 
 var _round_end_scheduled := false
 
-@onready var game_area_scene: SubViewportContainer = %GameAreaScene
-@onready var game_area_viewport: SubViewport = game_area_scene.get_child(0)
-@onready var game_physic_controller: GamePhysicController = game_area_viewport.get_node("GameArea")
+@onready var game_area_scene: Control = %GameAreaScene
+@onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
 @onready var max_score_label: Label = %MaxScoreLabel
 
 
