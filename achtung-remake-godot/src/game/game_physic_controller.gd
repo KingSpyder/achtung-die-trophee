@@ -15,6 +15,7 @@ func add_player(player: Player) -> void:
 func exit_game() -> void:
 	for player in GameManager.players:
 		player.set_process(true)
+		player.reset()
 		player.clean()
 		remove_child(player)
 
