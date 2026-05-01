@@ -15,7 +15,7 @@ border_color = Color(0.5649616, 0.5649617, 0.5649613, 1)
 
 [node name="GameScene2PTest" type="Node"]
 script = ExtResource("1_test")
-#preset = 1
+preset = 2
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
