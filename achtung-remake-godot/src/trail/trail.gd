@@ -1,44 +1,160 @@
-extends Line2D
+## This script manages the trail left by the player in the game. It handles the creation
+## of new trail segments, the movement of old segments to a separate layer, and the cleanup of
+## trails when necessary. The trail is represented as a series of Line2D nodes for visual
+## representation and CollisionShape2D nodes for collision detection. The trail is divided
+## into two layers: RecentTrail for the most recent segments that the owning player will not
+## collide with, and OldTrail for all older segments that can be collided with by any player.
+extends Node2D
 
-const MAX_POINTS := 10000
-var point = Vector2()
-var points_list = [] # List for delaying the collision shape
-const COLL_DELAY : int = 20
-#@onready var collision_polygon = $StaticBody2D/CollisionShape2D
-var collisionTrailScene: PackedScene = preload("res://src/trail/collisionTrailScene.tscn")
+## How many segments should be kept in RecentTrail before moving them to OldTrail.
+const AGE_SEGMENT_FOR_OLD := 10
+
+## Current line being drawn (between gates), used to set the color and width of new segments.
+var current_line: Line2D
+
+var latest_point := Vector2()
+var previous_point := Vector2()
+
+## To keep track of if the trail just started or just ended,
+## in combination with player.is_laying_trail.
+var player_was_laying_trail := false
+
+@onready var player: Player = get_parent()
+
 
 func _ready():
-	# Clear default points
-	clear_points()
-	
+	setup_collision_layers()
+
+
+## Put the trail shapes in the correct collision layers, to be properly detected by players.
+## The RecentTrail layer is set to the player's order,
+## so that only the owning player will not collide with it.
+func setup_collision_layers() -> void:
+	# Set collision layer names for this player's trails
+	$RecentTrail.collision_layer = 1 << player.order
+	$RecentTrail.collision_mask = 0
+	$OldTrail.collision_layer = 1  # Layer 1 is everything but the RecentTrail layers
+	$OldTrail.collision_mask = 0
+
+
+## Trail management logic: add line or not, and corresponding collision segments.
 func _process(_delta) -> void:
-	point = get_parent().global_position
-	add_point(point)
-	points_list.append(point)
-	
-	if points_list.size() >= COLL_DELAY :
-		var collision = collisionTrailScene.instantiate()
-		collision.global_position = points_list[-COLL_DELAY]
-		add_child(collision)
-		collision.add_to_group("Trails")
-		
-		var collision_shape = collision.get_node("CollisionShape2D")
-		collision_shape.shape.radius = width/4
-	
-	## Créer un nouveau CollisionShape2D
-	#var rigid_body = RigidBody2D.new()
-	#var collision_shape = CollisionShape2D.new()
-	#rigid_body.global_position = point
-	#collision_shape.global_position = point
-		#
-	## Créer une forme de collision (par exemple, un CircleShape2D)
-	#var shape = CircleShape2D.new()
-	#shape.radius = width/2  # Définir le rayon du cercle
-#
-	## Assigner la forme de collision au CollisionShape2D
-	#collision_shape.shape = shape
-#
-	## Ajouter le CollisionShape2D au nœud racine
-	#add_child(rigid_body)
-	#rigid_body.add_child(collision_shape)
-	
+	previous_point = latest_point
+	latest_point = player.global_position
+	if player.is_laying_trail:
+		if not player_was_laying_trail:
+			#player just started new trail
+			player_was_laying_trail = true
+			current_line = add_new_line()
+			$RecentTrail.add_child(new_start_segment())
+		else:
+			#middle of the trail
+			for collision_segment in new_border_segments():
+				$RecentTrail.add_child(collision_segment)
+		current_line.add_point(latest_point)
+	elif player_was_laying_trail:
+		#player just ended tail : cap the collision shape
+		$RecentTrail.add_child(new_end_segment())
+		player_was_laying_trail = false
+	# Move the oldest segment to $OldTrail if too many in RecentTrail
+	while $RecentTrail.get_child_count() > AGE_SEGMENT_FOR_OLD:
+		move_recent_to_old()
+
+
+## Utility to calculate the perpendicular vector to the trail,
+## to find the borders of the trail (not the center line).
+func perpendicular_vector() -> Vector2:
+	return get_parent().direction.rotated(PI / 2).normalized() * get_size()
+
+
+## Create a new generic collision segment.
+func new_collision_segment() -> CollisionShape2D:
+	var collision_segment = CollisionShape2D.new()
+	collision_segment.shape = SegmentShape2D.new()
+	collision_segment.debug_color = "dark green"
+	return collision_segment
+
+
+## Create the two collision segments on the sides of the trail.
+func new_border_segments() -> Array[CollisionShape2D]:
+	var segments: Array[CollisionShape2D] = []
+	var perp_vec := perpendicular_vector()
+	for order in [-1, +1]:
+		var collision_segment = new_collision_segment()
+		collision_segment.shape.a = previous_point + order * perp_vec / 2
+		collision_segment.shape.b = latest_point + order * perp_vec / 2
+		segments.append(collision_segment)
+	return segments
+
+
+## Create the collision segment at the start of the trail, to cap it.
+func new_start_segment() -> CollisionShape2D:
+	var perp_vec := perpendicular_vector()
+	var collision_segment = new_collision_segment()
+	collision_segment.shape.a = previous_point + perp_vec / 2
+	collision_segment.shape.b = previous_point - perp_vec / 2
+	return collision_segment
+
+
+## Create the collision segment at the end of the trail, to cap it.
+func new_end_segment() -> CollisionShape2D:
+	var perp_vec := perpendicular_vector()
+	var collision_segment = new_collision_segment()
+	collision_segment.shape.a = latest_point + perp_vec / 2
+	collision_segment.shape.b = latest_point - perp_vec / 2
+	return collision_segment
+
+
+## Move the oldest segment from RecentTrail to OldTrail,
+## to keep the RecentTrail with a limited number of segments.
+func move_recent_to_old() -> void:
+	var oldest: CollisionShape2D = $RecentTrail.get_child(0)
+	$RecentTrail.remove_child(oldest)
+	$OldTrail.add_child(oldest)
+	oldest.debug_color = "green"
+
+
+## Get parent color.
+func get_color() -> Color:
+	var parent: Player = get_parent()
+	if parent != null:
+		return parent.color
+	return Color(0.992, 0.0, 1.0, 1.0)
+
+
+## Get parent size.
+func get_size() -> float:
+	var parent: Player = get_parent()
+	if parent != null:
+		return parent.size
+	return 1.0
+
+
+## Create a new Line2D for the visual representation of the trail,
+## with the correct color and width. Store it in the Lines node.
+func add_new_line() -> Line2D:
+	var new_line = Line2D.new()
+	new_line.set_default_color(get_color())
+	new_line.set_width(get_size())
+	$Lines.add_child(new_line)
+	return new_line
+
+
+## Cleanup function to free trail segments.
+func clean_trails() -> void:
+	for segment in $RecentTrail.get_children():
+		$RecentTrail.remove_child(segment)
+		segment.queue_free()
+	for segment in $OldTrail.get_children():
+		$OldTrail.remove_child(segment)
+		segment.queue_free()
+
+
+## Cleanup function to free lines.
+func clean_lines() -> void:
+	for line in $Lines.get_children():
+		$Lines.remove_child(line)
+		line.queue_free()
+	player_was_laying_trail = false
+	latest_point = Vector2()
+	previous_point = Vector2()

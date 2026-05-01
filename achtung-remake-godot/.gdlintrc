@@ -1,0 +1,7 @@
+max-blank-lines: 2
+
+# Enforce blank lines before top-level definitions
+blank-lines-before-top-level-definition: 2
+
+# Enforce blank lines between class members (functions in classes)
+blank-lines-between-class-members: 2
