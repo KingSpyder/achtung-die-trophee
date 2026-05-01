@@ -16,7 +16,11 @@ const DEFAULT_SPEED: float = 100
 @export var speed: float = 100
 @export var angular_speed: float = 2.85
 @export var gate_open_time: float = 50 / speed
-@export var size: float = 5
+@export var head_preset: PlayerHeadPreset
+@export var size: float = 5.0:
+	set(value):
+		size = value
+		_refresh_head_and_collision_shape()
 
 @export var score := 0
 
@@ -30,23 +34,40 @@ var last_collision: KinematicCollision2D
 @onready var head: Sprite2D = %Head
 @onready var arrow: Sprite2D = %Arrow
 @onready var playercoll: CollisionShape2D = $PlayerCollisionShape
-# We need to duplicate resources to be used by multiple instances
-@onready var head_shader_material: ShaderMaterial = %Head.material.duplicate()
 @onready var arrow_shader_material: ShaderMaterial = %Arrow.material.duplicate()
 
 
 func _ready() -> void:
 	head.z_index = 5
+	apply_head_preset(head_preset)
 	update_shaders()
 	setup_collision_layers()
 
 
 func update_shaders() -> void:
-	%Head.material = head_shader_material
-	#%Head.material.set_shader_parameter("radius", size)
 	%Arrow.material = arrow_shader_material
-	if color:
-		arrow_shader_material.set_shader_parameter("color", color)
+	arrow_shader_material.set_shader_parameter("color", color)
+
+
+func apply_head_preset(preset: PlayerHeadPreset) -> void:
+	if preset == null:
+		return
+	if preset.head_texture != null:
+		head.texture = preset.head_texture
+	head.modulate = PlayerHeadPreset.HEAD_COLOR
+	_refresh_head_and_collision_shape()
+
+
+func _refresh_head_and_collision_shape() -> void:
+	if not is_node_ready():
+		return
+	if head_preset == null:
+		return
+	head.scale = head_preset.get_head_scale_for_size(size)
+	var scaled_collision_shape := head_preset.build_collision_shape_for_size(size)
+	if scaled_collision_shape != null:
+		playercoll.shape = null  # Clean up old shape reference before assigning new one
+		playercoll.shape = scaled_collision_shape
 
 
 ## Set the player's collision layer and mask to collide with everything
