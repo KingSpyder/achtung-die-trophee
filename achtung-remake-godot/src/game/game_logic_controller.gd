@@ -1,6 +1,8 @@
 class_name GameLogicController
 extends Node
 
+const PlayerScript = preload("res://src/player/player.gd")
+
 var _round_end_scheduled := false
 
 @onready var game_area_scene: Control = %GameAreaScene
@@ -94,14 +96,14 @@ func exit_game() -> void:
 	game_physic_controller.exit_game()
 
 
-func _on_player_died(player: Player, death_cause: int, collided_player: Player) -> void:
+func _on_player_died(player: PlayerScript, death_cause: int, collided_player: PlayerScript) -> void:
 	print("player ", player.player_name, " died by cause ", death_cause)
 	GameManager.players_alive = GameManager.players_alive.filter(
 		func(_player): return _player.player_name != player.player_name
 	)
 
 	for player_alive in GameManager.players_alive:
-		if death_cause == Player.DeathCause.PLAYER and player_alive == collided_player:
+		if death_cause == PlayerScript.DeathCause.PLAYER and player_alive == collided_player:
 			continue
 		player_alive.score += 1
 		var player_score = find_child(player_alive.player_name + "_score", true, false)

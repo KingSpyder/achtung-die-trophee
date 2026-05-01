@@ -9,6 +9,8 @@ extends Node2D
 ## How many segments should be kept in RecentTrail before moving them to OldTrail.
 const AGE_SEGMENT_FOR_OLD := 10
 
+const PlayerScript = preload("res://src/player/player.gd")
+
 ## Current line being drawn (between gates), used to set the color and width of new segments.
 var current_line: Line2D
 
@@ -19,7 +21,7 @@ var previous_point := Vector2()
 ## in combination with player.is_laying_trail.
 var player_was_laying_trail := false
 
-@onready var player: Player = get_parent()
+@onready var player: PlayerScript = get_parent()
 
 
 func _ready():
@@ -116,7 +118,7 @@ func move_recent_to_old() -> void:
 
 ## Get parent color.
 func get_color() -> Color:
-	var parent: Player = get_parent()
+	var parent: PlayerScript = get_parent()
 	if parent != null:
 		return parent.color
 	return Color(0.992, 0.0, 1.0, 1.0)
@@ -124,7 +126,7 @@ func get_color() -> Color:
 
 ## Get parent size.
 func get_size() -> float:
-	var parent: Player = get_parent()
+	var parent: PlayerScript = get_parent()
 	if parent != null:
 		return parent.size
 	return 1.0
