@@ -7,6 +7,8 @@ enum Preset {
 	HEAD_ON_COLLISION,  ## 2 players collide head-on
 }
 
+const PlayerHeadPresetScript = preload("res://src/player/player_head_preset.gd")
+
 ## Survives reload_current_scene (static) to pass the chosen preset to the new instance.
 static var _forced_preset: int = -1
 ## Prevents the preset setter from triggering a reload loop when applied during _ready.
@@ -31,6 +33,7 @@ static var _applying_forced: bool = false
 @export_group("Player 1")
 @export var player_1_name := "TestP1"
 @export var player_1_color := Color(1, 0, 0, 1)
+@export var player_1_head_preset_override: PlayerHeadPresetScript
 @export var player_1_position := Vector2(200, 400)
 @export var player_1_direction := Vector2.RIGHT
 @export var player_1_gate_open_delay := 1.8
@@ -38,6 +41,7 @@ static var _applying_forced: bool = false
 @export_group("Player 2")
 @export var player_2_name := "TestP2"
 @export var player_2_color := Color(0, 1, 1, 1)
+@export var player_2_head_preset_override: PlayerHeadPresetScript
 @export var player_2_position := Vector2(380, 600)
 @export var player_2_direction := Vector2.UP
 @export var player_2_gate_open_delay := 10
@@ -45,13 +49,14 @@ static var _applying_forced: bool = false
 @export_group("Observer (Player 3)")
 @export var player_3_name := "Observer"
 @export var player_3_color := Color(0.8, 0.8, 0.8, 1)
+@export var player_3_head_preset_override: PlayerHeadPresetScript
 @export var player_3_position := Vector2(760, 760)
 
 var _preset_internal: Preset = Preset.CUSTOM
 var _player_scene: PackedScene = preload("res://src/player/playerScene.tscn")
-var _player_1: Player
-var _player_2: Player
-var _player_3: Player
+var _player_1: PlayerScript
+var _player_2: PlayerScript
+var _player_3: PlayerScript
 
 
 func _ready() -> void:
@@ -99,24 +104,33 @@ func _setup_test_players() -> void:
 	GameManager.players.clear()
 	GameManager.players_alive.clear()
 
-	_player_1 = _create_test_player(player_1_name, player_1_color, 1)
-	_player_2 = _create_test_player(player_2_name, player_2_color, 2)
-	_player_3 = _create_test_player(player_3_name, player_3_color, 3)
+	_player_1 = _create_test_player(player_1_name, player_1_color, 1, player_1_head_preset_override)
+	_player_2 = _create_test_player(player_2_name, player_2_color, 2, player_2_head_preset_override)
+	_player_3 = _create_test_player(player_3_name, player_3_color, 3, player_3_head_preset_override)
 
 	GameManager.players.push_back(_player_1)
 	GameManager.players.push_back(_player_2)
 	GameManager.players.push_back(_player_3)
 
 
-func _create_test_player(test_name: String, test_color: Color, test_order: int) -> Player:
-	var player: Player = _player_scene.instantiate()
+func _create_test_player(
+	test_name: String,
+	test_color: Color,
+	test_order: int,
+	head_preset_override: PlayerHeadPresetScript,
+) -> PlayerScript:
+	var player: PlayerScript = _player_scene.instantiate()
 	player.player_name = test_name
 	player.color = test_color
 	player.order = test_order
+	if head_preset_override != null:
+		player.head_preset = head_preset_override
 	return player
 
 
-func _spawn_test_player(player: Player, spawn_position: Vector2, spawn_direction: Vector2) -> void:
+func _spawn_test_player(
+	player: PlayerScript, spawn_position: Vector2, spawn_direction: Vector2
+) -> void:
 	player.position = spawn_position
 	player.direction = _sanitize_direction(spawn_direction)
 	player.speed = 0
@@ -125,7 +139,7 @@ func _spawn_test_player(player: Player, spawn_position: Vector2, spawn_direction
 		player.arrow.visible = true
 
 
-func _apply_gate_open_delay(player: Player, delay_seconds: float) -> void:
+func _apply_gate_open_delay(player: PlayerScript, delay_seconds: float) -> void:
 	if not is_instance_valid(player):
 		return
 	var gate_open_timer: Timer = player.get_node("GateOpenTimer")
@@ -136,7 +150,7 @@ func _apply_gate_open_delay(player: Player, delay_seconds: float) -> void:
 	gate_open_timer.start()
 
 
-func _setup_observer_player(player: Player) -> void:
+func _setup_observer_player(player: PlayerScript) -> void:
 	if not is_instance_valid(player):
 		return
 	player.speed = 0
@@ -159,6 +173,9 @@ func _sanitize_direction(direction: Vector2) -> Vector2:
 
 
 func _apply_preset(target_preset: Preset = _preset_internal) -> void:
+	player_1_head_preset_override = null
+	player_2_head_preset_override = null
+	player_3_head_preset_override = null
 	match target_preset:
 		Preset.GOING_THROUGH_RECENT_TRAIL:
 			player_1_position = Vector2(200, 400)
@@ -171,9 +188,11 @@ func _apply_preset(target_preset: Preset = _preset_internal) -> void:
 			player_1_position = Vector2(200, 400)
 			player_1_direction = Vector2.RIGHT
 			player_1_gate_open_delay = 99
+			player_1_head_preset_override = AllPresets.SQUARE
 			player_2_position = Vector2(600, 400)
 			player_2_direction = Vector2.LEFT
 			player_2_gate_open_delay = 99
+			player_2_head_preset_override = AllPresets.ROUND
 		Preset.CUSTOM:
 			pass
 

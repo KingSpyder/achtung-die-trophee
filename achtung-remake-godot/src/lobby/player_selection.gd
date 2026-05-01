@@ -5,10 +5,12 @@ signal check_duplicates_keys
 
 enum MapState { WAITING_LEFT, WAITING_RIGHT, DONE }
 
+const PlayerScript = preload("res://src/player/player.gd")
+
 @export var order: String
 @export var player_name: String
 @export var color: Color
-@export var player: Player = null
+@export var player: PlayerScript = null
 
 var player_scene: PackedScene = preload("res://src/player/playerScene.tscn")
 

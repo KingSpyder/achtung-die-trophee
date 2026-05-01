@@ -1,13 +1,15 @@
 class_name GamePhysicController
 extends Node2D
 
+const PlayerScript = preload("res://src/player/player.gd")
+
 
 func _ready() -> void:
 	pass
 
 
 ## Register the player as a child of the physic controller, so that it is processed by godot engine.
-func add_player(player: Player) -> void:
+func add_player(player: PlayerScript) -> void:
 	add_child(player)
 
 
@@ -22,7 +24,7 @@ func exit_game() -> void:
 
 ## Spawn the player at a random position and direction, with speed 0.
 ## Rotation is permitted while waiting for the start of the round.
-func spawn_player(player: Player) -> void:
+func spawn_player(player: PlayerScript) -> void:
 	player.position = get_random_position()
 	player.direction = get_random_direction()
 	# we don't use set_process(false), to allow to turn before starting
@@ -33,7 +35,7 @@ func spawn_player(player: Player) -> void:
 
 
 ## Start the player movement and trail laying.
-func start_player(player: Player) -> void:
+func start_player(player: PlayerScript) -> void:
 	player.arrow.visible = false
 	player.speed = player.DEFAULT_SPEED
 	player.start_trail()

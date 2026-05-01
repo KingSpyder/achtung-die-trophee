@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PlayerHeadPreset" load_steps=5 format=3 uid="uid://cs1o2umrub6tn"]
+
+[ext_resource type="Script" uid="uid://c58ra5f7a01o" path="res://src/player/player_head_preset.gd" id="1_a7r2q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k2m9x"]
+size = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_f6v4m"]
+interpolation_mode = 1
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g5u1w"]
+gradient = SubResource("Gradient_f6v4m")
+width = 50
+height = 50
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+
+[resource]
+script = ExtResource("1_a7r2q")
+head_texture = SubResource("GradientTexture2D_g5u1w")
+collision_shape = SubResource("RectangleShape2D_k2m9x")
