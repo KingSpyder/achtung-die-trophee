@@ -135,14 +135,16 @@ func _update_input_simulation(delta: float) -> void:
 	_input_simulation_timer += delta
 
 	# Switch input state every 1 second: 1s left, 1s right, repeat
-	var cycle_time = fmod(_input_simulation_timer, 6.0)
-	# 6s: 2s neutral, 1s left, 2s neutral, 1s right
+	var cycle_time = fmod(_input_simulation_timer, 6.5)
+	# 6.5s: 2s neutral, 0.5s powerup, 1s left, 2s neutral, 1s right
 	var new_state := 0
 	if cycle_time < 2.0:
 		new_state = 0  # Neutral
-	elif cycle_time < 3.0:
+	elif cycle_time < 2.5:
+		new_state = 3  # Powerup
+	elif cycle_time < 3.5:
 		new_state = 1  # Left
-	elif cycle_time < 5.0:
+	elif cycle_time < 5.5:
 		new_state = 0  # Neutral
 	else:
 		new_state = 2  # Right
@@ -164,6 +166,11 @@ func _apply_simulated_input() -> void:
 			_emit_action(player_1_name + "_right", true)
 			_emit_action(player_2_name + "_left", true)
 			_emit_action(player_2_name + "_right", false)
+		3:  # Powerup!
+			_emit_action(player_1_name + "_left", true)
+			_emit_action(player_1_name + "_right", true)
+			_emit_action(player_2_name + "_left", true)
+			_emit_action(player_2_name + "_right", true)
 		0:  # Neutral - release all
 			_emit_action(player_1_name + "_left", false)
 			_emit_action(player_1_name + "_right", false)
