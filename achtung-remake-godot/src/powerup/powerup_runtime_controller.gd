@@ -34,6 +34,7 @@ var _player_action_definition_by_id := {}
 var _player_action_uses_by_id := {}
 var _player_hold_elapsed_by_id := {}
 var _player_hold_consumed_by_id := {}
+var _player_action_display_box_by_id := {}
 
 @onready var _game_physic_controller: GamePhysicControllerScript = get_parent()
 
@@ -68,8 +69,22 @@ func register_player(player: PlayerScript) -> void:
 
 
 func unregister_player(player: PlayerScript) -> void:
+	var player_id := player.get_instance_id()
+	_player_action_display_box_by_id.erase(player_id)
 	_registered_players.erase(player)
 	_clear_player_action(player)
+
+
+func register_player_action_display(player: PlayerScript, display_box: Node) -> void:
+	if not is_instance_valid(player):
+		return
+	if display_box == null:
+		return
+	var player_id := player.get_instance_id()
+	_player_action_display_box_by_id[player_id] = display_box
+	var definition = _player_action_definition_by_id.get(player_id, null)
+	var uses := int(_player_action_uses_by_id.get(player_id, 0))
+	_update_player_action_display(player, definition, uses)
 
 
 func start_round(alive_players: Array[PlayerScript]) -> void:
@@ -225,6 +240,8 @@ func _update_single_player_action_trigger(player: PlayerScript, delta: float) ->
 			_activate_powerup_effect(player, definition)
 			if uses <= 0:
 				_clear_player_action(player)
+			else:
+				_update_player_action_display(player, definition, uses)
 		return
 
 	_player_hold_elapsed_by_id[player_id] = 0.0
@@ -241,9 +258,11 @@ func _is_player_action_pressed(player: PlayerScript, suffix: String) -> bool:
 func _grant_player_action(player: PlayerScript, definition, uses: int) -> void:
 	var player_id := player.get_instance_id()
 	_player_action_definition_by_id[player_id] = definition
-	_player_action_uses_by_id[player_id] = maxi(1, uses)
+	var granted_uses := maxi(1, uses)
+	_player_action_uses_by_id[player_id] = granted_uses
 	_player_hold_elapsed_by_id[player_id] = 0.0
 	_player_hold_consumed_by_id[player_id] = false
+	_update_player_action_display(player, definition, granted_uses)
 
 
 func _clear_player_action(player: PlayerScript) -> void:
@@ -252,10 +271,26 @@ func _clear_player_action(player: PlayerScript) -> void:
 	_player_action_uses_by_id.erase(player_id)
 	_player_hold_elapsed_by_id.erase(player_id)
 	_player_hold_consumed_by_id.erase(player_id)
+	_update_player_action_display(player, null, 0)
 
 
 func clear_all_player_actions() -> void:
-	_player_action_definition_by_id.clear()
-	_player_action_uses_by_id.clear()
-	_player_hold_elapsed_by_id.clear()
-	_player_hold_consumed_by_id.clear()
+	for player in _registered_players:
+		if not is_instance_valid(player):
+			continue
+		_clear_player_action(player)
+
+
+func _update_player_action_display(player: PlayerScript, definition, uses: int) -> void:
+	var player_id := player.get_instance_id()
+	var display_box = _player_action_display_box_by_id.get(player_id, null)
+	if display_box == null or not is_instance_valid(display_box):
+		return
+	if not display_box.has_method("update_display"):
+		return
+
+	var token_textures: Array = []
+	if definition != null and uses > 0 and definition.token_texture != null:
+		for _index in range(uses):
+			token_textures.append(definition.token_texture)
+	display_box.call("update_display", token_textures)

@@ -2,6 +2,7 @@ class_name GameLogicController
 extends Node
 
 const PlayerScript = preload("res://src/player/player.gd")
+const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_display_box.gd")
 
 var _round_end_scheduled := false
 
@@ -20,13 +21,29 @@ func start_game() -> void:
 	for player in GameManager.players:
 		game_physic_controller.add_player(player)
 		player.player_died.connect(_on_player_died)
-		var player_score_label := Label.new()
-		max_score_label.add_sibling(player_score_label)
+		var player_score_row := HBoxContainer.new()
+		player_score_row.name = player.player_name + "_score_row"
+		player_score_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		player_score_row.add_theme_constant_override("separation", 8)
+		max_score_label.add_sibling(player_score_row)
+
 		var player_label := Label.new()
-		max_score_label.add_sibling(player_label)
 		player_label.text = player.player_name
+		player_score_row.add_child(player_label)
+
+		var player_score_label := Label.new()
 		player_score_label.name = player.player_name + "_score"
 		player_score_label.text = "0"
+		player_score_row.add_child(player_score_label)
+
+		var action_display_box = PlayerActionDisplayBoxScript.new()
+		action_display_box.name = player.player_name + "_action_display_box"
+		action_display_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		player_score_row.add_child(action_display_box)
+		if game_physic_controller.powerup_runtime != null:
+			game_physic_controller.powerup_runtime.register_player_action_display(
+				player, action_display_box
+			)
 	next_round()
 
 
