@@ -9,13 +9,15 @@ enum Target { SELF, OTHERS, NEUTRAL }
 enum ActivationMode { IMMEDIATE, ACTION }
 
 const PlayerScript = preload("res://src/player/player.gd")
+const DEFAULT_SELF_COLOR: Color = Color(0.0, 1.0, 0.0, 1.0)
+const DEFAULT_OTHERS_COLOR: Color = Color(1.0, 0.0, 0.0, 1.0)
 
 @export var powerup_id: StringName = &"powerup"
 @export var target: Target = Target.SELF
 @export var activation_mode: ActivationMode = ActivationMode.IMMEDIATE
 @export var action_uses := 1
 @export var duration_seconds := 0.0
-@export var token_color: Color = Color(1.0, 1.0, 1.0, 1.0)
+@export var token_color: Color = DEFAULT_SELF_COLOR
 @export var token_texture: Texture2D = null
 
 

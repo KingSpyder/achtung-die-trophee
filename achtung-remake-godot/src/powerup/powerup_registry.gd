@@ -8,8 +8,20 @@ extends Resource
 const SpeedBoostDefinitionScript = preload(
 	"res://src/powerup/definitions/speed_boost_self_powerup_definition.gd"
 )
-const InvertControlsDefinitionScript = preload(
-	"res://src/powerup/definitions/invert_controls_action_powerup_definition.gd"
+const SpeedReduceSelfDefinitionScript = preload(
+	"res://src/powerup/definitions/speed_reduce_self_powerup_definition.gd"
+)
+const SpeedBoostOthersDefinitionScript = preload(
+	"res://src/powerup/definitions/speed_boost_others_powerup_definition.gd"
+)
+const SpeedReduceOthersDefinitionScript = preload(
+	"res://src/powerup/definitions/speed_reduce_others_powerup_definition.gd"
+)
+const InvertControlsOthersDefinitionScript = preload(
+	"res://src/powerup/definitions/invert_controls_others_powerup_definition.gd"
+)
+const InvertControlsSelfDefinitionScript = preload(
+	"res://src/powerup/definitions/invert_controls_self_powerup_definition.gd"
 )
 
 
@@ -17,12 +29,20 @@ const InvertControlsDefinitionScript = preload(
 static func get_all_definitions() -> Array[Resource]:
 	var definitions: Array[Resource] = []
 
-	# Speed Boost (self target, immediate activation)
+	# Speed Boost
 	if SpeedBoostDefinitionScript != null:
 		definitions.append(SpeedBoostDefinitionScript.new())
+	if SpeedReduceSelfDefinitionScript != null:
+		definitions.append(SpeedReduceSelfDefinitionScript.new())
+	if SpeedBoostOthersDefinitionScript != null:
+		definitions.append(SpeedBoostOthersDefinitionScript.new())
+	if SpeedReduceOthersDefinitionScript != null:
+		definitions.append(SpeedReduceOthersDefinitionScript.new())
 
-	# Invert Controls (others target, action activation)
-	if InvertControlsDefinitionScript != null:
-		definitions.append(InvertControlsDefinitionScript.new())
+	# Invert Controls
+	if InvertControlsOthersDefinitionScript != null:
+		definitions.append(InvertControlsOthersDefinitionScript.new())
+	if InvertControlsSelfDefinitionScript != null:
+		definitions.append(InvertControlsSelfDefinitionScript.new())
 
 	return definitions
