@@ -30,6 +30,8 @@ var last_collided_player: Player = null
 
 var is_laying_trail := false
 var last_collision: KinematicCollision2D
+var _speed_multipliers := {}
+var _inverted_control_sources := {}
 
 @onready var head: Sprite2D = %Head
 @onready var arrow: Sprite2D = %Arrow
@@ -101,9 +103,15 @@ func _is_player_authority() -> bool:
 ## Player movement and rotation based on input. We use move_and_collide to detect collisions.
 func move(delta) -> void:
 	#Rotation & Movement
-	if _is_action_pressed_safe(player_name + "_left"):
+	var left_pressed := _is_action_pressed_safe(player_name + "_left")
+	var right_pressed := _is_action_pressed_safe(player_name + "_right")
+	if _are_turn_controls_inverted():
+		var tmp := left_pressed
+		left_pressed = right_pressed
+		right_pressed = tmp
+	if left_pressed:
 		direction = direction.rotated(-angular_speed * delta)
-	if _is_action_pressed_safe(player_name + "_right"):
+	if right_pressed:
 		direction = direction.rotated(angular_speed * delta)
 	direction = direction.normalized()
 
@@ -111,7 +119,7 @@ func move(delta) -> void:
 	arrow.position = Vector2(10 * direction.x, 10 * direction.y)
 	arrow.rotation = direction.angle() + PI / 2
 
-	velocity = speed * direction
+	velocity = _get_effective_speed() * direction
 	last_collision = move_and_collide(velocity * delta)
 
 
@@ -233,3 +241,29 @@ func reset() -> void:
 	set_process(true)
 	is_laying_trail = false
 	score = 0
+
+
+func set_speed_multiplier(source_id: StringName, multiplier: float) -> void:
+	_speed_multipliers[source_id] = maxf(multiplier, 0.01)
+
+
+func remove_speed_multiplier(source_id: StringName) -> void:
+	_speed_multipliers.erase(source_id)
+
+
+func _get_effective_speed() -> float:
+	var factor := 1.0
+	for value in _speed_multipliers.values():
+		factor *= float(value)
+	return speed * factor
+
+
+func set_turn_controls_inverted(source_id: StringName, enabled: bool) -> void:
+	if enabled:
+		_inverted_control_sources[source_id] = true
+		return
+	_inverted_control_sources.erase(source_id)
+
+
+func _are_turn_controls_inverted() -> bool:
+	return not _inverted_control_sources.is_empty()
