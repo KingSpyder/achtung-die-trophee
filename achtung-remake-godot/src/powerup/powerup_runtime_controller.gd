@@ -18,7 +18,6 @@ const PowerUpTokenScene: PackedScene = preload("res://src/powerup/powerup_token.
 const PowerUpDefinitionScript = preload("res://src/powerup/powerup_definition.gd")
 const ActivePowerUpEffectScript = preload("res://src/powerup/active_powerup_effect.gd")
 const PowerUpExecutionContextScript = preload("res://src/powerup/powerup_execution_context.gd")
-const PowerUpRegistry = preload("res://src/powerup/powerup_registry.gd")
 
 @export var spawn_interval_min := 3.0
 @export var spawn_interval_max := 7.0
