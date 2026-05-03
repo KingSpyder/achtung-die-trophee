@@ -39,17 +39,17 @@ var last_collision: KinematicCollision2D
 
 func _ready() -> void:
 	head.z_index = 5
-	apply_head_preset(head_preset)
-	update_shaders()
-	setup_collision_layers()
+	_apply_head_preset(head_preset)
+	_update_shaders()
+	_setup_collision_layers()
 
 
-func update_shaders() -> void:
+func _update_shaders() -> void:
 	%Arrow.material = arrow_shader_material
 	arrow_shader_material.set_shader_parameter("color", color)
 
 
-func apply_head_preset(preset: PlayerHeadPreset) -> void:
+func _apply_head_preset(preset: PlayerHeadPreset) -> void:
 	if preset == null:
 		return
 	if preset.head_texture != null:
@@ -87,7 +87,7 @@ func show_arrow() -> void:
 func _process(delta) -> void:
 	if _is_player_authority():
 		move(delta)
-		if check_collision() or check_out_of_bounds():
+		if _check_collision() or _check_out_of_bounds():
 			death()
 
 
@@ -122,7 +122,7 @@ func _is_action_pressed_safe(action_name: String) -> bool:
 
 
 ## Equivalently means: has collided ?
-func check_collision() -> bool:
+func _check_collision() -> bool:
 	if last_collision == null:
 		return false
 	return _identify_collider(last_collision.get_collider())
@@ -162,7 +162,7 @@ func _identify_collider(collider: Object) -> bool:
 ## Check if the player is out of bounds (i.e. outside the 800x800 area).
 ## Return true if out of bounds, false otherwise.
 ## TODO: HARDCODED BOUNDS, should be changed to use the actual screen size or a defined play area.
-func check_out_of_bounds() -> bool:
+func _check_out_of_bounds() -> bool:
 	if position.x > 0 and position.x < 800 and position.y > 0 and position.y < 800:
 		return false
 	last_death_cause = DeathCause.OUT_OF_BOUNDS
@@ -174,7 +174,7 @@ func check_out_of_bounds() -> bool:
 ## Activate the player's trail, and start the gate open timer.
 func start_trail() -> void:
 	is_laying_trail = true
-	start_gate_open_timer()
+	_start_gate_open_timer()
 
 
 ## Remove players lines and trails. Stop gate timers.
@@ -187,7 +187,7 @@ func clean() -> void:
 
 
 ## Open a gate in the player's trail. Start the gate close timer.
-func open_gate() -> void:
+func _open_gate() -> void:
 	is_laying_trail = false
 	playercoll.disabled = true
 	%GateCloseTimer.wait_time = gate_open_time
@@ -195,25 +195,25 @@ func open_gate() -> void:
 
 
 ## Close the gate in the player's trail. Start the gate open timer.
-func close_gate() -> void:
+func _close_gate() -> void:
 	$PlayerCollisionShape.disabled = false
 	is_laying_trail = true
-	start_gate_open_timer()
+	_start_gate_open_timer()
 
 
 ## Randomly chose a time to open the gate, between 1 and 4 seconds for now (value to change).
-func start_gate_open_timer():
+func _start_gate_open_timer():
 	var random_delay = randf_range(1.0, 4.0)
 	%GateOpenTimer.wait_time = random_delay
 	%GateOpenTimer.start()
 
 
 func _on_gate_open_timer_timeout():
-	open_gate()
+	_open_gate()
 
 
 func _on_gate_close_timer_timeout() -> void:
-	close_gate()
+	_close_gate()
 
 
 ## Player death function. Stop the player's movement and
