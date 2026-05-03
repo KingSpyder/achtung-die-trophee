@@ -72,10 +72,10 @@ func _refresh_head_and_collision_shape() -> void:
 
 ## Set the player's collision layer and mask to collide with everything
 ## except its own RecentTrail layer.
-func setup_collision_layers() -> void:
-	collision_layer = 1  # Player is in layer 1 (everything but RecentTrail layers)
+func _setup_collision_layers() -> void:
+	collision_layer = 1 | (1 << 1)  # Layer 1 for gameplay, layer 2 for powerup pickup
 	collision_mask = 0xFFFFFFFF  # Collide with everything but...(next line)
-	collision_mask &= ~(1 << order)  # Exclude this player's RecentTrail layer
+	collision_mask &= ~(1 << (order + 3))  # Exclude this player's RecentTrail layer (4-7)
 
 
 ## Show the arrow indicating the player's direction.

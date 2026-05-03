@@ -33,7 +33,7 @@ func _ready():
 ## so that only the owning player will not collide with it.
 func setup_collision_layers() -> void:
 	# Set collision layer names for this player's trails
-	$RecentTrail.collision_layer = 1 << player.order
+	$RecentTrail.collision_layer = 1 << (player.order + 3)  # Layer 4-7 for RecentTrail
 	$RecentTrail.collision_mask = 0
 	$OldTrail.collision_layer = 1  # Layer 1 is everything but the RecentTrail layers
 	$OldTrail.collision_mask = 0
