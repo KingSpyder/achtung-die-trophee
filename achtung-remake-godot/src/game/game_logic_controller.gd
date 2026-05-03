@@ -36,6 +36,7 @@ func start_round() -> void:
 	print("Round started")
 	GameManager.game_status = GameManager.GameStatus.IN_GAME
 	GameManager.players_alive = GameManager.players.duplicate()
+	game_physic_controller.start_round_powerups(GameManager.players_alive)
 	for player in GameManager.players:
 		game_physic_controller.start_player(player)
 
@@ -43,6 +44,7 @@ func start_round() -> void:
 ## End the current round, calculate scores and check if the game should end.
 ## Status is set to ROUND_ENDED, waiting for the player to prepare the next round.
 func end_round() -> void:
+	game_physic_controller.reset_round_powerups()
 	var scores = GameManager.players.map(func(_player): return _player.score)
 	scores.sort()
 	scores.reverse()
@@ -62,6 +64,7 @@ func end_round() -> void:
 ## Prepare the next round, reset players and spawn them.
 ## Status is set to ROUND_READY, waiting for the player to start the round.
 func next_round():
+	game_physic_controller.reset_round_powerups()
 	for player in GameManager.players:
 		player.clean()
 		player.set_process(false)

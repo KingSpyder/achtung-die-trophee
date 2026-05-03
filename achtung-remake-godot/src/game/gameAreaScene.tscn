@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://s4dac2cod3c6"]
+[gd_scene load_steps=7 format=3 uid="uid://s4dac2cod3c6"]
 
 [ext_resource type="Script" uid="uid://bm7w0nwmhhii6" path="res://src/game/game_physic_controller.gd" id="1_ua88q"]
+[ext_resource type="Script" path="res://src/powerup/powerup_runtime_controller.gd" id="2_pwrtm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jadrl"]
 size = Vector2(800, 10)
@@ -30,6 +31,9 @@ color = Color(0, 0, 0, 1)
 [node name="GameArea" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_ua88q")
+
+[node name="PowerUpRuntime" type="Node2D" parent="GameArea"]
+script = ExtResource("2_pwrtm")
 
 [node name="Walls" type="Node2D" parent="GameArea"]
 
