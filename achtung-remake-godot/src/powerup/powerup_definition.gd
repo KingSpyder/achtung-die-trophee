@@ -11,6 +11,7 @@ enum ActivationMode { IMMEDIATE, ACTION }
 const PlayerScript = preload("res://src/player/player.gd")
 const DEFAULT_SELF_COLOR: Color = Color(0.0, 1.0, 0.0, 1.0)
 const DEFAULT_OTHERS_COLOR: Color = Color(1.0, 0.0, 0.0, 1.0)
+const DEFAULT_ACTION_COLOR: Color = Color("#00e1ff")  # Blue color for action-based power-ups
 
 @export var powerup_id: StringName = &"powerup"
 @export var target: Target = Target.SELF
