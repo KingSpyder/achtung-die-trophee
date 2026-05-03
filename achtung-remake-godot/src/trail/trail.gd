@@ -43,24 +43,25 @@ func setup_collision_layers() -> void:
 func _process(_delta) -> void:
 	previous_point = latest_point
 	latest_point = player.global_position
-	if player.is_laying_trail:
-		if not player_was_laying_trail:
-			#player just started new trail
-			player_was_laying_trail = true
-			current_line = add_new_line()
-			$RecentTrail.add_child(new_start_segment())
-		else:
-			#middle of the trail
-			for collision_segment in new_border_segments():
-				$RecentTrail.add_child(collision_segment)
-		current_line.add_point(latest_point)
-	elif player_was_laying_trail:
-		#player just ended tail : cap the collision shape
-		$RecentTrail.add_child(new_end_segment())
-		player_was_laying_trail = false
-	# Move the oldest segment to $OldTrail if too many in RecentTrail
-	while $RecentTrail.get_child_count() > AGE_SEGMENT_FOR_OLD:
-		move_recent_to_old()
+	if previous_point != latest_point:  # prevent killing the player when standing still
+		if player.is_laying_trail:
+			if not player_was_laying_trail:
+				#player just started new trail
+				player_was_laying_trail = true
+				current_line = add_new_line()
+				$RecentTrail.add_child(new_start_segment())
+			else:
+				#middle of the trail
+				for collision_segment in new_border_segments():
+					$RecentTrail.add_child(collision_segment)
+			current_line.add_point(latest_point)
+		elif player_was_laying_trail:
+			#player just ended tail : cap the collision shape
+			$RecentTrail.add_child(new_end_segment())
+			player_was_laying_trail = false
+		# Move the oldest segment to $OldTrail if too many in RecentTrail
+		while $RecentTrail.get_child_count() > AGE_SEGMENT_FOR_OLD:
+			move_recent_to_old()
 
 
 ## Utility to calculate the perpendicular vector to the trail,
