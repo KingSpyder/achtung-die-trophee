@@ -106,9 +106,12 @@ func move(delta) -> void:
 	var left_pressed := _is_action_pressed_safe(player_name + "_left")
 	var right_pressed := _is_action_pressed_safe(player_name + "_right")
 	if _are_turn_controls_inverted():
+		head.modulate = PlayerHeadPreset.HEAD_COLOR_INVERTED
 		var tmp := left_pressed
 		left_pressed = right_pressed
 		right_pressed = tmp
+	else:
+		head.modulate = PlayerHeadPreset.HEAD_COLOR
 	if left_pressed:
 		direction = direction.rotated(-angular_speed * delta)
 	if right_pressed:
