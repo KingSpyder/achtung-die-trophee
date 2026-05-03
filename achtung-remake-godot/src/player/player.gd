@@ -112,10 +112,13 @@ func move(delta) -> void:
 		right_pressed = tmp
 	else:
 		head.modulate = PlayerHeadPreset.HEAD_COLOR
-	if left_pressed:
-		direction = direction.rotated(-angular_speed * delta)
-	if right_pressed:
-		direction = direction.rotated(angular_speed * delta)
+
+	# Only allow rotation if effective speed > 0 (not frozen)
+	if _get_effective_speed() > 0.0:
+		if left_pressed:
+			direction = direction.rotated(-angular_speed * delta)
+		if right_pressed:
+			direction = direction.rotated(angular_speed * delta)
 	direction = direction.normalized()
 
 	# we make sure the arrow point in the right direction
@@ -247,7 +250,7 @@ func reset() -> void:
 
 
 func set_speed_multiplier(source_id: StringName, multiplier: float) -> void:
-	_speed_multipliers[source_id] = maxf(multiplier, 0.01)
+	_speed_multipliers[source_id] = maxf(multiplier, 0.0)
 
 
 func remove_speed_multiplier(source_id: StringName) -> void:
