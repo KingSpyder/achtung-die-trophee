@@ -5,6 +5,15 @@
 class_name PowerUpRegistry
 extends Resource
 
+enum PowerUpType {
+	SPEED_BOOST_SELF,
+	SPEED_REDUCE_SELF,
+	SPEED_BOOST_OTHERS,
+	SPEED_REDUCE_OTHERS,
+	INVERT_CONTROLS_OTHERS,
+	INVERT_CONTROLS_SELF,
+}
+
 const SpeedBoostDefinitionScript = preload(
 	"res://src/powerup/definitions/speed_boost_self_powerup_definition.gd"
 )
@@ -29,20 +38,30 @@ const InvertControlsSelfDefinitionScript = preload(
 static func get_all_definitions() -> Array[Resource]:
 	var definitions: Array[Resource] = []
 
-	# Speed Boost
-	if SpeedBoostDefinitionScript != null:
-		definitions.append(SpeedBoostDefinitionScript.new())
-	if SpeedReduceSelfDefinitionScript != null:
-		definitions.append(SpeedReduceSelfDefinitionScript.new())
-	if SpeedBoostOthersDefinitionScript != null:
-		definitions.append(SpeedBoostOthersDefinitionScript.new())
-	if SpeedReduceOthersDefinitionScript != null:
-		definitions.append(SpeedReduceOthersDefinitionScript.new())
-
-	# Invert Controls
-	if InvertControlsOthersDefinitionScript != null:
-		definitions.append(InvertControlsOthersDefinitionScript.new())
-	if InvertControlsSelfDefinitionScript != null:
-		definitions.append(InvertControlsSelfDefinitionScript.new())
+	# Dynamically generate from enum
+	for powerup_type in PowerUpType.size():
+		var definition = get_definition_by_type(powerup_type)
+		if definition != null:
+			definitions.append(definition)
 
 	return definitions
+
+
+## Converts a PowerUpType enum value to a new instance of the corresponding PowerUpDefinition
+## resource. [br]
+## Add here new powerups by mapping the enum type to a new instance of the definition.
+static func get_definition_by_type(powerup_type: PowerUpType) -> Resource:
+	match powerup_type:
+		PowerUpType.SPEED_BOOST_SELF:
+			return SpeedBoostDefinitionScript.new()
+		PowerUpType.SPEED_REDUCE_SELF:
+			return SpeedReduceSelfDefinitionScript.new()
+		PowerUpType.SPEED_BOOST_OTHERS:
+			return SpeedBoostOthersDefinitionScript.new()
+		PowerUpType.SPEED_REDUCE_OTHERS:
+			return SpeedReduceOthersDefinitionScript.new()
+		PowerUpType.INVERT_CONTROLS_OTHERS:
+			return InvertControlsOthersDefinitionScript.new()
+		PowerUpType.INVERT_CONTROLS_SELF:
+			return InvertControlsSelfDefinitionScript.new()
+	return null

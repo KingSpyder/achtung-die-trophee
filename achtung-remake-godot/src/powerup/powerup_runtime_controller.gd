@@ -111,6 +111,17 @@ func spawn_random_token() -> void:
 	_active_tokens.append(token)
 
 
+func spawn_specific_token(definition: PowerUpDefinitionScript, position_token: Vector2) -> void:
+	if definition == null:
+		return
+	var token := PowerUpTokenScene.instantiate() as Area2D
+	token.definition = definition
+	token.position = position_token
+	token.collected.connect(_on_token_collected)
+	add_child(token)
+	_active_tokens.append(token)
+
+
 func _update_effects(delta: float) -> void:
 	for index in range(_active_effects.size() - 1, -1, -1):
 		var effect := _active_effects[index]
