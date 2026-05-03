@@ -10,6 +10,7 @@ enum PowerUpType {
 	SPEED_REDUCE_SELF,
 	SPEED_BOOST_OTHERS,
 	SPEED_REDUCE_OTHERS,
+	FREEZE_OTHERS_ACTION,
 	INVERT_CONTROLS_OTHERS,
 	INVERT_CONTROLS_SELF,
 }
@@ -25,6 +26,9 @@ const SpeedBoostOthersDefinitionScript = preload(
 )
 const SpeedReduceOthersDefinitionScript = preload(
 	"res://src/powerup/definitions/speed_reduce_others_powerup_definition.gd"
+)
+const FreezeOthersActionDefinitionScript = preload(
+	"res://src/powerup/definitions/freeze_others_action_powerup_definition.gd"
 )
 const InvertControlsOthersDefinitionScript = preload(
 	"res://src/powerup/definitions/invert_controls_others_powerup_definition.gd"
@@ -60,6 +64,8 @@ static func get_definition_by_type(powerup_type: PowerUpType) -> Resource:
 			return SpeedBoostOthersDefinitionScript.new()
 		PowerUpType.SPEED_REDUCE_OTHERS:
 			return SpeedReduceOthersDefinitionScript.new()
+		PowerUpType.FREEZE_OTHERS_ACTION:
+			return FreezeOthersActionDefinitionScript.new()
 		PowerUpType.INVERT_CONTROLS_OTHERS:
 			return InvertControlsOthersDefinitionScript.new()
 		PowerUpType.INVERT_CONTROLS_SELF:
