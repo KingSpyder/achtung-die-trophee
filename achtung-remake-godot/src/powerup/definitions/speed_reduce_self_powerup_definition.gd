@@ -10,6 +10,7 @@ func _init() -> void:
 	activation_mode = ActivationMode.IMMEDIATE
 	duration_seconds = 3.0
 	token_color = DEFAULT_SELF_COLOR
+	token_texture = preload("res://art/powerups/reduce_self.svg")
 
 
 func on_apply(

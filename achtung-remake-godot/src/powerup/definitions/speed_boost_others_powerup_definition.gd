@@ -10,6 +10,7 @@ func _init() -> void:
 	activation_mode = ActivationMode.IMMEDIATE
 	duration_seconds = 3.0
 	token_color = DEFAULT_OTHERS_COLOR
+	token_texture = preload("res://art/powerups/boost_others.svg")
 
 
 func on_apply(
