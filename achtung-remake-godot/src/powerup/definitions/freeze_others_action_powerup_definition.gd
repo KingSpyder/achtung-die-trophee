@@ -12,6 +12,7 @@ func _init() -> void:
 	action_uses = 1
 	duration_seconds = 3.0
 	token_color = DEFAULT_ACTION_COLOR
+	token_texture = preload("res://art/powerups/freeze.svg")
 
 
 func on_apply(
