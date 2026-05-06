@@ -113,8 +113,9 @@ func move(delta) -> void:
 	else:
 		head.modulate = PlayerHeadPreset.HEAD_COLOR
 
-	# Only allow rotation if effective speed > 0 (not frozen)
-	if _get_effective_speed() > 0.0:
+	# Only block rotation when multipliers freeze the player (factor == 0).
+	# This keeps round-prep turning working even when base speed is 0.
+	if _get_speed_multiplier_factor() > 0.0:
 		if left_pressed:
 			direction = direction.rotated(-angular_speed * delta)
 		if right_pressed:
@@ -258,10 +259,14 @@ func remove_speed_multiplier(source_id: StringName) -> void:
 
 
 func _get_effective_speed() -> float:
+	return speed * _get_speed_multiplier_factor()
+
+
+func _get_speed_multiplier_factor() -> float:
 	var factor := 1.0
 	for value in _speed_multipliers.values():
 		factor *= float(value)
-	return speed * factor
+	return factor
 
 
 func set_turn_controls_inverted(source_id: StringName, enabled: bool) -> void:
