@@ -26,9 +26,13 @@ func _update_visuals() -> void:
 		return
 	if definition == null:
 		return
-	$TokenPolygon.color = definition.token_color
 	if definition.token_texture != null:
-		$TokenPolygon.texture = definition.token_texture
+		$TokenSprite.texture = definition.token_texture
+		if $CollisionShape2D.shape is CircleShape2D:
+			var radius = ($CollisionShape2D.shape as CircleShape2D).radius
+			$TokenSprite.scale = Vector2.ONE * (radius * 2) / definition.token_texture.get_size().x
+	else:
+		$TokenSprite.self_modulate = definition.token_color
 
 
 func _on_body_entered(body: Node) -> void:
