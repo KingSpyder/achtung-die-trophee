@@ -14,5 +14,5 @@ func update_display(token_textures: Array) -> void:
 		var icon := TextureRect.new()
 		icon.texture = token_texture
 		icon.custom_minimum_size = ICON_SIZE
-		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		icon.expand_mode = TextureRect.EXPAND_FIT_HEIGHT_PROPORTIONAL
 		add_child(icon)
