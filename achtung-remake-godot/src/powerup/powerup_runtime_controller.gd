@@ -116,6 +116,9 @@ func spawn_random_token() -> void:
 	if powerup_definitions.is_empty():
 		return
 	var definition = powerup_definitions[randi_range(0, powerup_definitions.size() - 1)]
+	#var definition = PowerUpRegistry.get_definition_by_type(
+	#	PowerUpRegistry.PowerUpType.PASS_BORDERS_SELF
+	#)
 	if definition == null:
 		return
 	var token := PowerUpTokenScene.instantiate() as Area2D
