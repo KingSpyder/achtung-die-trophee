@@ -38,7 +38,11 @@ var last_collision: KinematicCollision2D
 var _speed_multipliers := {}
 var _size_multipliers := {}
 var _inverted_control_sources := {}
+var _head_preset_overrides := {}
+var _quarter_turn_sources := {}
 var _pass_borders_sources := {}
+var _left_turn_press_consumed := false
+var _right_turn_press_consumed := false
 
 @onready var head: Sprite2D = %Head
 @onready var arrow: Sprite2D = %Arrow
@@ -66,6 +70,14 @@ func _apply_head_preset(preset: PlayerHeadPreset) -> void:
 		head.texture = preset.head_texture
 	head.modulate = PlayerHeadPreset.HEAD_COLOR
 	_refresh_head_and_collision_shape()
+
+
+func _apply_effective_head_preset() -> void:
+	var effective_preset: PlayerHeadPreset = head_preset
+	if not _head_preset_overrides.is_empty():
+		var source_ids: Array = _head_preset_overrides.keys()
+		effective_preset = _head_preset_overrides[source_ids[source_ids.size() - 1]]
+	_apply_head_preset(effective_preset)
 
 
 func _refresh_head_and_collision_shape() -> void:
@@ -133,10 +145,27 @@ func move(delta) -> void:
 	# Only block rotation when multipliers freeze the player (factor == 0).
 	# This keeps round-prep turning working even when base speed is 0.
 	if _get_speed_multiplier_factor() > 0.0:
-		if left_pressed:
-			direction = direction.rotated(-angular_speed * delta)
-		if right_pressed:
-			direction = direction.rotated(angular_speed * delta)
+		if _is_quarter_turn_enabled():
+			if left_pressed:
+				if not _left_turn_press_consumed:
+					direction = direction.rotated(-PI / 2.0)
+					_left_turn_press_consumed = true
+			else:
+				_left_turn_press_consumed = false
+
+			if right_pressed:
+				if not _right_turn_press_consumed:
+					direction = direction.rotated(PI / 2.0)
+					_right_turn_press_consumed = true
+			else:
+				_right_turn_press_consumed = false
+		else:
+			_left_turn_press_consumed = false
+			_right_turn_press_consumed = false
+			if left_pressed:
+				direction = direction.rotated(-angular_speed * delta)
+			if right_pressed:
+				direction = direction.rotated(angular_speed * delta)
 	direction = direction.normalized()
 
 	# we make sure the arrow point in the right direction
@@ -399,6 +428,28 @@ func set_turn_controls_inverted(source_id: StringName, enabled: bool) -> void:
 
 func _are_turn_controls_inverted() -> bool:
 	return not _inverted_control_sources.is_empty()
+
+
+func set_quarter_turn_enabled(source_id: StringName, enabled: bool) -> void:
+	if enabled:
+		_quarter_turn_sources[source_id] = true
+		return
+	_quarter_turn_sources.erase(source_id)
+	if not _is_quarter_turn_enabled():
+		_left_turn_press_consumed = false
+		_right_turn_press_consumed = false
+
+
+func _is_quarter_turn_enabled() -> bool:
+	return not _quarter_turn_sources.is_empty()
+
+
+func set_head_preset_override(source_id: StringName, preset: PlayerHeadPreset) -> void:
+	if preset == null:
+		_head_preset_overrides.erase(source_id)
+	else:
+		_head_preset_overrides[source_id] = preset
+	_apply_effective_head_preset()
 
 
 func set_pass_borders_enabled(source_id: StringName, enabled: bool) -> void:
