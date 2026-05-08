@@ -190,12 +190,6 @@ func _check_out_of_bounds() -> bool:
 	return true
 
 
-## Activate the player's trail, and start the gate open timer.
-func start_trail() -> void:
-	is_laying_trail = true
-	_start_gate_open_timer()
-
-
 ## Remove players lines and trails. Stop gate timers.
 func clean() -> void:
 	is_laying_trail = false
@@ -205,12 +199,21 @@ func clean() -> void:
 	%GateCloseTimer.stop()
 
 
+## Activate the player's trail, and start the gate open timer.
+func start_trail() -> void:
+	_enable_trail_collision()
+	is_laying_trail = true
+	_start_gate_open_timer()
+
+
 ## Open a gate in the player's trail. Start the gate close timer.
-func _open_gate() -> void:
+func open_gate(indefinite_timer: bool = false) -> void:
 	is_laying_trail = false
 	_disable_trail_collision()
-	%GateCloseTimer.wait_time = gate_open_time
-	%GateCloseTimer.start()
+	if indefinite_timer:
+		_stop_timers()
+		return
+	_start_gate_close_timer()
 
 
 ## Close the gate in the player's trail. Start the gate open timer.
@@ -238,8 +241,18 @@ func _start_gate_open_timer():
 	%GateOpenTimer.start()
 
 
+func _start_gate_close_timer():
+	%GateCloseTimer.wait_time = gate_open_time
+	%GateCloseTimer.start()
+
+
+func _stop_timers() -> void:
+	%GateOpenTimer.stop()
+	%GateCloseTimer.stop()
+
+
 func _on_gate_open_timer_timeout():
-	_open_gate()
+	open_gate()
 
 
 func _on_gate_close_timer_timeout() -> void:
