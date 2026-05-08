@@ -56,7 +56,15 @@ func _process(_delta) -> void:
 			$RecentTrail.add_child(new_start_segment())
 	previous_size = new_size
 	# Trail logic
-	if previous_point != latest_point:  # prevent killing the player when standing still
+	# heuristic to detect teleportation, to prevent drawing a long trail segment
+	var player_teleported := previous_point.distance_to(latest_point) > player.playfield_max.x / 2
+	if player_teleported:
+		current_line = add_new_line()
+		if player.is_laying_trail:
+			current_line.add_point(latest_point)
+	# prevent killing the player when standing still
+	var player_still := previous_point == latest_point
+	if not player_still and not player_teleported:
 		if player.is_laying_trail:
 			if not player_was_laying_trail:
 				#player just started new trail
