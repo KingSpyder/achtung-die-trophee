@@ -19,6 +19,7 @@ func initialize(wall_name: String, init_point_a: Vector2, init_point_b: Vector2)
 	add_to_group("Walls")
 	collision_layer = 1 << PhysicsLayersScript.WALL_BIT
 	collision_mask = 0
+	z_index = PhysicsLayersScript.WALL_Z_INDEX
 	if line2d == null or collision_shape == null:
 		return
 
