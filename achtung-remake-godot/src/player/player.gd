@@ -7,6 +7,7 @@ enum DeathCause { UNKNOWN, WALL, TRAIL, PLAYER, OUT_OF_BOUNDS }
 
 const DEFAULT_SPEED: float = 100
 const BASE_SIZE: float = 5.0
+const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 @export var player_name: String
 @export var color: Color
@@ -77,8 +78,11 @@ func _refresh_head_and_collision_shape() -> void:
 ## Set the player's collision layer and mask to collide with everything
 ## except its own RecentTrail layer.
 func _setup_collision_layers() -> void:
-	collision_layer = 1 | (1 << 1)  # Layer 1 for gameplay, layer 2 for powerup pickup
+	collision_layer = (
+		(1 << PhysicsLayersScript.GAMEPLAY_BIT) | (1 << PhysicsLayersScript.PLAYERS_PICKUP_BIT)
+	)
 	_enable_trail_collision()
+	_update_wall_collision_mask()
 
 
 ## Show the arrow indicating the player's direction.
@@ -227,13 +231,21 @@ func _close_gate() -> void:
 
 ## Disable collision with all trail layers (4 and above) but keep powerup collision.
 func _disable_trail_collision() -> void:
-	collision_mask &= 0x0F  # Keep only layers 0-3 (gameplay and powerups)
+	collision_mask &= PhysicsLayersScript.NON_TRAIL_MASK
 
 
 ## Re-enable collision with all trail layers except this player's own.
 func _enable_trail_collision() -> void:
 	collision_mask = 0xFFFFFFFF
-	collision_mask &= ~(1 << (order + 3))  # Exclude this player's RecentTrail layer
+	var own_recent_trail_mask := PhysicsLayersScript.recent_trail_mask(order)
+	collision_mask &= ~own_recent_trail_mask  # Exclude this player's RecentTrail layer
+
+
+func _update_wall_collision_mask() -> void:
+	if _can_pass_borders():
+		collision_mask &= ~(1 << PhysicsLayersScript.WALL_BIT)
+		return
+	collision_mask |= (1 << PhysicsLayersScript.WALL_BIT)
 
 
 ## Randomly chose a time to open the gate, between 1 and 4 seconds for now (value to change).

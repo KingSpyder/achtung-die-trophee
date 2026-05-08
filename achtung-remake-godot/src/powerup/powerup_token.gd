@@ -7,6 +7,7 @@ signal collected(token: PowerUpToken, collector: PlayerScript)
 
 const PowerUpDefinitionScript = preload("res://src/powerup/powerup_definition.gd")
 const PlayerScript = preload("res://src/player/player.gd")
+const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 @export var definition: PowerUpDefinitionScript:
 	set(value):
@@ -16,8 +17,8 @@ const PlayerScript = preload("res://src/player/player.gd")
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
-	collision_layer = 1 << 2  # layer 3: PowerUpTokens
-	collision_mask = 1 << 1  # layer 2: PlayersPickup
+	collision_layer = 1 << PhysicsLayersScript.POWERUP_TOKEN_BIT
+	collision_mask = 1 << PhysicsLayersScript.PLAYERS_PICKUP_BIT
 	_update_visuals()
 
 

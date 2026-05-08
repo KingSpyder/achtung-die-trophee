@@ -10,6 +10,7 @@ extends Node2D
 const AGE_SEGMENT_FOR_OLD := 10
 
 const PlayerScript = preload("res://src/player/player.gd")
+const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 ## Current line being drawn (between gates), used to set the color and width of new segments.
 var current_line: Line2D
@@ -34,9 +35,9 @@ func _ready():
 ## so that only the owning player will not collide with it.
 func setup_collision_layers() -> void:
 	# Set collision layer names for this player's trails
-	$RecentTrail.collision_layer = 1 << (player.order + 3)  # Layer 4-7 for RecentTrail
+	$RecentTrail.collision_layer = PhysicsLayersScript.recent_trail_mask(player.order)
 	$RecentTrail.collision_mask = 0
-	$OldTrail.collision_layer = 1  # Layer 1 is everything but the RecentTrail layers
+	$OldTrail.collision_layer = 1 << PhysicsLayersScript.GAMEPLAY_BIT
 	$OldTrail.collision_mask = 0
 
 
