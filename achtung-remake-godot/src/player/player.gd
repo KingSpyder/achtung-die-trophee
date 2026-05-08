@@ -104,13 +104,18 @@ func move(delta) -> void:
 	#Rotation & Movement
 	var left_pressed := _is_action_pressed_safe(player_name + "_left")
 	var right_pressed := _is_action_pressed_safe(player_name + "_right")
+	var current_alpha := head.self_modulate.a
 	if _are_turn_controls_inverted():
-		head.modulate = PlayerHeadPreset.HEAD_COLOR_INVERTED
+		var inverted_color := PlayerHeadPreset.HEAD_COLOR_INVERTED
+		inverted_color.a = current_alpha
+		head.self_modulate = inverted_color
 		var tmp := left_pressed
 		left_pressed = right_pressed
 		right_pressed = tmp
 	else:
-		head.modulate = PlayerHeadPreset.HEAD_COLOR
+		var normal_color := PlayerHeadPreset.HEAD_COLOR
+		normal_color.a = current_alpha
+		head.self_modulate = normal_color
 
 	# Only block rotation when multipliers freeze the player (factor == 0).
 	# This keeps round-prep turning working even when base speed is 0.
