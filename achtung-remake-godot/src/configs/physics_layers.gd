@@ -15,7 +15,7 @@ const WALL_Z_INDEX := 100
 
 
 static func recent_trail_bit(player_order: int) -> int:
-	return player_order + RECENT_TRAIL_LAYER_OFFSET
+	return player_order - 1 + RECENT_TRAIL_LAYER_OFFSET
 
 
 static func recent_trail_mask(player_order: int) -> int:
