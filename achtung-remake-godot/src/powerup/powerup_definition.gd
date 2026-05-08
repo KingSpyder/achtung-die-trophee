@@ -5,13 +5,14 @@
 class_name PowerUpDefinition
 extends Resource
 
-enum Target { SELF, OTHERS, NEUTRAL }
+enum Target { SELF, OTHERS, NEUTRAL, ALL }
 enum ActivationMode { IMMEDIATE, ACTION }
 
 const PlayerScript = preload("res://src/player/player.gd")
 const DEFAULT_SELF_COLOR: Color = Color(0.0, 1.0, 0.0, 1.0)
 const DEFAULT_OTHERS_COLOR: Color = Color(1.0, 0.0, 0.0, 1.0)
 const DEFAULT_ACTION_COLOR: Color = Color("#00e1ff")  # Blue color for action-based power-ups
+const DEFAULT_ALL_COLOR: Color = Color(1.0, 1.0, 0.0, 1.0)  # Yellow for ALL powerups
 
 @export var powerup_id: StringName = &"powerup"
 @export var target: Target = Target.SELF

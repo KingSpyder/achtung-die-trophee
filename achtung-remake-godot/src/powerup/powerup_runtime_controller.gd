@@ -188,6 +188,8 @@ func _resolve_targets(collector: PlayerScript, target_type: int) -> Array[Player
 			return _get_alive_players_except(collector)
 		PowerUpDefinitionScript.Target.NEUTRAL:
 			return []
+		PowerUpDefinitionScript.Target.ALL:
+			return _current_alive_players
 	return []
 
 
