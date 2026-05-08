@@ -22,6 +22,7 @@ var previous_point := Vector2()
 var player_was_laying_trail := false
 
 @onready var player: PlayerScript = get_parent()
+@onready var previous_size: float = get_size()
 
 
 func _ready():
@@ -43,6 +44,17 @@ func setup_collision_layers() -> void:
 func _process(_delta) -> void:
 	previous_point = latest_point
 	latest_point = player.global_position
+	# Size change logic
+	var new_size := get_size()
+	if new_size != previous_size:
+		current_line = add_new_line()  # start a new line to change the width of the trail
+		current_line.add_point(previous_point)  # add the current point to avoid a gap in the trail
+		if player.is_laying_trail:
+			# to make sure we can't go through the gap of size change
+			$RecentTrail.add_child(new_end_segment())
+			$RecentTrail.add_child(new_start_segment())
+	previous_size = new_size
+	# Trail logic
 	if previous_point != latest_point:  # prevent killing the player when standing still
 		if player.is_laying_trail:
 			if not player_was_laying_trail:
