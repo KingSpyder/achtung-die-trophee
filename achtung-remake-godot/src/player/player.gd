@@ -6,6 +6,7 @@ signal player_died(player: Player, death_cause: int, collided_player: Player)
 enum DeathCause { UNKNOWN, WALL, TRAIL, PLAYER, OUT_OF_BOUNDS }
 
 const DEFAULT_SPEED: float = 100
+const BASE_SIZE: float = 5.0
 
 @export var player_name: String
 @export var color: Color
@@ -17,7 +18,7 @@ const DEFAULT_SPEED: float = 100
 @export var angular_speed: float = 2.85
 @export var gate_open_time: float = 50 / speed
 @export var head_preset: PlayerHeadPreset
-@export var size: float = 5.0:
+@export var size: float = BASE_SIZE:
 	set(value):
 		size = value
 		_refresh_head_and_collision_shape()
@@ -31,6 +32,7 @@ var last_collided_player: Player = null
 var is_laying_trail := false
 var last_collision: KinematicCollision2D
 var _speed_multipliers := {}
+var _size_multipliers := {}
 var _inverted_control_sources := {}
 
 @onready var head: Sprite2D = %Head
@@ -295,6 +297,32 @@ func _get_speed_multiplier_factor() -> float:
 	for value in _speed_multipliers.values():
 		factor *= float(value)
 	return factor
+
+
+func set_size_multiplier(source_id: StringName, multiplier: float) -> void:
+	_size_multipliers[source_id] = maxf(multiplier, 0.0)
+	_update_size_from_multipliers()
+
+
+func remove_size_multiplier(source_id: StringName) -> void:
+	_size_multipliers.erase(source_id)
+	_update_size_from_multipliers()
+
+
+func _get_effective_size() -> float:
+	return BASE_SIZE * _get_size_multiplier_factor()
+
+
+func _get_size_multiplier_factor() -> float:
+	var factor := 1.0
+	for value in _size_multipliers.values():
+		factor *= float(value)
+	return factor
+
+
+func _update_size_from_multipliers() -> void:
+	var effective_size := _get_effective_size()
+	size = effective_size
 
 
 func set_turn_controls_inverted(source_id: StringName, enabled: bool) -> void:
