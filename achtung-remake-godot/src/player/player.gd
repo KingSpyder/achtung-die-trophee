@@ -273,14 +273,22 @@ func _close_gate() -> void:
 	_start_gate_open_timer()
 
 
-## Disable collision with all trail layers (4 and above) but keep powerup collision.
+## Disable collision with all trail layers (both RecentTrail and OldTrail), and players.
+## Keep only powerup and wall collision.
 func _disable_trail_collision() -> void:
+	# Remove this player from the PLAYERS_BIT layer (so others can't hit them)
+	collision_layer &= ~(1 << PhysicsLayersScript.PLAYERS_BIT)
+	# Disable trail and player collision in mask
 	collision_mask &= PhysicsLayersScript.NON_TRAIL_MASK
+	collision_mask &= ~(1 << PhysicsLayersScript.OLD_TRAIL_BIT)
+	collision_mask &= ~(1 << PhysicsLayersScript.PLAYERS_BIT)
 
 
-## Re-enable collision with all trail layers except this player's own.
+## Re-enable collision with all layers except this player's own.
 func _enable_trail_collision() -> void:
+	# Full collision mask except POWERUP_TOKEN_BIT (tokens detect us, not the other way)
 	collision_mask = 0xFFFFFFFF
+	collision_mask &= ~(1 << PhysicsLayersScript.POWERUP_TOKEN_BIT)
 	var own_recent_trail_mask := PhysicsLayersScript.recent_trail_mask(order)
 	collision_mask &= ~own_recent_trail_mask  # Exclude this player's RecentTrail layer
 
