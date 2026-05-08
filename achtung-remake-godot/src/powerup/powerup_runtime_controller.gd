@@ -21,7 +21,7 @@ const PowerUpExecutionContextScript = preload("res://src/powerup/powerup_executi
 
 @export var spawn_interval_min := 3.0
 @export var spawn_interval_max := 7.0
-@export var max_tokens := 3
+@export var max_tokens := 6
 @export var action_hold_seconds := 0.25
 @export var powerup_definitions: Array[Resource]
 
@@ -35,6 +35,7 @@ var _player_action_uses_by_id := {}
 var _player_hold_elapsed_by_id := {}
 var _player_hold_consumed_by_id := {}
 var _player_action_display_box_by_id := {}
+var _spawn_interval_multipliers := {}
 
 @onready var _game_physic_controller: GamePhysicControllerScript = get_parent()
 
@@ -148,7 +149,23 @@ func _update_effects(delta: float) -> void:
 
 
 func _reset_spawn_timer() -> void:
-	_spawn_timer = randf_range(spawn_interval_min, spawn_interval_max)
+	var factor := _get_spawn_interval_multiplier_factor()
+	_spawn_timer = randf_range(spawn_interval_min * factor, spawn_interval_max * factor)
+
+
+func set_spawn_interval_multiplier(source_id: StringName, multiplier: float) -> void:
+	_spawn_interval_multipliers[source_id] = maxf(multiplier, 0.05)
+
+
+func remove_spawn_interval_multiplier(source_id: StringName) -> void:
+	_spawn_interval_multipliers.erase(source_id)
+
+
+func _get_spawn_interval_multiplier_factor() -> float:
+	var factor := 1.0
+	for value in _spawn_interval_multipliers.values():
+		factor *= float(value)
+	return factor
 
 
 func _on_token_collected(token: Area2D, collector: PlayerScript) -> void:
@@ -175,7 +192,7 @@ func _create_id_for_effect(definition: PowerUpDefinitionScript) -> StringName:
 func _activate_powerup_effect(collector: PlayerScript, definition) -> void:
 	var targets := _resolve_targets(collector, definition.target)
 	var context := PowerUpExecutionContextScript.new(
-		collector, _current_alive_players.duplicate(), _game_physic_controller
+		collector, _current_alive_players.duplicate(), _game_physic_controller, self
 	)
 	var source_id: StringName = _create_id_for_effect(definition)
 	var effect: Variant = definition.on_apply(context, targets, source_id)
