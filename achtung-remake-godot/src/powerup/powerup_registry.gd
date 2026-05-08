@@ -16,6 +16,7 @@ enum PowerUpType {
 	UNTRAIL_SELF,
 	PASS_BORDERS_SELF,
 	PASS_BORDERS_ALL,
+	SQUARE_SELF,
 	THIN_SELF,
 	FAT_OTHERS,
 }
@@ -49,6 +50,9 @@ const PassBordersSelfDefinitionScript = preload(
 )
 const PassBordersAllDefinitionScript = preload(
 	"res://src/powerup/definitions/pass_borders_all_powerup_definition.gd"
+)
+const SquareSelfDefinitionScript = preload(
+	"res://src/powerup/definitions/square_self_powerup_definition.gd"
 )
 const ThinSelfDefinitionScript = preload(
 	"res://src/powerup/definitions/thin_self_powerup_definition.gd"
@@ -96,6 +100,8 @@ static func get_definition_by_type(powerup_type: PowerUpType) -> Resource:
 			return PassBordersSelfDefinitionScript.new()
 		PowerUpType.PASS_BORDERS_ALL:
 			return PassBordersAllDefinitionScript.new()
+		PowerUpType.SQUARE_SELF:
+			return SquareSelfDefinitionScript.new()
 		PowerUpType.THIN_SELF:
 			return ThinSelfDefinitionScript.new()
 		PowerUpType.FAT_OTHERS:
