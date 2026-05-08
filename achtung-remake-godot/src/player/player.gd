@@ -269,6 +269,7 @@ func open_gate(indefinite_timer: bool = false) -> void:
 ## Close the gate in the player's trail. Start the gate open timer.
 func _close_gate() -> void:
 	_enable_trail_collision()
+	_update_wall_collision_mask()
 	is_laying_trail = true
 	_start_gate_open_timer()
 
