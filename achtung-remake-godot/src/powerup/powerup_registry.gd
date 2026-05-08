@@ -19,6 +19,7 @@ enum PowerUpType {
 	SQUARE_SELF,
 	SQUARE_OTHERS,
 	DROP,
+	CLEAR,
 	THIN_SELF,
 	FAT_OTHERS,
 }
@@ -60,6 +61,7 @@ const SquareOthersDefinitionScript = preload(
 	"res://src/powerup/definitions/square_others_powerup_definition.gd"
 )
 const DropDefinitionScript = preload("res://src/powerup/definitions/drop_powerup_definition.gd")
+const ClearDefinitionScript = preload("res://src/powerup/definitions/clear_powerup_definition.gd")
 const ThinSelfDefinitionScript = preload(
 	"res://src/powerup/definitions/thin_self_powerup_definition.gd"
 )
@@ -112,6 +114,8 @@ static func get_definition_by_type(powerup_type: PowerUpType) -> Resource:
 			return SquareOthersDefinitionScript.new()
 		PowerUpType.DROP:
 			return DropDefinitionScript.new()
+		PowerUpType.CLEAR:
+			return ClearDefinitionScript.new()
 		PowerUpType.THIN_SELF:
 			return ThinSelfDefinitionScript.new()
 		PowerUpType.FAT_OTHERS:
