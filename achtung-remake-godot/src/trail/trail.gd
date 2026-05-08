@@ -37,7 +37,7 @@ func setup_collision_layers() -> void:
 	# Set collision layer names for this player's trails
 	$RecentTrail.collision_layer = PhysicsLayersScript.recent_trail_mask(player.order)
 	$RecentTrail.collision_mask = 0
-	$OldTrail.collision_layer = 1 << PhysicsLayersScript.GAMEPLAY_BIT
+	$OldTrail.collision_layer = 1 << PhysicsLayersScript.OLD_TRAIL_BIT
 	$OldTrail.collision_mask = 0
 
 

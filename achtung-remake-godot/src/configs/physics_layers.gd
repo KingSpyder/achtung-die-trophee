@@ -2,8 +2,8 @@ class_name PhysicsLayers
 extends RefCounted
 
 # Godot uses bit indices for collision layers.
-const GAMEPLAY_BIT := 0
-const PLAYERS_PICKUP_BIT := 1
+const OLD_TRAIL_BIT := 0
+const PLAYERS_BIT := 1
 const WALL_BIT := 2
 const POWERUP_TOKEN_BIT := 3
 const RECENT_TRAIL_LAYER_OFFSET := 4

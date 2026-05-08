@@ -18,7 +18,8 @@ const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 	collision_layer = 1 << PhysicsLayersScript.POWERUP_TOKEN_BIT
-	collision_mask = 1 << PhysicsLayersScript.PLAYERS_PICKUP_BIT
+	collision_layer = 0
+	collision_mask = 1 << PhysicsLayersScript.POWERUP_TOKEN_BIT
 	_update_visuals()
 
 

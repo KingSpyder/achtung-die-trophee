@@ -82,9 +82,11 @@ func _refresh_head_and_collision_shape() -> void:
 
 ## Set the player's collision layer and mask to collide with everything
 ## except its own RecentTrail layer.
+## Set the player's collision layer to include both PLAYERS_BIT and POWERUP_TOKEN_BIT.
+## This allows other players to collide with them, and powerup tokens to detect them.
 func _setup_collision_layers() -> void:
 	collision_layer = (
-		(1 << PhysicsLayersScript.GAMEPLAY_BIT) | (1 << PhysicsLayersScript.PLAYERS_PICKUP_BIT)
+		(1 << PhysicsLayersScript.PLAYERS_BIT) | (1 << PhysicsLayersScript.POWERUP_TOKEN_BIT)
 	)
 	_enable_trail_collision()
 	_update_wall_collision_mask()
