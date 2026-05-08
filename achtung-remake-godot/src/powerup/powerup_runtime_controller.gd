@@ -175,10 +175,19 @@ func _on_token_collected(token: Area2D, collector: PlayerScript) -> void:
 	token.queue_free()
 	if token.definition == null:
 		return
-	if token.definition.activation_mode == PowerUpDefinitionScript.ActivationMode.ACTION:
-		_grant_player_action(collector, token.definition, token.definition.action_uses)
+	grant_or_activate(token.definition, collector)
+
+
+func grant_or_activate(
+	definition: PowerUpDefinitionScript,
+	collector: PlayerScript,
+) -> void:
+	if definition == null:
 		return
-	_activate_powerup_effect(collector, token.definition)
+	if definition.activation_mode == PowerUpDefinitionScript.ActivationMode.ACTION:
+		_grant_player_action(collector, definition, definition.action_uses)
+		return
+	_activate_powerup_effect(collector, definition)
 
 
 ## Generates a unique source ID for an effect based on the definition and current time. [br]
