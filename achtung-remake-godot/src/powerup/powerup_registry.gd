@@ -14,6 +14,7 @@ enum PowerUpType {
 	INVERT_CONTROLS_OTHERS,
 	INVERT_CONTROLS_SELF,
 	UNTRAIL_SELF,
+	PASS_BORDERS_SELF,
 	THIN_SELF,
 	FAT_OTHERS,
 }
@@ -41,6 +42,9 @@ const InvertControlsSelfDefinitionScript = preload(
 )
 const UntrailSelfDefinitionScript = preload(
 	"res://src/powerup/definitions/untrail_self_powerup_definition.gd"
+)
+const PassBordersSelfDefinitionScript = preload(
+	"res://src/powerup/definitions/pass_borders_self_powerup_definition.gd"
 )
 const ThinSelfDefinitionScript = preload(
 	"res://src/powerup/definitions/thin_self_powerup_definition.gd"
@@ -84,6 +88,8 @@ static func get_definition_by_type(powerup_type: PowerUpType) -> Resource:
 			return InvertControlsSelfDefinitionScript.new()
 		PowerUpType.UNTRAIL_SELF:
 			return UntrailSelfDefinitionScript.new()
+		PowerUpType.PASS_BORDERS_SELF:
+			return PassBordersSelfDefinitionScript.new()
 		PowerUpType.THIN_SELF:
 			return ThinSelfDefinitionScript.new()
 		PowerUpType.FAT_OTHERS:
