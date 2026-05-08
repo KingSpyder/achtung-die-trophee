@@ -76,8 +76,7 @@ func _refresh_head_and_collision_shape() -> void:
 ## except its own RecentTrail layer.
 func _setup_collision_layers() -> void:
 	collision_layer = 1 | (1 << 1)  # Layer 1 for gameplay, layer 2 for powerup pickup
-	collision_mask = 0xFFFFFFFF  # Collide with everything but...(next line)
-	collision_mask &= ~(1 << (order + 3))  # Exclude this player's RecentTrail layer (4-7)
+	_enable_trail_collision()
 
 
 ## Show the arrow indicating the player's direction.
@@ -204,16 +203,27 @@ func clean() -> void:
 ## Open a gate in the player's trail. Start the gate close timer.
 func _open_gate() -> void:
 	is_laying_trail = false
-	playercoll.disabled = true
+	_disable_trail_collision()
 	%GateCloseTimer.wait_time = gate_open_time
 	%GateCloseTimer.start()
 
 
 ## Close the gate in the player's trail. Start the gate open timer.
 func _close_gate() -> void:
-	$PlayerCollisionShape.disabled = false
+	_enable_trail_collision()
 	is_laying_trail = true
 	_start_gate_open_timer()
+
+
+## Disable collision with all trail layers (4 and above) but keep powerup collision.
+func _disable_trail_collision() -> void:
+	collision_mask &= 0x0F  # Keep only layers 0-3 (gameplay and powerups)
+
+
+## Re-enable collision with all trail layers except this player's own.
+func _enable_trail_collision() -> void:
+	collision_mask = 0xFFFFFFFF
+	collision_mask &= ~(1 << (order + 3))  # Exclude this player's RecentTrail layer
 
 
 ## Randomly chose a time to open the gate, between 1 and 4 seconds for now (value to change).
