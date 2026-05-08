@@ -65,6 +65,9 @@ func end_round() -> void:
 	var scores = GameManager.players.map(func(_player): return _player.score)
 	scores.sort()
 	scores.reverse()
+	if scores.size() < 2:
+		end_game()
+		return
 	if (
 		scores[0] - scores[1] > GameManager.min_points_difference
 		and scores[0] >= GameManager.max_points
