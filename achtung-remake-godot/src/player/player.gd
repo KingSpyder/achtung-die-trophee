@@ -26,6 +26,9 @@ const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 @export var score := 0
 
+var playfield_min := Vector2.ZERO
+var playfield_max := Vector2(800.0, 800.0)
+
 var direction := Vector2.RIGHT
 var last_death_cause := DeathCause.UNKNOWN
 var last_collided_player: Player = null
@@ -47,6 +50,7 @@ func _ready() -> void:
 	_apply_head_preset(head_preset)
 	_update_shaders()
 	_setup_collision_layers()
+	_retrieve_playfield_bounds()
 
 
 func _update_shaders() -> void:
@@ -184,11 +188,18 @@ func _identify_collider(collider: Object) -> bool:
 	return true
 
 
-## Check if the player is out of bounds (i.e. outside the 800x800 area).
+## Check if the player is out of bounds (i.e. outside the playfield area).
 ## Return true if out of bounds, false otherwise.
-## TODO: HARDCODED BOUNDS, should be changed to use the actual screen size or a defined play area.
 func _check_out_of_bounds() -> bool:
-	if position.x > 0 and position.x < 800 and position.y > 0 and position.y < 800:
+	var extension := Vector2.ONE * BASE_SIZE / 2
+	var min_bound := playfield_min - extension
+	var max_bound := playfield_max + extension
+	if (
+		position.x > min_bound.x
+		and position.x < max_bound.x
+		and position.y > min_bound.y
+		and position.y < max_bound.y
+	):
 		return false
 	last_death_cause = DeathCause.OUT_OF_BOUNDS
 	last_collided_player = null
@@ -346,3 +357,19 @@ func set_turn_controls_inverted(source_id: StringName, enabled: bool) -> void:
 
 func _are_turn_controls_inverted() -> bool:
 	return not _inverted_control_sources.is_empty()
+
+
+func _retrieve_playfield_bounds() -> void:
+	print(player_name, " retrieving playfield bounds...")
+	var game_area = get_parent()
+	if game_area != null:
+		if game_area.has_method("get_playfield_bounds"):
+			var bounds = game_area.call("get_playfield_bounds")
+			playfield_min = bounds["min"]
+			playfield_max = bounds["max"]
+			print("Retrieved playfield bounds: min=", playfield_min, " max=", playfield_max)
+			return
+	# Fallback to defaults if no game area found
+	playfield_min = Vector2.ZERO
+	playfield_max = Vector2(800.0, 800.0)
+	print("Using default playfield bounds: min=", playfield_min, " max=", playfield_max)
