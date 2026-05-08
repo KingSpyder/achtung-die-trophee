@@ -38,6 +38,7 @@ var last_collision: KinematicCollision2D
 var _speed_multipliers := {}
 var _size_multipliers := {}
 var _inverted_control_sources := {}
+var _pass_borders_sources := {}
 
 @onready var head: Sprite2D = %Head
 @onready var arrow: Sprite2D = %Arrow
@@ -142,6 +143,12 @@ func move(delta) -> void:
 
 	velocity = _get_effective_speed() * direction
 	last_collision = move_and_collide(velocity * delta)
+	if _can_pass_borders() and last_collision != null:
+		var collider := last_collision.get_collider()
+		if collider != null and collider.is_in_group("Walls"):
+			# Let the player go through walls; out_of_bounds decides when to wrap.
+			position += last_collision.get_remainder()
+			last_collision = null
 
 
 func _is_action_pressed_safe(action_name: String) -> bool:
@@ -162,6 +169,9 @@ func _check_collision() -> bool:
 ## (e.g. touching own recent trail).
 func _identify_collider(collider: Object) -> bool:
 	if collider.is_in_group("Walls"):
+		if _can_pass_borders():
+			print(player_name, " passed through a wall")
+			return false
 		last_death_cause = DeathCause.WALL
 		last_collided_player = null
 		print(player_name, " hit a wall")
@@ -201,10 +211,31 @@ func _check_out_of_bounds() -> bool:
 		and position.y < max_bound.y
 	):
 		return false
+	if _can_pass_borders():
+		_wrap_position_inside_bounds()
+		return false
 	last_death_cause = DeathCause.OUT_OF_BOUNDS
 	last_collided_player = null
 	print(player_name, " out of bounds")
 	return true
+
+
+func _get_wrap_margin() -> float:
+	return maxf(BASE_SIZE / 2, 1.0)
+
+
+func _wrap_position_inside_bounds() -> void:
+	print(player_name, "position before wrapping: ", position)
+	var margin := _get_wrap_margin()
+	if position.x <= playfield_min.x:
+		position.x = playfield_max.x + margin
+	elif position.x >= playfield_max.x:
+		position.x = playfield_min.x - margin
+	if position.y <= playfield_min.y:
+		position.y = playfield_max.y + margin
+	elif position.y >= playfield_max.y:
+		position.y = playfield_min.y - margin
+	print(player_name, "position after wrapping: ", position)
 
 
 ## Remove players lines and trails. Stop gate timers.
@@ -357,6 +388,19 @@ func set_turn_controls_inverted(source_id: StringName, enabled: bool) -> void:
 
 func _are_turn_controls_inverted() -> bool:
 	return not _inverted_control_sources.is_empty()
+
+
+func set_pass_borders_enabled(source_id: StringName, enabled: bool) -> void:
+	if enabled:
+		_pass_borders_sources[source_id] = true
+		_update_wall_collision_mask()
+		return
+	_pass_borders_sources.erase(source_id)
+	_update_wall_collision_mask()
+
+
+func _can_pass_borders() -> bool:
+	return not _pass_borders_sources.is_empty()
 
 
 func _retrieve_playfield_bounds() -> void:
