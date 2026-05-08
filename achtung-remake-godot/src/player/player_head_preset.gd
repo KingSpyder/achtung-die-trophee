@@ -3,6 +3,7 @@ extends Resource
 
 const REFERENCE_SIZE: float = 50.0
 const HEAD_COLOR: Color = Color(0.831, 0.831, 0.0, 1.0)
+const HEAD_COLOR_INVERTED: Color = Color(0.0, 0.0, 0.831, 1.0)
 
 @export var head_texture: Texture2D
 @export var collision_shape: Shape2D

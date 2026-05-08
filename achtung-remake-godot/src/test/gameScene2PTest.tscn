@@ -31,40 +31,41 @@ color = Color(0, 0, 0, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 685
+theme_override_constants/margin_top = 125
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(1920, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/separation = 12
 
-[node name="GameAreaScene" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_3nvdd")]
+[node name="GameAreaScene" parent="MarginContainer/HFlowContainer" instance=ExtResource("1_3nvdd")]
 unique_name_in_owner = true
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="Node" type="Node" parent="MarginContainer/HBoxContainer"]
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 800)
+[node name="Node" type="Control" parent="MarginContainer/HFlowContainer"]
+custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
-size_flags_horizontal = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer"]
+custom_minimum_size = Vector2(280, 800)
+layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 4
 theme = SubResource("Theme_omymb")
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HFlowContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_omymb")
 
-[node name="Scores" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+[node name="Scores" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 
-[node name="MaxScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/PanelContainer/Scores"]
+[node name="MaxScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
 unique_name_in_owner = true
 layout_mode = 2

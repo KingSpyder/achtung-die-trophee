@@ -2,6 +2,7 @@ class_name GameLogicController
 extends Node
 
 const PlayerScript = preload("res://src/player/player.gd")
+const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_display_box.gd")
 
 var _round_end_scheduled := false
 
@@ -20,13 +21,29 @@ func start_game() -> void:
 	for player in GameManager.players:
 		game_physic_controller.add_player(player)
 		player.player_died.connect(_on_player_died)
-		var player_score_label := Label.new()
-		max_score_label.add_sibling(player_score_label)
+		var player_score_row := HBoxContainer.new()
+		player_score_row.name = player.player_name + "_score_row"
+		player_score_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		player_score_row.add_theme_constant_override("separation", 8)
+		max_score_label.add_sibling(player_score_row)
+
 		var player_label := Label.new()
-		max_score_label.add_sibling(player_label)
 		player_label.text = player.player_name
+		player_score_row.add_child(player_label)
+
+		var player_score_label := Label.new()
 		player_score_label.name = player.player_name + "_score"
 		player_score_label.text = "0"
+		player_score_row.add_child(player_score_label)
+
+		var action_display_box = PlayerActionDisplayBoxScript.new()
+		action_display_box.name = player.player_name + "_action_display_box"
+		action_display_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		player_score_row.add_child(action_display_box)
+		if game_physic_controller.powerup_runtime != null:
+			game_physic_controller.powerup_runtime.register_player_action_display(
+				player, action_display_box
+			)
 	next_round()
 
 
@@ -36,6 +53,7 @@ func start_round() -> void:
 	print("Round started")
 	GameManager.game_status = GameManager.GameStatus.IN_GAME
 	GameManager.players_alive = GameManager.players.duplicate()
+	game_physic_controller.start_round_powerups(GameManager.players_alive)
 	for player in GameManager.players:
 		game_physic_controller.start_player(player)
 
@@ -43,9 +61,13 @@ func start_round() -> void:
 ## End the current round, calculate scores and check if the game should end.
 ## Status is set to ROUND_ENDED, waiting for the player to prepare the next round.
 func end_round() -> void:
+	game_physic_controller.reset_round_powerups()
 	var scores = GameManager.players.map(func(_player): return _player.score)
 	scores.sort()
 	scores.reverse()
+	if scores.size() < 2:
+		end_game()
+		return
 	if (
 		scores[0] - scores[1] > GameManager.min_points_difference
 		and scores[0] >= GameManager.max_points
@@ -62,6 +84,7 @@ func end_round() -> void:
 ## Prepare the next round, reset players and spawn them.
 ## Status is set to ROUND_READY, waiting for the player to start the round.
 func next_round():
+	game_physic_controller.reset_round_powerups()
 	for player in GameManager.players:
 		player.clean()
 		player.set_process(false)

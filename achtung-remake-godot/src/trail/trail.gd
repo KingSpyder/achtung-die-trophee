@@ -10,6 +10,7 @@ extends Node2D
 const AGE_SEGMENT_FOR_OLD := 10
 
 const PlayerScript = preload("res://src/player/player.gd")
+const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 ## Current line being drawn (between gates), used to set the color and width of new segments.
 var current_line: Line2D
@@ -22,6 +23,7 @@ var previous_point := Vector2()
 var player_was_laying_trail := false
 
 @onready var player: PlayerScript = get_parent()
+@onready var previous_size: float = get_size()
 
 
 func _ready():
@@ -33,9 +35,9 @@ func _ready():
 ## so that only the owning player will not collide with it.
 func setup_collision_layers() -> void:
 	# Set collision layer names for this player's trails
-	$RecentTrail.collision_layer = 1 << player.order
+	$RecentTrail.collision_layer = PhysicsLayersScript.recent_trail_mask(player.order)
 	$RecentTrail.collision_mask = 0
-	$OldTrail.collision_layer = 1  # Layer 1 is everything but the RecentTrail layers
+	$OldTrail.collision_layer = 1 << PhysicsLayersScript.OLD_TRAIL_BIT
 	$OldTrail.collision_mask = 0
 
 
@@ -43,24 +45,44 @@ func setup_collision_layers() -> void:
 func _process(_delta) -> void:
 	previous_point = latest_point
 	latest_point = player.global_position
-	if player.is_laying_trail:
-		if not player_was_laying_trail:
-			#player just started new trail
-			player_was_laying_trail = true
-			current_line = add_new_line()
+	# Size change logic
+	var new_size := get_size()
+	if new_size != previous_size:
+		current_line = add_new_line()  # start a new line to change the width of the trail
+		current_line.add_point(previous_point)  # add the current point to avoid a gap in the trail
+		if player.is_laying_trail:
+			# to make sure we can't go through the gap of size change
+			$RecentTrail.add_child(new_end_segment())
 			$RecentTrail.add_child(new_start_segment())
-		else:
-			#middle of the trail
-			for collision_segment in new_border_segments():
-				$RecentTrail.add_child(collision_segment)
-		current_line.add_point(latest_point)
-	elif player_was_laying_trail:
-		#player just ended tail : cap the collision shape
-		$RecentTrail.add_child(new_end_segment())
-		player_was_laying_trail = false
-	# Move the oldest segment to $OldTrail if too many in RecentTrail
-	while $RecentTrail.get_child_count() > AGE_SEGMENT_FOR_OLD:
-		move_recent_to_old()
+	previous_size = new_size
+	# Trail logic
+	# heuristic to detect teleportation, to prevent drawing a long trail segment
+	var player_teleported := previous_point.distance_to(latest_point) > player.playfield_max.x / 2
+	if player_teleported:
+		current_line = add_new_line()
+		if player.is_laying_trail:
+			current_line.add_point(latest_point)
+	# prevent killing the player when standing still
+	var player_still := previous_point == latest_point
+	if not player_still and not player_teleported:
+		if player.is_laying_trail:
+			if not player_was_laying_trail:
+				#player just started new trail
+				player_was_laying_trail = true
+				current_line = add_new_line()
+				$RecentTrail.add_child(new_start_segment())
+			else:
+				#middle of the trail
+				for collision_segment in new_border_segments():
+					$RecentTrail.add_child(collision_segment)
+			current_line.add_point(latest_point)
+		elif player_was_laying_trail:
+			#player just ended tail : cap the collision shape
+			$RecentTrail.add_child(new_end_segment())
+			player_was_laying_trail = false
+		# Move the oldest segment to $OldTrail if too many in RecentTrail
+		while $RecentTrail.get_child_count() > AGE_SEGMENT_FOR_OLD:
+			move_recent_to_old()
 
 
 ## Utility to calculate the perpendicular vector to the trail,

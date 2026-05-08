@@ -49,9 +49,12 @@ escape={
 [layer_names]
 
 2d_physics/layer_1="OldTrails"
-2d_physics/layer_2="RecentTrailPlayer1"
-2d_physics/layer_3="RecentTrailPlayer2"
-2d_physics/layer_4="RecentTrailPlayer3"
+2d_physics/layer_2="PlayersPickup"
+2d_physics/layer_3="PowerUpTokens"
+2d_physics/layer_4="RecentTrailPlayer1"
+2d_physics/layer_5="RecentTrailPlayer2"
+2d_physics/layer_6="RecentTrailPlayer3"
+2d_physics/layer_7="RecentTrailPlayer4"
 
 [shader_globals]
 

@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsw5gvmjmtf5"]
+
+[ext_resource type="Script" path="res://src/game/wallScene.gd" id="1_script"]
+
+[node name="Wall" type="StaticBody2D"]
+script = ExtResource("1_script")
+modulate = Color(1, 1, 0, 1)
+self_modulate = Color(1, 1, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+debug_color = Color(0.7, 0, 0.19833331, 1)
+
+[node name="Line2D" type="Line2D" parent="."]
+default_color = Color(0.8315821, 0.83158237, 0, 1)

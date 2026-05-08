@@ -1,0 +1,265 @@
+## Test scene for powerups.
+## 2 active players + 1 observer. Powerup spawns 1s after start.
+## Players simulate left/right turns to demonstrate powerup effects.
+class_name GameScenePowerupTest
+extends GameLogicController
+
+const PlayerHeadPresetScript = preload("res://src/player/player_head_preset.gd")
+static var _reload_test_powerup_type := -1
+
+@export var auto_start_round := true
+
+@export_group("Powerup")
+@export var test_powerup_type := PowerUpRegistry.PowerUpType.SPEED_BOOST_SELF
+@export var powerup_spawn_position := Vector2(300, 600)
+@export var disable_auto_spawn := true
+
+@export_group("Player 1")
+@export var player_1_name := "TestP1"
+@export var player_1_color := Color(1, 0, 0, 1)
+@export var player_1_head_preset_override: PlayerHeadPresetScript
+@export var player_1_position := Vector2(150, 600)
+@export var player_1_direction := Vector2.RIGHT
+@export var player_1_gate_open_delay := 999.0
+
+@export_group("Player 2")
+@export var player_2_name := "TestP2"
+@export var player_2_color := Color(0, 1, 1, 1)
+@export var player_2_head_preset_override: PlayerHeadPresetScript
+@export var player_2_position := Vector2(650, 300)
+@export var player_2_direction := Vector2.LEFT
+@export var player_2_gate_open_delay := 999.0
+
+@export_group("Observer (Player 3)")
+@export var player_3_name := "Observer"
+@export var player_3_color := Color(0.8, 0.8, 0.8, 1)
+@export var player_3_head_preset_override: PlayerHeadPresetScript
+@export var player_3_position := Vector2(400, 750)
+
+var _player_scene: PackedScene = preload("res://src/player/playerScene.tscn")
+var _player_1: Player
+var _player_2: Player
+var _player_3: Player
+var _powerup_runtime: Node = null
+
+var _powerup_spawn_timer := 0.0
+var _powerup_spawned := false
+var _input_simulation_timer := 0.0
+var _input_turn_state := 0  # 0 = neutral, 1 = left, 2 = right
+
+
+func _ready() -> void:
+	if _reload_test_powerup_type >= 0:
+		test_powerup_type = _reload_test_powerup_type as PowerUpRegistry.PowerUpType
+		_reload_test_powerup_type = -1
+	_setup_test_players()
+	_setup_input_actions()
+	_powerup_runtime = find_child("PowerUpRuntime", true, false)
+	if _powerup_runtime == null:
+		print("ERROR: PowerUpRuntime node not found in scene tree. Powerups will not function.")
+	start_game()
+	if auto_start_round:
+		start_round()
+	# Disable auto spawn to avoid conflicts with specific spawn
+	if disable_auto_spawn and _powerup_runtime != null:
+		_powerup_runtime.max_tokens = 0
+
+
+func _setup_input_actions() -> void:
+	# Create input actions for test players if they don't exist
+	var test_players = [player_1_name, player_2_name]
+	var directions = ["_left", "_right"]
+
+	for player_name_str in test_players:
+		for direction in directions:
+			var action_name = player_name_str + direction
+			if not InputMap.has_action(action_name):
+				InputMap.add_action(action_name)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
+		_reload_test_scene()
+		var viewport := get_viewport()
+		if viewport:
+			viewport.set_input_as_handled()
+
+
+func _process(delta: float) -> void:
+	_update_powerup_spawn(delta)
+	_update_input_simulation(delta)
+
+
+func start_round() -> void:
+	super.start_round()
+	_apply_gate_open_delay(_player_1, player_1_gate_open_delay)
+	_apply_gate_open_delay(_player_2, player_2_gate_open_delay)
+	_setup_observer_player(_player_3)
+	_powerup_spawn_timer = 0.25  # Spawn powerup 0.25s after round starts
+	_powerup_spawned = false
+	_input_simulation_timer = 0.0
+	_input_turn_state = 0
+
+
+func next_round() -> void:
+	for player in GameManager.players:
+		player.clean()
+		player.set_process(false)
+
+	_spawn_test_player(_player_1, player_1_position, player_1_direction)
+	_spawn_test_player(_player_2, player_2_position, player_2_direction)
+	_spawn_test_player(_player_3, player_3_position, Vector2.UP)
+
+	GameManager.game_status = GameManager.GameStatus.ROUND_READY
+	print("Next round prepared (powerup test scene)")
+
+
+func _update_powerup_spawn(delta: float) -> void:
+	if _powerup_spawned:
+		return
+	_powerup_spawn_timer -= delta
+	if _powerup_spawn_timer <= 0.0:
+		_powerup_spawned = true
+		# Spawn specific powerup on player 1 path
+		var definition = PowerUpRegistry.get_definition_by_type(test_powerup_type)
+		if definition != null:
+			_powerup_runtime.spawn_specific_token(definition, powerup_spawn_position)
+			var pup_id = definition.powerup_id
+			print("Powerup spawned: ", pup_id, " at ", powerup_spawn_position)
+		else:
+			print("ERROR: Could not spawn powerup, definition not found")
+
+
+## This is a bit trash
+func _update_input_simulation(delta: float) -> void:
+	_input_simulation_timer += delta
+
+	# Switch input state every 1 second: 1s left, 1s right, repeat
+	var cycle_time = fmod(_input_simulation_timer, 6.5)
+	# 6.5s: 2s neutral, 0.5s powerup, 1s left, 2s neutral, 1s right
+	var new_state := 0
+	if cycle_time < 2.0:
+		new_state = 0  # Neutral
+	elif cycle_time < 2.5:
+		new_state = 3  # Powerup
+	elif cycle_time < 3.5:
+		new_state = 1  # Left
+	elif cycle_time < 5.5:
+		new_state = 0  # Neutral
+	else:
+		new_state = 2  # Right
+
+	_input_turn_state = new_state
+	_apply_simulated_input()
+
+
+func _apply_simulated_input() -> void:
+	# Emit input events with player action names
+	match _input_turn_state:
+		1:  # Left turn
+			_emit_action(player_1_name + "_left", true)
+			_emit_action(player_1_name + "_right", false)
+			_emit_action(player_2_name + "_left", false)
+			_emit_action(player_2_name + "_right", true)
+		2:  # Right turn
+			_emit_action(player_1_name + "_left", false)
+			_emit_action(player_1_name + "_right", true)
+			_emit_action(player_2_name + "_left", true)
+			_emit_action(player_2_name + "_right", false)
+		3:  # Powerup!
+			_emit_action(player_1_name + "_left", true)
+			_emit_action(player_1_name + "_right", true)
+			_emit_action(player_2_name + "_left", true)
+			_emit_action(player_2_name + "_right", true)
+		0:  # Neutral - release all
+			_emit_action(player_1_name + "_left", false)
+			_emit_action(player_1_name + "_right", false)
+			_emit_action(player_2_name + "_left", false)
+			_emit_action(player_2_name + "_right", false)
+
+
+func _emit_action(action_name: String, pressed: bool) -> void:
+	var event = InputEventAction.new()
+	event.action = action_name
+	event.pressed = pressed
+	Input.parse_input_event(event)
+
+
+func _setup_test_players() -> void:
+	for existing_player in GameManager.players:
+		if is_instance_valid(existing_player):
+			if existing_player.get_parent():
+				existing_player.get_parent().remove_child(existing_player)
+			existing_player.queue_free()
+	GameManager.players.clear()
+	GameManager.players_alive.clear()
+
+	_player_1 = _create_test_player(player_1_name, player_1_color, 1, player_1_head_preset_override)
+	_player_2 = _create_test_player(player_2_name, player_2_color, 2, player_2_head_preset_override)
+	_player_3 = _create_test_player(player_3_name, player_3_color, 3, player_3_head_preset_override)
+
+	GameManager.players.push_back(_player_1)
+	GameManager.players.push_back(_player_2)
+	GameManager.players.push_back(_player_3)
+
+
+func _create_test_player(
+	test_name: String,
+	test_color: Color,
+	test_order: int,
+	head_preset_override: PlayerHeadPresetScript,
+) -> Player:
+	var player: Player = _player_scene.instantiate()
+	player.player_name = test_name
+	player.color = test_color
+	player.order = test_order
+	if head_preset_override != null:
+		player.head_preset = head_preset_override
+	return player
+
+
+func _spawn_test_player(player: Player, spawn_position: Vector2, spawn_direction: Vector2) -> void:
+	player.position = spawn_position
+	player.direction = _sanitize_direction(spawn_direction)
+	player.speed = 100
+	player.set_process(true)
+	if player.arrow:
+		player.arrow.visible = true
+
+
+func _apply_gate_open_delay(player: Player, delay_seconds: float) -> void:
+	if not is_instance_valid(player):
+		return
+	var gate_open_timer: Timer = player.get_node("GateOpenTimer")
+	if gate_open_timer == null:
+		return
+	gate_open_timer.stop()
+	gate_open_timer.wait_time = maxf(delay_seconds, 0.01)
+	gate_open_timer.start()
+
+
+func _setup_observer_player(player: Player) -> void:
+	if not is_instance_valid(player):
+		return
+	player.speed = 0
+	player.is_laying_trail = false
+	player.velocity = Vector2.ZERO
+	player.set_process(false)
+	if player.arrow:
+		player.arrow.visible = false
+	var player_collision_shape := (
+		player.get_node_or_null("PlayerCollisionShape") as CollisionShape2D
+	)
+	if player_collision_shape:
+		player_collision_shape.disabled = true
+
+
+func _sanitize_direction(direction: Vector2) -> Vector2:
+	if direction.length_squared() <= 0.0001:
+		return Vector2.RIGHT
+	return direction.normalized()
+
+
+func _reload_test_scene() -> void:
+	_reload_test_powerup_type = int(test_powerup_type)
+	get_tree().reload_current_scene()
