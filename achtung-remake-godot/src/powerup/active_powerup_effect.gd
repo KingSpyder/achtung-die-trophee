@@ -34,6 +34,7 @@ func tick(delta: float) -> bool:
 	if remaining_duration <= 0.0:
 		expire()
 		return true
+	definition.on_tick(self, delta)
 	remaining_duration = maxf(0.0, remaining_duration - delta)
 	if remaining_duration == 0.0:
 		expire()

@@ -13,6 +13,9 @@ enum PowerUpType {
 	FREEZE_OTHERS_ACTION,
 	INVERT_CONTROLS_OTHERS,
 	INVERT_CONTROLS_SELF,
+	UNTRAIL_SELF,
+	THIN_SELF,
+	FAT_OTHERS,
 }
 
 const SpeedBoostDefinitionScript = preload(
@@ -35,6 +38,15 @@ const InvertControlsOthersDefinitionScript = preload(
 )
 const InvertControlsSelfDefinitionScript = preload(
 	"res://src/powerup/definitions/invert_controls_self_powerup_definition.gd"
+)
+const UntrailSelfDefinitionScript = preload(
+	"res://src/powerup/definitions/untrail_self_powerup_definition.gd"
+)
+const ThinSelfDefinitionScript = preload(
+	"res://src/powerup/definitions/thin_self_powerup_definition.gd"
+)
+const FatOthersDefinitionScript = preload(
+	"res://src/powerup/definitions/fat_others_powerup_definition.gd"
 )
 
 
@@ -70,4 +82,10 @@ static func get_definition_by_type(powerup_type: PowerUpType) -> Resource:
 			return InvertControlsOthersDefinitionScript.new()
 		PowerUpType.INVERT_CONTROLS_SELF:
 			return InvertControlsSelfDefinitionScript.new()
+		PowerUpType.UNTRAIL_SELF:
+			return UntrailSelfDefinitionScript.new()
+		PowerUpType.THIN_SELF:
+			return ThinSelfDefinitionScript.new()
+		PowerUpType.FAT_OTHERS:
+			return FatOthersDefinitionScript.new()
 	return null

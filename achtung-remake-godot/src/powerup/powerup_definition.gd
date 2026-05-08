@@ -35,5 +35,9 @@ func on_expire(_effect: ActivePowerUpEffect) -> void:
 	pass
 
 
+func on_tick(_effect: ActivePowerUpEffect, _delta: float) -> void:
+	pass
+
+
 func on_cancel(effect: ActivePowerUpEffect) -> void:
 	on_expire(effect)
