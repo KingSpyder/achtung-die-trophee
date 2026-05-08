@@ -270,12 +270,13 @@ func _wrap_position_inside_bounds() -> void:
 
 
 ## Remove players lines and trails. Stop gate timers.
-func clean() -> void:
-	is_laying_trail = false
+func clean(full: bool = true) -> void:
 	$TrailScene.clean_lines()
 	$TrailScene.clean_trails()
-	%GateOpenTimer.stop()
-	%GateCloseTimer.stop()
+	if full:
+		is_laying_trail = false
+		%GateOpenTimer.stop()
+		%GateCloseTimer.stop()
 
 
 ## Activate the player's trail, and start the gate open timer.
