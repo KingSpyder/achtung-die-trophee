@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5lppu5lddem8"]
+[gd_scene load_steps=7 format=3 uid="uid://c5lppu5lddem8"]
 
 [ext_resource type="PackedScene" uid="uid://s4dac2cod3c6" path="res://src/game/gameAreaScene.tscn" id="1_3nvdd"]
 [ext_resource type="Script" uid="uid://djp65rn0m6w3x" path="res://src/game/game_logic_controller.gd" id="1_omymb"]
+[ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_winner"]
 
 [sub_resource type="Theme" id="Theme_omymb"]
 
@@ -12,6 +13,22 @@ border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0.5649616, 0.5649617, 0.5649613, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_winner"]
+bg_color = Color(0.6, 0.6, 0.6, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 48.0
+content_margin_top = 28.0
+content_margin_right = 48.0
+content_margin_bottom = 28.0
 
 [node name="GameScene" type="Node"]
 script = ExtResource("1_omymb")
@@ -68,3 +85,27 @@ layout_mode = 2
 [node name="MaxScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="WinnerBoxContainer" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WinnerPanel" type="PanelContainer" parent="WinnerBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_winner")
+
+[node name="WinnerLabel" type="Label" parent="WinnerBoxContainer/WinnerPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_winner")
+theme_override_font_sizes/font_size = 56
+text = "Winner!"
+horizontal_alignment = 1
+vertical_alignment = 1
