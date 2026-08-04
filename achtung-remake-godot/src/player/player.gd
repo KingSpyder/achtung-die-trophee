@@ -36,6 +36,7 @@ var last_collided_player: Player = null
 var is_laying_trail := false
 var last_collision: KinematicCollision2D
 var _speed_multipliers := {}
+var _score_multipliers := {}
 var _size_multipliers := {}
 var _inverted_control_sources := {}
 var _head_preset_overrides := {}
@@ -397,6 +398,21 @@ func _get_effective_speed() -> float:
 func _get_speed_multiplier_factor() -> float:
 	var factor := 1.0
 	for value in _speed_multipliers.values():
+		factor *= float(value)
+	return factor
+
+
+func set_score_multiplier(source_id: StringName, multiplier: float) -> void:
+	_score_multipliers[source_id] = maxf(multiplier, 0.0)
+
+
+func remove_score_multiplier(source_id: StringName) -> void:
+	_score_multipliers.erase(source_id)
+
+
+func get_score_multiplier() -> float:
+	var factor := 1.0
+	for value in _score_multipliers.values():
 		factor *= float(value)
 	return factor
 
