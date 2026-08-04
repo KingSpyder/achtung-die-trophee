@@ -61,6 +61,8 @@ func start_round() -> void:
 ## End the current round, calculate scores and check if the game should end.
 ## Status is set to ROUND_ENDED, waiting for the player to prepare the next round.
 func end_round() -> void:
+	for player in GameManager.players:
+		player.set_process(false)
 	game_physic_controller.reset_round_powerups()
 	var scores = GameManager.players.map(func(_player): return _player.score)
 	scores.sort()
@@ -74,9 +76,6 @@ func end_round() -> void:
 	):
 		end_game()
 		return
-
-	for player in GameManager.players:
-		player.set_process(false)
 	GameManager.game_status = GameManager.GameStatus.ROUND_ENDED
 	print("Round ended, press space to prepare next round")
 
