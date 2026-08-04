@@ -116,8 +116,9 @@ func _show_winner_box() -> void:
 	winner_panel.add_theme_stylebox_override("panel", style)
 
 	var winner_text := "%s a gagné!" % winner.player_name
+	if PlayersConstants.FUNNY_ENDGAME_TEXT.has(winner.player_name):
+		winner_text += "\n" + PlayersConstants.FUNNY_ENDGAME_TEXT[winner.player_name]
 	winner_label.text = winner_text
-
 	winner_box_container.visible = true
 
 
