@@ -182,6 +182,13 @@ func move(delta) -> void:
 			last_collision = null
 
 
+## Apply an externally-decided rotation to the player's direction, additive to whatever
+## the player's own steering already did this frame. Used by powerups that need to nudge
+## the player's heading each tick without the player owning any of that state itself.
+func rotate_direction(angle_radians: float) -> void:
+	direction = direction.rotated(angle_radians).normalized()
+
+
 func _is_action_pressed_safe(action_name: String) -> bool:
 	if not InputMap.has_action(action_name):
 		return false
