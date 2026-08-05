@@ -8,7 +8,7 @@ func _init() -> void:
 	powerup_id = &"fat_others"
 	target = Target.OTHERS
 	activation_mode = ActivationMode.IMMEDIATE
-	duration_seconds = 3.0
+	duration_seconds = PowerUpsConstants.FAT_OTHER_DURATION
 	token_color = DEFAULT_OTHERS_COLOR
 	token_texture = preload("res://art/powerups/fat_others.svg")
 
@@ -19,7 +19,7 @@ func on_apply(
 	source_id: StringName,
 ) -> ActivePowerUpEffectScript:
 	for target_player in targets:
-		target_player.set_size_multiplier(source_id, 2.0)
+		target_player.set_size_multiplier(source_id, PowerUpsConstants.FAT_OTHER_SIZECOEF)
 	var effect = ActivePowerUpEffectScript.new(self, context, targets, source_id, duration_seconds)
 	return effect
 

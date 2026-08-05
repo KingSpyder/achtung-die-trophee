@@ -9,7 +9,7 @@ func _init() -> void:
 	powerup_id = &"square_self"
 	target = Target.SELF
 	activation_mode = ActivationMode.IMMEDIATE
-	duration_seconds = 4.0
+	duration_seconds = PowerUpsConstants.SQUARE_SELF_DURATION
 	token_color = DEFAULT_SELF_COLOR
 	token_texture = preload("res://art/powerups/square_self.svg")
 

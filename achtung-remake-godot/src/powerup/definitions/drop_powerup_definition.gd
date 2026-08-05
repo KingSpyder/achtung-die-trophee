@@ -9,7 +9,7 @@ func _init() -> void:
 	powerup_id = &"drop"
 	target = Target.NEUTRAL
 	activation_mode = ActivationMode.IMMEDIATE
-	duration_seconds = 8.0
+	duration_seconds = PowerUpsConstants.DROP_DURATION
 	token_color = DEFAULT_ACTION_COLOR
 	token_texture = preload("res://art/powerups/drop.svg")
 

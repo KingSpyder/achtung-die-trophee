@@ -10,7 +10,7 @@ func _init() -> void:
 	powerup_id = &"pass_borders_all"
 	target = Target.ALL
 	activation_mode = ActivationMode.IMMEDIATE
-	duration_seconds = 4.0
+	duration_seconds = PowerUpsConstants.PASS_BORDERS_OTHER_DURATION
 	token_color = PowerUpDefinition.DEFAULT_ALL_COLOR
 	token_texture = preload("res://art/powerups/pass_borders_all.svg")
 

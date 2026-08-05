@@ -15,9 +15,9 @@ const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 @export var right_control: String
 @export var order: int
 
-@export var speed: float = 100
-@export var angular_speed: float = 2.85
-@export var gate_open_time: float = 50 / speed
+@export var speed: float = PlayersConstants.PLAYER_SPEED
+@export var angular_speed: float = PlayersConstants.PLAYER_ANGULAR_SPEED
+@export var gate_open_time: float = PlayersConstants.GATE_OPEN_TIME
 @export var head_preset: PlayerHeadPreset
 @export var size: float = BASE_SIZE:
 	set(value):
@@ -37,6 +37,7 @@ var is_laying_trail := false
 var last_collision: KinematicCollision2D
 var _speed_multipliers := {}
 var _score_multipliers := {}
+var _angular_speed_multipliers := {}
 var _size_multipliers := {}
 var _inverted_control_sources := {}
 var _head_preset_overrides := {}
@@ -413,6 +414,40 @@ func remove_score_multiplier(source_id: StringName) -> void:
 func get_score_multiplier() -> float:
 	var factor := 1.0
 	for value in _score_multipliers.values():
+		factor *= float(value)
+	return factor
+
+
+func set_score_multiplier(source_id: StringName, multiplier: float) -> void:
+	_score_multipliers[source_id] = maxf(multiplier, 0.0)
+
+
+func remove_score_multiplier(source_id: StringName) -> void:
+	_score_multipliers.erase(source_id)
+
+
+func get_score_multiplier() -> float:
+	var factor := 1.0
+	for value in _score_multipliers.values():
+		factor *= float(value)
+	return factor
+
+
+func set_angular_speed_multiplier(source_id: StringName, multiplier: float) -> void:
+	_angular_speed_multipliers[source_id] = maxf(multiplier, 0.0)
+
+
+func remove_angular_speed_multiplier(source_id: StringName) -> void:
+	_angular_speed_multipliers.erase(source_id)
+
+
+func _get_effective_angular_speed() -> float:
+	return angular_speed * _get_angular_speed_multiplier_factor()
+
+
+func _get_angular_speed_multiplier_factor() -> float:
+	var factor := 1.0
+	for value in _angular_speed_multipliers.values():
 		factor *= float(value)
 	return factor
 

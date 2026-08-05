@@ -36,6 +36,7 @@ var _player_hold_elapsed_by_id := {}
 var _player_hold_consumed_by_id := {}
 var _player_action_display_box_by_id := {}
 var _spawn_interval_multipliers := {}
+var _powerup_spawn_multipliers := {}
 
 @onready var _game_physic_controller: GamePhysicControllerScript = get_parent()
 
@@ -50,6 +51,7 @@ func _process(delta: float) -> void:
 	_update_effects(delta)
 	if GameManager.game_status == GameManager.GameStatus.IN_GAME:
 		_update_player_action_triggers(delta)
+		_possibly_add_powerups(delta)
 	if GameManager.game_status != GameManager.GameStatus.IN_GAME:
 		return
 	_spawn_timer -= delta
@@ -151,6 +153,49 @@ func _update_effects(delta: float) -> void:
 func _reset_spawn_timer() -> void:
 	var factor := _get_spawn_interval_multiplier_factor()
 	_spawn_timer = randf_range(spawn_interval_min * factor, spawn_interval_max * factor)
+
+
+func set_powerup_spawn_multiplier(source_id: StringName, multiplier: float) -> void:
+	_powerup_spawn_multipliers[source_id] = maxf(multiplier, 0.05)
+
+
+func remove_powerup_spawn_multiplier(source_id: StringName) -> void:
+	_powerup_spawn_multipliers.erase(source_id)
+
+
+func _get_powerup_spawn_multiplier_factor() -> float:
+	var factor := 1.0
+	for value in _powerup_spawn_multipliers.values():
+		factor *= float(value)
+	return factor
+
+
+## Implements AS3-like per-frame chance checks for spawning powerups.
+func _possibly_add_powerups(delta: float) -> void:
+	if powerup_definitions.is_empty():
+		return
+	var fps := max(1, int(Engine.get_frames_per_second()))
+	var factor := _get_powerup_spawn_multiplier_factor()
+	for definition in powerup_definitions:
+		if definition == null:
+			continue
+		var chance := float(definition.spawn_chance)
+		# Probability per frame approximating AS3: powerUpFactor / (chance * fps)
+		var p := factor / (chance * fps)
+		if randf() < p:
+			if _active_tokens.size() >= max_tokens:
+				continue
+			var pos := _random_token_position_for_radius(float(definition.spawn_radius))
+			spawn_specific_token(definition, pos)
+
+
+func _random_token_position_for_radius(radius: float) -> Vector2:
+	var bounds := _game_physic_controller.get_playfield_bounds()
+	var min := bounds.get("min", Vector2.ZERO)
+	var max := bounds.get("max", Vector2(790, 790))
+	var x := randf_range(min.x + radius, max.x - radius)
+	var y := randf_range(min.y + radius, max.y - radius)
+	return Vector2(x, y)
 
 
 func set_spawn_interval_multiplier(source_id: StringName, multiplier: float) -> void:

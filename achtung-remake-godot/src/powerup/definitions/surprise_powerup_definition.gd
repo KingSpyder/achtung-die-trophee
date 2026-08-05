@@ -6,7 +6,7 @@ func _init() -> void:
 	powerup_id = &"surprise"
 	target = Target.SELF
 	activation_mode = ActivationMode.IMMEDIATE
-	duration_seconds = 0.0
+	duration_seconds = PowerUpsConstants.SURPRISE_DURATION
 	token_color = DEFAULT_ACTION_COLOR
 	token_texture = preload("res://art/powerups/surprise.svg")
 

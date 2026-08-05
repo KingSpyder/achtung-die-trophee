@@ -4,14 +4,14 @@ const FRED_NAME := "Fred"
 const GREENLEE_NAME := "Greenlee"
 const PINKNEY_NAME := "Pinkney"
 const BLUEBELL_NAME := "Bluebell"
-const WILLIAM_NAME := "William"
+const WILLEM_NAME := "Willem"
 const GREYDON_NAME := "Greydon"
 
 const FRED_COLOR := Color("#fe0000")
 const GREENLEE_COLOR := Color("#00fe00")
 const PINKNEY_COLOR := Color("#fe00fe")
 const BLUEBELL_COLOR := Color("#00fefe")
-const WILLIAM_COLOR := Color("#fe8000")
+const WILLEM_COLOR := Color("#fe8000")
 const GREYDON_COLOR := Color("#cbcbcb")
 
 const FUNNY_ENDGAME_TEXT := {
@@ -19,6 +19,10 @@ const FUNNY_ENDGAME_TEXT := {
 	GREENLEE_NAME: " (comme toujours)",
 	PINKNEY_NAME: " (il doit y avoir un bug)",
 	BLUEBELL_NAME: " (la chance du débutant)",
-	WILLIAM_NAME: " (c'est qui?)",
+	WILLEM_NAME: " (c'est qui?)",
 	GREYDON_NAME: " (on le voyait pas)",
 }
+
+const PLAYER_SPEED = 90
+const PLAYER_ANGULAR_SPEED = PLAYER_SPEED / 35
+const GATE_OPEN_TIME = 50 / PLAYER_SPEED
