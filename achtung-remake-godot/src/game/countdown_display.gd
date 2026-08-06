@@ -4,10 +4,15 @@ extends Control
 const APPEAR_DURATION := 0.15
 const HOLD_DURATION := 0.35
 const EXIT_DURATION := 0.3
+const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 var _running := false
 
 @onready var _label: Label = $CountdownLabel
+
+
+func _ready() -> void:
+	z_index = PhysicsLayersScript.OVERLAY_Z_INDEX
 
 
 ## Play a "3, 2, 1, GO" countdown: each label pops in, holds, then shrinks and fades out

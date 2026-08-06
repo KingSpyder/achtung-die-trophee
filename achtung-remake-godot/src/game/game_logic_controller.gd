@@ -8,7 +8,7 @@ var _round_end_scheduled := false
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
-@onready var pause_overlay: Control = game_area_scene.get_node("PauseOverlay")
+@onready var pause_overlay: PauseOverlay = game_area_scene.get_node("PauseOverlay")
 @onready var countdown_display: CountdownDisplay = game_area_scene.get_node("CountdownOverlay")
 @onready var max_score_label: Label = %MaxScoreLabel
 

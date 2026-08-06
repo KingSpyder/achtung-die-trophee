@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://s4dac2cod3c6"]
+[gd_scene load_steps=11 format=3 uid="uid://s4dac2cod3c6"]
 
 [ext_resource type="Script" uid="uid://bm7w0nwmhhii6" path="res://src/game/game_physic_controller.gd" id="1_ua88q"]
 [ext_resource type="Script" path="res://src/powerup/powerup_runtime_controller.gd" id="2_pwrtm"]
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_pause_title"]
 [ext_resource type="FontFile" uid="uid://binkv08f2jgxo" path="res://assets/fonts/Verdana.ttf" id="4_pause_hint"]
 [ext_resource type="Script" path="res://src/game/countdown_display.gd" id="5_countdown"]
+[ext_resource type="Script" path="res://src/game/pause_overlay.gd" id="6_pause_overlay"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jadrl"]
 size = Vector2(800, 10)
@@ -138,6 +139,7 @@ layout_mode = 0
 offset_right = 800.0
 offset_bottom = 800.0
 mouse_filter = 2
+script = ExtResource("6_pause_overlay")
 
 [node name="PausePanel" type="PanelContainer" parent="PauseOverlay"]
 layout_mode = 0

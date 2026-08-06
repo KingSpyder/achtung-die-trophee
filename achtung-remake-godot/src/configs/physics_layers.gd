@@ -10,8 +10,10 @@ const RECENT_TRAIL_LAYER_OFFSET := 4
 
 const NON_TRAIL_MASK := (1 << RECENT_TRAIL_LAYER_OFFSET) - 1
 
-# Rendering z-index for walls (ensures they render on top of all other game objects)
+# Rendering z-index
 const WALL_Z_INDEX := 100
+const PLAYER_HEAD_Z_INDEX := 5
+const OVERLAY_Z_INDEX := 120
 
 
 static func recent_trail_bit(player_order: int) -> int:

@@ -51,7 +51,7 @@ var _right_turn_press_consumed := false
 
 
 func _ready() -> void:
-	head.z_index = 5
+	head.z_index = PhysicsLayersScript.PLAYER_HEAD_Z_INDEX
 	_apply_head_preset(head_preset)
 	_update_shaders()
 	_setup_collision_layers()
