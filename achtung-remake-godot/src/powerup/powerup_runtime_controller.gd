@@ -19,24 +19,24 @@ const PowerUpDefinitionScript = preload("res://src/powerup/powerup_definition.gd
 const ActivePowerUpEffectScript = preload("res://src/powerup/active_powerup_effect.gd")
 const PowerUpExecutionContextScript = preload("res://src/powerup/powerup_execution_context.gd")
 
-@export var spawn_interval_min := 3.0
-@export var spawn_interval_max := 7.0
-@export var max_tokens := 6
+# @export var spawn_interval_min := 3.0
+# @export var spawn_interval_max := 7.0
+# @export var max_tokens := 6
 @export var action_hold_seconds := 0.25
 @export var powerup_definitions: Array[Resource]
+@export var powerup_spawn_factor := 1
 
 var _active_tokens: Array[Area2D] = []
 var _active_effects: Array[ActivePowerUpEffectScript] = []
 var _registered_players: Array[PlayerScript] = []
 var _current_alive_players: Array[PlayerScript] = []
-var _spawn_timer := 0.0
+# var _spawn_timer := 0.0
 var _player_action_definition_by_id := {}
 var _player_action_uses_by_id := {}
 var _player_hold_elapsed_by_id := {}
 var _player_hold_consumed_by_id := {}
 var _player_action_display_box_by_id := {}
 var _spawn_interval_multipliers := {}
-var _powerup_spawn_multipliers := {}
 
 @onready var _game_physic_controller: GamePhysicControllerScript = get_parent()
 
@@ -44,7 +44,7 @@ var _powerup_spawn_multipliers := {}
 func _ready() -> void:
 	if powerup_definitions.is_empty():
 		powerup_definitions = PowerUpRegistry.get_all_definitions()
-	_reset_spawn_timer()
+	# _reset_spawn_timer()
 
 
 func _process(delta: float) -> void:
@@ -54,14 +54,14 @@ func _process(delta: float) -> void:
 		_possibly_add_powerups(delta)
 	if GameManager.game_status != GameManager.GameStatus.IN_GAME:
 		return
-	_spawn_timer -= delta
-	if _spawn_timer > 0.0:
-		return
-	if _active_tokens.size() >= max_tokens:
-		_reset_spawn_timer()
-		return
-	spawn_random_token()
-	_reset_spawn_timer()
+	# _spawn_timer -= delta
+	# if _spawn_timer > 0.0:
+	# 	return
+	# if _active_tokens.size() >= max_tokens:
+	# 	_reset_spawn_timer()
+	# 	return
+	# spawn_random_token()
+	# _reset_spawn_timer()
 
 
 func register_player(player: PlayerScript) -> void:
@@ -92,7 +92,7 @@ func register_player_action_display(player: PlayerScript, display_box: Node) -> 
 
 func start_round(alive_players: Array[PlayerScript]) -> void:
 	_current_alive_players = alive_players
-	_reset_spawn_timer()
+	# _reset_spawn_timer()
 
 
 func clear_round_state() -> void:
@@ -115,22 +115,21 @@ func cancel_all_effects() -> void:
 	_active_effects.clear()
 
 
-func spawn_random_token() -> void:
-	if powerup_definitions.is_empty():
-		return
-	var definition = powerup_definitions[randi_range(0, powerup_definitions.size() - 1)]
-	#var definition = PowerUpRegistry.get_definition_by_type(
-	#	PowerUpRegistry.PowerUpType.PASS_BORDERS_SELF
-	#)
-	if definition == null:
-		return
-	var token := PowerUpTokenScene.instantiate() as Area2D
-	token.definition = definition
-	token.position = _random_token_position()
-	token.collected.connect(_on_token_collected)
-	add_child(token)
-	_active_tokens.append(token)
-
+# func spawn_random_token() -> void:
+# 	if powerup_definitions.is_empty():
+# 		return
+# 	var definition = powerup_definitions[randi_range(0, powerup_definitions.size() - 1)]
+# 	#var definition = PowerUpRegistry.get_definition_by_type(
+# 	#	PowerUpRegistry.PowerUpType.PASS_BORDERS_SELF
+# 	#)
+# 	if definition == null:
+# 		return
+# 	var token := PowerUpTokenScene.instantiate() as Area2D
+# 	token.definition = definition
+# 	token.position = _random_token_position()
+# 	token.collected.connect(_on_token_collected)
+# 	add_child(token)
+# 	_active_tokens.append(token)
 
 func spawn_specific_token(definition: PowerUpDefinitionScript, position_token: Vector2) -> void:
 	if definition == null:
@@ -142,6 +141,21 @@ func spawn_specific_token(definition: PowerUpDefinitionScript, position_token: V
 	add_child(token)
 	_active_tokens.append(token)
 
+## Original spawn definition :
+## spawn if math.random() < powerupFactor / (powerup.chance * fps)
+func _possibly_add_powerups(delta: float) -> void:
+	if powerup_definitions.is_empty():
+		return
+	var fps: float= max(1, int(Engine.get_frames_per_second()))
+	var powerup_factor := _get_powerup_spawn_factor_multiplier()
+	for definition in powerup_definitions:
+		if definition == null:
+			continue
+		var chance := float(definition.spawn_chance)
+		var p: float = powerup_factor / (chance * fps)
+		if randf() < p:
+			var pos := _random_token_position()
+			spawn_specific_token(definition, pos)
 
 func _update_effects(delta: float) -> void:
 	for index in range(_active_effects.size() - 1, -1, -1):
@@ -150,63 +164,20 @@ func _update_effects(delta: float) -> void:
 			_active_effects.remove_at(index)
 
 
-func _reset_spawn_timer() -> void:
-	var factor := _get_spawn_interval_multiplier_factor()
-	_spawn_timer = randf_range(spawn_interval_min * factor, spawn_interval_max * factor)
+# func _reset_spawn_timer() -> void:
+# 	var factor := _get_spawn_interval_multiplier_factor()
+# 	_spawn_timer = randf_range(spawn_interval_min * factor, spawn_interval_max * factor)
 
 
-func set_powerup_spawn_multiplier(source_id: StringName, multiplier: float) -> void:
-	_powerup_spawn_multipliers[source_id] = maxf(multiplier, 0.05)
-
-
-func remove_powerup_spawn_multiplier(source_id: StringName) -> void:
-	_powerup_spawn_multipliers.erase(source_id)
-
-
-func _get_powerup_spawn_multiplier_factor() -> float:
-	var factor := 1.0
-	for value in _powerup_spawn_multipliers.values():
-		factor *= float(value)
-	return factor
-
-
-## Implements AS3-like per-frame chance checks for spawning powerups.
-func _possibly_add_powerups(delta: float) -> void:
-	if powerup_definitions.is_empty():
-		return
-	var fps := max(1, int(Engine.get_frames_per_second()))
-	var factor := _get_powerup_spawn_multiplier_factor()
-	for definition in powerup_definitions:
-		if definition == null:
-			continue
-		var chance := float(definition.spawn_chance)
-		# Probability per frame approximating AS3: powerUpFactor / (chance * fps)
-		var p := factor / (chance * fps)
-		if randf() < p:
-			if _active_tokens.size() >= max_tokens:
-				continue
-			var pos := _random_token_position_for_radius(float(definition.spawn_radius))
-			spawn_specific_token(definition, pos)
-
-
-func _random_token_position_for_radius(radius: float) -> Vector2:
-	var bounds := _game_physic_controller.get_playfield_bounds()
-	var min := bounds.get("min", Vector2.ZERO)
-	var max := bounds.get("max", Vector2(790, 790))
-	var x := randf_range(min.x + radius, max.x - radius)
-	var y := randf_range(min.y + radius, max.y - radius)
-	return Vector2(x, y)
-
-
-func set_spawn_interval_multiplier(source_id: StringName, multiplier: float) -> void:
+func set_powerup_spawn_factor_multiplier(source_id: StringName, multiplier: float) -> void:
 	_spawn_interval_multipliers[source_id] = maxf(multiplier, 0.05)
 
 
-func remove_spawn_interval_multiplier(source_id: StringName) -> void:
+func remove_powerup_spawn_factor_multiplier(source_id: StringName) -> void:
 	_spawn_interval_multipliers.erase(source_id)
 
 
-func _get_spawn_interval_multiplier_factor() -> float:
+func _get_powerup_spawn_factor_multiplier() -> float:
 	var factor := 1.0
 	for value in _spawn_interval_multipliers.values():
 		factor *= float(value)

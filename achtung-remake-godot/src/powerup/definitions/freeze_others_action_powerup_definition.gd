@@ -13,6 +13,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.FREEZE_OTHER_DURATION
 	token_color = DEFAULT_ACTION_COLOR
 	token_texture = preload("res://art/powerups/freeze.svg")
+	spawn_chance = 70
 
 
 func on_apply(

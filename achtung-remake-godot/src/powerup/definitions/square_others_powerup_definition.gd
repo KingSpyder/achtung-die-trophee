@@ -12,6 +12,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.SQUARE_OTHER_DURATION
 	token_color = DEFAULT_OTHERS_COLOR
 	token_texture = preload("res://art/powerups/square_others.svg")
+	spawn_chance = PowerUpsConstants.SQUARE_OTHER_CHANCE
 
 
 func on_apply(

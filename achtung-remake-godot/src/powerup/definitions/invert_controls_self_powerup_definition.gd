@@ -11,6 +11,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.INVERTER_OTHER_DURATION
 	token_color = DEFAULT_SELF_COLOR
 	token_texture = preload("res://art/powerups/invert_self.svg")
+	spawn_chance = PowerUpsConstants.INVERTER_OTHER_CHANCE
 
 
 func on_apply(

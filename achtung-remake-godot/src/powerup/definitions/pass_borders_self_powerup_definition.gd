@@ -13,6 +13,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.PASS_BORDERS_SELF_DURATION
 	token_color = DEFAULT_SELF_COLOR
 	token_texture = preload("res://art/powerups/pass_borders_self.svg")
+	spawn_chance = PowerUpsConstants.PASS_BORDERS_SELF_CHANCE
 
 
 func on_apply(
