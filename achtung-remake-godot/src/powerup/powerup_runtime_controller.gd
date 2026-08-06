@@ -250,8 +250,7 @@ func _get_alive_players_except(collector: PlayerScript) -> Array[PlayerScript]:
 
 
 func _random_token_position() -> Vector2:
-	var x = randf_range(40.0, 760.0)
-	var y = randf_range(40.0, 760.0)
+	pos = get_random_position()
 	return Vector2(x, y)
 
 
