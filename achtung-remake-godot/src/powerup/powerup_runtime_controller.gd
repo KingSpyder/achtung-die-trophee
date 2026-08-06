@@ -250,8 +250,8 @@ func _get_alive_players_except(collector: PlayerScript) -> Array[PlayerScript]:
 
 
 func _random_token_position() -> Vector2:
-	pos = get_random_position()
-	return Vector2(x, y)
+	var pos = _game_physic_controller.get_random_position()
+	return pos
 
 
 ## Does _update_single_player_action_trigger for all valid players.
