@@ -21,7 +21,7 @@ func on_apply(
 	source_id: StringName,
 ) -> ActivePowerUpEffectScript:
 	if context.powerup_runtime_controller != null:
-		context.powerup_runtime_controller.set_spawn_interval_multiplier(
+		context.powerup_runtime_controller.set_powerup_spawn_factor_multiplier(
 			source_id, SPAWN_INTERVAL_MULTIPLIER
 		)
 	var effect = ActivePowerUpEffectScript.new(self, context, targets, source_id, duration_seconds)
