@@ -9,6 +9,7 @@ var _round_end_scheduled := false
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
 @onready var pause_overlay: Control = game_area_scene.get_node("PauseOverlay")
+@onready var countdown_display: CountdownDisplay = game_area_scene.get_node("CountdownOverlay")
 @onready var max_score_label: Label = %MaxScoreLabel
 
 
@@ -110,16 +111,24 @@ func pause_game() -> void:
 	get_tree().paused = true
 
 
+## Hide the pause panel right away, then play the countdown before actually resuming.
 func resume_game() -> void:
-	print("Game resumed")
-	GameManager.game_status = GameManager.GameStatus.IN_GAME
+	print("Game resuming")
 	pause_overlay.visible = false
-	get_tree().paused = false
+	await countdown_display.run_countdown(3)
+	_unpause()
 
 
 func exit_game() -> void:
-	resume_game()
+	pause_overlay.visible = false
+	_unpause()
 	game_physic_controller.exit_game()
+
+
+func _unpause() -> void:
+	print("Game resumed")
+	GameManager.game_status = GameManager.GameStatus.IN_GAME
+	get_tree().paused = false
 
 
 func _on_player_died(player: PlayerScript, death_cause: int, collided_player: PlayerScript) -> void:

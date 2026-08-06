@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://s4dac2cod3c6"]
+[gd_scene load_steps=10 format=3 uid="uid://s4dac2cod3c6"]
 
 [ext_resource type="Script" uid="uid://bm7w0nwmhhii6" path="res://src/game/game_physic_controller.gd" id="1_ua88q"]
 [ext_resource type="Script" path="res://src/powerup/powerup_runtime_controller.gd" id="2_pwrtm"]
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_pause_title"]
 [ext_resource type="FontFile" uid="uid://binkv08f2jgxo" path="res://assets/fonts/Verdana.ttf" id="4_pause_hint"]
+[ext_resource type="Script" path="res://src/game/countdown_display.gd" id="5_countdown"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jadrl"]
 size = Vector2(800, 10)
@@ -102,6 +103,33 @@ shape = SubResource("RectangleShape2D_es70b")
 [node name="Line2D" type="Line2D" parent="GameArea/Walls/RightWall"]
 points = PackedVector2Array(800, 0, 800, 800)
 default_color = Color(0.8315821, 0.83158237, 0, 1)
+
+[node name="CountdownOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 800.0
+mouse_filter = 2
+script = ExtResource("5_countdown")
+
+[node name="CountdownLabel" type="Label" parent="CountdownOverlay"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+pivot_offset = Vector2(150, 100)
+theme_override_fonts/font = ExtResource("3_pause_title")
+theme_override_font_sizes/font_size = 120
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "3"
 
 [node name="PauseOverlay" type="Control" parent="."]
 unique_name_in_owner = true
