@@ -8,6 +8,7 @@ var _round_end_scheduled := false
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
+@onready var pause_overlay: Control = game_area_scene.get_node("PauseOverlay")
 @onready var max_score_label: Label = %MaxScoreLabel
 
 
@@ -105,12 +106,14 @@ func end_game():
 func pause_game() -> void:
 	print("Game paused")
 	GameManager.game_status = GameManager.GameStatus.PAUSED
+	pause_overlay.visible = true
 	get_tree().paused = true
 
 
 func resume_game() -> void:
 	print("Game resumed")
 	GameManager.game_status = GameManager.GameStatus.IN_GAME
+	pause_overlay.visible = false
 	get_tree().paused = false
 
 
