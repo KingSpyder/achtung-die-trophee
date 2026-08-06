@@ -24,7 +24,7 @@ const PowerUpExecutionContextScript = preload("res://src/powerup/powerup_executi
 # @export var max_tokens := 6
 @export var action_hold_seconds := 0.25
 @export var powerup_definitions: Array[Resource]
-@export var powerup_spawn_factor := 1
+@export var powerup_spawn_factor := 1.0
 
 var _active_tokens: Array[Area2D] = []
 var _active_effects: Array[ActivePowerUpEffectScript] = []
@@ -152,7 +152,7 @@ func _possibly_add_powerups(delta: float) -> void:
 		if definition == null:
 			continue
 		var chance := float(definition.spawn_chance)
-		var p: float = powerup_factor / (chance * fps)
+		var p: float = delta * powerup_factor / chance
 		if randf() < p:
 			var pos := _random_token_position()
 			spawn_specific_token(definition, pos)

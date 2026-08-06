@@ -30,4 +30,4 @@ func on_apply(
 
 func on_expire(effect) -> void:
 	if effect.context.powerup_runtime_controller != null:
-		effect.context.powerup_runtime_controller.remove_spawn_interval_multiplier(effect.source_id)
+		effect.context.powerup_runtime_controller.remove_powerup_spawn_factor_multiplier(effect.source_id)
