@@ -1,7 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://s4dac2cod3c6"]
+[gd_scene load_steps=11 format=3 uid="uid://s4dac2cod3c6"]
 
 [ext_resource type="Script" uid="uid://bm7w0nwmhhii6" path="res://src/game/game_physic_controller.gd" id="1_ua88q"]
 [ext_resource type="Script" path="res://src/powerup/powerup_runtime_controller.gd" id="2_pwrtm"]
+[ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_pause_title"]
+[ext_resource type="FontFile" uid="uid://binkv08f2jgxo" path="res://assets/fonts/Verdana.ttf" id="4_pause_hint"]
+[ext_resource type="Script" path="res://src/game/countdown_display.gd" id="5_countdown"]
+[ext_resource type="Script" path="res://src/game/pause_overlay.gd" id="6_pause_overlay"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jadrl"]
 size = Vector2(800, 10)
@@ -14,6 +18,17 @@ size = Vector2(800, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_es70b"]
 size = Vector2(10, 800)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pause"]
+bg_color = Color(0.2, 0.2, 0.2, 0.85)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 32.0
+content_margin_top = 24.0
+content_margin_right = 32.0
+content_margin_bottom = 24.0
 
 [node name="GameAreaScene" type="Control"]
 custom_minimum_size = Vector2(800, 800)
@@ -89,3 +104,70 @@ shape = SubResource("RectangleShape2D_es70b")
 [node name="Line2D" type="Line2D" parent="GameArea/Walls/RightWall"]
 points = PackedVector2Array(800, 0, 800, 800)
 default_color = Color(0.8315821, 0.83158237, 0, 1)
+
+[node name="CountdownOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 800.0
+mouse_filter = 2
+script = ExtResource("5_countdown")
+
+[node name="CountdownLabel" type="Label" parent="CountdownOverlay"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+pivot_offset = Vector2(150, 100)
+theme_override_fonts/font = ExtResource("3_pause_title")
+theme_override_font_sizes/font_size = 120
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "3"
+
+[node name="PauseOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 800.0
+mouse_filter = 2
+script = ExtResource("6_pause_overlay")
+
+[node name="PausePanel" type="PanelContainer" parent="PauseOverlay"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -110.0
+offset_right = 220.0
+offset_bottom = 110.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pause")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseOverlay/PausePanel"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="PauseLabel" type="Label" parent="PauseOverlay/PausePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_pause_title")
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+text = "Pause"
+
+[node name="PauseHintLabel" type="Label" parent="PauseOverlay/PausePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_pause_hint")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+text = "Espace pour reprendre"
