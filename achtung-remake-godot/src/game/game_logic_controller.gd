@@ -148,7 +148,7 @@ func _on_player_died(player: PlayerScript, death_cause: int, collided_player: Pl
 	for player_alive in GameManager.players_alive:
 		if death_cause == PlayerScript.DeathCause.PLAYER and player_alive == collided_player:
 			continue
-		player_alive.score += 1
+		player_alive.score += int(round(player_alive.get_score_multiplier()))
 		var player_score = find_child(player_alive.player_name + "_score", true, false)
 		if player_score:
 			player_score.text = str(player_alive.score)

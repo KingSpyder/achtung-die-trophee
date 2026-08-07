@@ -36,6 +36,7 @@ var last_collided_player: Player = null
 var is_laying_trail := false
 var last_collision: KinematicCollision2D
 var _speed_multipliers := {}
+var _score_multipliers := {}
 var _size_multipliers := {}
 var _inverted_control_sources := {}
 var _head_preset_overrides := {}
@@ -180,6 +181,13 @@ func move(delta) -> void:
 			# Let the player go through walls; out_of_bounds decides when to wrap.
 			position += last_collision.get_remainder()
 			last_collision = null
+
+
+## Apply an externally-decided rotation to the player's direction, additive to whatever
+## the player's own steering already did this frame. Used by powerups that need to nudge
+## the player's heading each tick without the player owning any of that state itself.
+func rotate_direction(angle_radians: float) -> void:
+	direction = direction.rotated(angle_radians).normalized()
 
 
 func _is_action_pressed_safe(action_name: String) -> bool:
@@ -390,6 +398,21 @@ func _get_effective_speed() -> float:
 func _get_speed_multiplier_factor() -> float:
 	var factor := 1.0
 	for value in _speed_multipliers.values():
+		factor *= float(value)
+	return factor
+
+
+func set_score_multiplier(source_id: StringName, multiplier: float) -> void:
+	_score_multipliers[source_id] = maxf(multiplier, 0.0)
+
+
+func remove_score_multiplier(source_id: StringName) -> void:
+	_score_multipliers.erase(source_id)
+
+
+func get_score_multiplier() -> float:
+	var factor := 1.0
+	for value in _score_multipliers.values():
 		factor *= float(value)
 	return factor
 

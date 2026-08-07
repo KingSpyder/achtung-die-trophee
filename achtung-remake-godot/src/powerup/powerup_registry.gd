@@ -23,6 +23,7 @@ enum PowerUpType {
 	SURPRISE,
 	THIN_SELF,
 	FAT_OTHERS,
+	TROPHEE,
 }
 
 const SpeedBoostDefinitionScript = preload(
@@ -71,6 +72,9 @@ const ThinSelfDefinitionScript = preload(
 )
 const FatOthersDefinitionScript = preload(
 	"res://src/powerup/definitions/fat_others_powerup_definition.gd"
+)
+const TropheeDefinitionScript = preload(
+	"res://src/powerup/definitions/trophee_powerup_definition.gd"
 )
 
 
@@ -126,4 +130,6 @@ static func get_definition_by_type(powerup_type: PowerUpType) -> Resource:
 			return ThinSelfDefinitionScript.new()
 		PowerUpType.FAT_OTHERS:
 			return FatOthersDefinitionScript.new()
+		PowerUpType.TROPHEE:
+			return TropheeDefinitionScript.new()
 	return null
