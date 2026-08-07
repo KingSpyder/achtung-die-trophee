@@ -126,8 +126,8 @@ func get_random_position() -> Vector2:
 	var width = PLAYFIELD_SIZE
 	var height = PLAYFIELD_SIZE
 	# Generate a random position within the screen, with optional margin
-	var x = randf_range(10, width - 10)
-	var y = randf_range(10, height - 10)
+	var x = randf_range(20, width - 20)
+	var y = randf_range(20, height - 20)
 	return Vector2(x, y)
 
 
