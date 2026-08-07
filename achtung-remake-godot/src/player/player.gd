@@ -5,8 +5,8 @@ signal player_died(player: Player, death_cause: int, collided_player: Player)
 
 enum DeathCause { UNKNOWN, WALL, TRAIL, PLAYER, OUT_OF_BOUNDS }
 
-const DEFAULT_SPEED: float = 100
-const BASE_SIZE: float = 5.0
+const DEFAULT_SPEED: float = PlayersConstants.PLAYER_SPEED
+const BASE_SIZE: float = PlayersConstants.TRAIL_WIDTH
 const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 @export var player_name: String
