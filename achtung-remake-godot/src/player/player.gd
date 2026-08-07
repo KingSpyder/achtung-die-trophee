@@ -164,10 +164,11 @@ func move(delta) -> void:
 		else:
 			_left_turn_press_consumed = false
 			_right_turn_press_consumed = false
+			var eff_angular_speed = _get_effective_angular_speed()
 			if left_pressed:
-				direction = direction.rotated(-angular_speed * delta)
+				direction = direction.rotated(-eff_angular_speed * delta)
 			if right_pressed:
-				direction = direction.rotated(angular_speed * delta)
+				direction = direction.rotated(eff_angular_speed * delta)
 	direction = direction.normalized()
 
 	# we make sure the arrow point in the right direction
