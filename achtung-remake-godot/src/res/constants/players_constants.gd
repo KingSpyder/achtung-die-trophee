@@ -23,7 +23,7 @@ const FUNNY_ENDGAME_TEXT := {
 	GREYDON_NAME: " (on le voyait pas)",
 }
 
-const PLAYER_SPEED := 90
+const PLAYER_SPEED := 90.0
 const PLAYER_ANGULAR_SPEED := PLAYER_SPEED / 35
 const GATE_OPEN_TIME := 50 / PLAYER_SPEED
 const TRAIL_WIDTH := 6.0
