@@ -9,6 +9,9 @@ var _round_end_scheduled := false
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
 @onready var max_score_label: Label = %MaxScoreLabel
+@onready var winner_box_container: Control = %WinnerBoxContainer
+@onready var winner_panel: PanelContainer = %WinnerPanel
+@onready var winner_label: Label = %WinnerLabel
 
 
 ## Initialize the game, set up players scores.
@@ -61,6 +64,8 @@ func start_round() -> void:
 ## End the current round, calculate scores and check if the game should end.
 ## Status is set to ROUND_ENDED, waiting for the player to prepare the next round.
 func end_round() -> void:
+	for player in GameManager.players:
+		player.set_process(false)
 	game_physic_controller.reset_round_powerups()
 	var scores = GameManager.players.map(func(_player): return _player.score)
 	scores.sort()
@@ -74,9 +79,6 @@ func end_round() -> void:
 	):
 		end_game()
 		return
-
-	for player in GameManager.players:
-		player.set_process(false)
 	GameManager.game_status = GameManager.GameStatus.ROUND_ENDED
 	print("Round ended, press space to prepare next round")
 
@@ -99,7 +101,25 @@ func next_round():
 func end_game():
 	print("Game ended")
 	GameManager.game_status = GameManager.GameStatus.GAME_ENDED
-	# Here we could show a victory screen or something like that, but for now we do nothing
+	_show_winner_box()
+
+
+## Show a box in the winner's color announcing them as the winner.
+func _show_winner_box() -> void:
+	var winner: PlayerScript = GameManager.players[0]
+	for player in GameManager.players:
+		if player.score > winner.score:
+			winner = player
+
+	var style: StyleBoxFlat = winner_panel.get_theme_stylebox("panel").duplicate()
+	style.bg_color = winner.color
+	winner_panel.add_theme_stylebox_override("panel", style)
+
+	var winner_text := "%s a gagné!" % winner.player_name
+	if PlayersConstants.FUNNY_ENDGAME_TEXT.has(winner.player_name):
+		winner_text += "\n" + PlayersConstants.FUNNY_ENDGAME_TEXT[winner.player_name]
+	winner_label.text = winner_text
+	winner_box_container.visible = true
 
 
 func pause_game() -> void:
