@@ -37,3 +37,4 @@ func on_tick(effect, delta: float) -> void:
 func on_expire(effect) -> void:
 	for target_player in effect.targets:
 		target_player.remove_score_multiplier(effect.source_id)
+		target_player.remove_speed_multiplier(effect.source_id)
