@@ -51,18 +51,20 @@ var _input_turn_state := 0  # 0 = neutral, 1 = left, 2 = right
 func _ready() -> void:
 	if _reload_test_powerup_type >= 0:
 		test_powerup_type = _reload_test_powerup_type as PowerUpRegistry.PowerUpType
-		_reload_test_powerup_type = -1
+		_reload_test_powerup_type = -1	
 	_setup_test_players()
 	_setup_input_actions()
 	_powerup_runtime = find_child("PowerUpRuntime", true, false)
 	if _powerup_runtime == null:
 		print("ERROR: PowerUpRuntime node not found in scene tree. Powerups will not function.")
+	else:
+		if disable_auto_spawn:
+			var empty_defs: Array[Resource] = []
+			_powerup_runtime.powerup_definitions = empty_defs
+
 	start_game()
 	if auto_start_round:
 		start_round()
-	# Disable auto spawn to avoid conflicts with specific spawn
-	if disable_auto_spawn and _powerup_runtime != null:
-		_powerup_runtime.max_tokens = 0
 
 
 func _setup_input_actions() -> void:
@@ -120,14 +122,14 @@ func _update_powerup_spawn(delta: float) -> void:
 	_powerup_spawn_timer -= delta
 	if _powerup_spawn_timer <= 0.0:
 		_powerup_spawned = true
-		# Spawn specific powerup on player 1 path
-		var definition = PowerUpRegistry.get_definition_by_type(test_powerup_type)
-		if definition != null:
-			_powerup_runtime.spawn_specific_token(definition, powerup_spawn_position)
-			var pup_id = definition.powerup_id
-			print("Powerup spawned: ", pup_id, " at ", powerup_spawn_position)
-		else:
-			print("ERROR: Could not spawn powerup, definition not found")
+		if _powerup_runtime != null:
+			var definition = PowerUpRegistry.get_definition_by_type(test_powerup_type)
+			if definition != null:
+				_powerup_runtime.spawn_specific_token(definition, powerup_spawn_position)
+				var pup_id = definition.powerup_id
+				print("Powerup spawned for test: ", pup_id, " at ", powerup_spawn_position)
+			else:
+				print("ERROR: Could not spawn powerup, definition not found in registry")
 
 
 ## This is a bit trash
