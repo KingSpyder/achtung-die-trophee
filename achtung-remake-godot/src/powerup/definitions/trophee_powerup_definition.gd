@@ -3,17 +3,12 @@ extends PowerUpDefinition
 
 const ActivePowerUpEffectScript = preload("res://src/powerup/active_powerup_effect.gd")
 
-@export var max_random_turn_speed := 8.0
-@export var score_multiplier := 2.0
-@export var speed_multiplier := 1.25
-@export var radius_multiplier := 0.9375
-
 
 func _init() -> void:
 	powerup_id = &"trophee"
 	target = Target.SELF
 	activation_mode = ActivationMode.IMMEDIATE
-	duration_seconds = 45.0
+	duration_seconds = PowerUpsConstants.TROPHEE_DURATION
 	token_color = DEFAULT_SELF_COLOR
 
 
@@ -23,16 +18,21 @@ func on_apply(
 	source_id: StringName,
 ) -> ActivePowerUpEffectScript:
 	for target_player in targets:
-		target_player.set_score_multiplier(source_id, score_multiplier)
-		target_player.set_speed_multiplier(source_id, speed_multiplier)
-		target_player.set_radius_multiplier(source_id, radius_multiplier)
+		target_player.set_score_multiplier(source_id, PowerUpsConstants.TROPHEE_SCORECOEF)
+		target_player.set_speed_multiplier(source_id, PowerUpsConstants.TROPHEE_SPEEDCOEF)
+		target_player.set_radius_multiplier(source_id, PowerUpsConstants.TROPHEE_RADIUSCOEF)
 	var effect = ActivePowerUpEffectScript.new(self, context, targets, source_id, duration_seconds)
 	return effect
 
 
 func on_tick(effect, delta: float) -> void:
 	for target_player in effect.targets:
-		var random_angle := randf_range(-max_random_turn_speed, max_random_turn_speed) * delta
+		var random_angle := (
+			randf_range(
+				-PowerUpsConstants.TROPHEE_MAXTURNSPEED, PowerUpsConstants.TROPHEE_MAXTURNSPEED
+			)
+			* delta
+		)
 		target_player.rotate_direction(random_angle)
 
 
