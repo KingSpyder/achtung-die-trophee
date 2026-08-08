@@ -10,9 +10,10 @@ func _init() -> void:
 	target = Target.OTHERS
 	activation_mode = ActivationMode.ACTION
 	action_uses = 1
-	duration_seconds = 3.0
+	duration_seconds = PowerUpsConstants.FREEZE_OTHER_DURATION
 	token_color = DEFAULT_ACTION_COLOR
 	token_texture = preload("res://art/powerups/freeze.svg")
+	spawn_chance = PowerUpsConstants.FREEZE_OTHER_CHANCE
 
 
 func on_apply(

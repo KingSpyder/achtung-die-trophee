@@ -8,6 +8,7 @@ func _init() -> void:
 	activation_mode = ActivationMode.IMMEDIATE
 	token_color = DEFAULT_ALL_COLOR
 	token_texture = preload("res://art/powerups/clear.svg")
+	spawn_chance = PowerUpsConstants.CLEAR_CHANCE
 
 
 func on_apply(

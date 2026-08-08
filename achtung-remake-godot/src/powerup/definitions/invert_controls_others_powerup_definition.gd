@@ -8,9 +8,10 @@ func _init() -> void:
 	powerup_id = &"invert_controls_others"
 	target = Target.OTHERS
 	activation_mode = ActivationMode.IMMEDIATE
-	duration_seconds = 4.0
+	duration_seconds = PowerUpsConstants.INVERTER_OTHER_DURATION
 	token_color = DEFAULT_OTHERS_COLOR
 	token_texture = preload("res://art/powerups/invert_others.svg")
+	spawn_chance = PowerUpsConstants.INVERTER_OTHER_CHANCE
 
 
 func on_apply(

@@ -21,6 +21,8 @@ const DEFAULT_ALL_COLOR: Color = Color(1.0, 1.0, 0.0, 1.0)  # Yellow for ALL pow
 @export var duration_seconds := 0.0
 @export var token_color: Color = DEFAULT_SELF_COLOR
 @export var token_texture: Texture2D = null
+@export var spawn_chance := 70.0
+@export var powerup_radius := 20.0
 
 
 func on_apply(

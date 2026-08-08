@@ -15,7 +15,6 @@ border_color = Color(0.5649616, 0.5649617, 0.5649613, 1)
 
 [node name="GameScenePowerupTest" type="Node"]
 script = ExtResource("1_powerup_test")
-test_powerup_type = 4
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
