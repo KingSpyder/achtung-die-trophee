@@ -118,7 +118,7 @@ func _possibly_add_powerups(delta: float) -> void:
 	for definition in powerup_definitions:
 		if definition == null:
 			continue
-		var t_avg_powerup := float(definition.spawn_chance)
+		var t_avg_powerup := float(definition.avg_spawn_interval)
 		# powerups follow a Poisson process
 		var p: float = 1 - exp(-delta * powerup_factor / t_avg_powerup)
 		if randf() < p:

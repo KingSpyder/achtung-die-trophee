@@ -12,7 +12,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.DROP_DURATION
 	token_color = DEFAULT_ACTION_COLOR
 	token_texture = preload("res://art/powerups/drop.svg")
-	spawn_chance = PowerUpsConstants.DROP_CHANCE
+	avg_spawn_interval = PowerUpsConstants.DROP_AVG_INTERVAL
 
 
 func on_apply(
@@ -30,4 +30,6 @@ func on_apply(
 
 func on_expire(effect) -> void:
 	if effect.context.powerup_runtime_controller != null:
-		effect.context.powerup_runtime_controller.remove_powerup_spawn_factor_multiplier(effect.source_id)
+		effect.context.powerup_runtime_controller.remove_powerup_spawn_factor_multiplier(
+			effect.source_id
+		)

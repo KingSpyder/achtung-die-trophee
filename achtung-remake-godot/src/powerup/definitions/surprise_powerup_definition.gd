@@ -9,7 +9,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.SURPRISE_DURATION
 	token_color = DEFAULT_ACTION_COLOR
 	token_texture = preload("res://art/powerups/surprise.svg")
-	spawn_chance = PowerUpsConstants.SURPRISE_CHANCE
+	avg_spawn_interval = PowerUpsConstants.SURPRISE_AVG_INTERVAL
 
 
 func on_apply(context, _targets, _source_id: StringName) -> ActivePowerUpEffect:

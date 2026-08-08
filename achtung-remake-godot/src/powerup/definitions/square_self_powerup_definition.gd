@@ -12,7 +12,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.SQUARE_SELF_DURATION
 	token_color = DEFAULT_SELF_COLOR
 	token_texture = preload("res://art/powerups/square_self.svg")
-	spawn_chance = PowerUpsConstants.SQUARE_SELF_CHANCE
+	avg_spawn_interval = PowerUpsConstants.SQUARE_SELF_AVG_INTERVAL
 
 
 func on_apply(

@@ -11,7 +11,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.FAT_OTHER_DURATION
 	token_color = DEFAULT_OTHERS_COLOR
 	token_texture = preload("res://art/powerups/fat_others.svg")
-	spawn_chance = PowerUpsConstants.FAT_OTHER_CHANCE
+	avg_spawn_interval = PowerUpsConstants.FAT_OTHER_AVG_INTERVAL
 
 
 func on_apply(

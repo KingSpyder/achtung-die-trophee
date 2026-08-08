@@ -11,7 +11,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.SPEED_REDUCE_OTHER_DURATION
 	token_color = DEFAULT_OTHERS_COLOR
 	token_texture = preload("res://art/powerups/reduce_others.svg")
-	spawn_chance = PowerUpsConstants.SPEED_REDUCE_OTHER_CHANCE
+	avg_spawn_interval = PowerUpsConstants.SPEED_REDUCE_OTHER_AVG_INTERVAL
 
 
 func on_apply(

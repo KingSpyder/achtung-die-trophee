@@ -13,7 +13,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.UNTRAIL_SELF_DURATION
 	token_color = DEFAULT_SELF_COLOR
 	token_texture = preload("res://art/powerups/untrail_self.svg")
-	spawn_chance = PowerUpsConstants.UNTRAIL_SELF_CHANCE
+	avg_spawn_interval = PowerUpsConstants.UNTRAIL_SELF_AVG_INTERVAL
 
 
 func on_apply(
