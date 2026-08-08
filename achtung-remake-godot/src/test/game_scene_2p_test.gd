@@ -75,8 +75,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			viewport.set_input_as_handled()
 
 
-func start_round() -> void:
-	super.start_round()
+func start_round(skip_countdown: bool = true) -> void:
+	super.start_round(skip_countdown)
 	_apply_gate_open_delay(_player_1, player_1_gate_open_delay)
 	_apply_gate_open_delay(_player_2, player_2_gate_open_delay)
 	_setup_observer_player(_player_3)

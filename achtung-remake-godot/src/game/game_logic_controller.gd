@@ -54,8 +54,9 @@ func start_game() -> void:
 
 ## Start a new round: start moving the players.
 ## Status is set to IN_GAME.
-func start_round() -> void:
-	await countdown_display.run_countdown(3)
+func start_round(skip_countdown: bool = false) -> void:
+	if not skip_countdown:
+		await countdown_display.run_countdown(3)
 	print("Round started")
 	GameManager.game_status = GameManager.GameStatus.IN_GAME
 	GameManager.players_alive = GameManager.players.duplicate()

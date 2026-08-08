@@ -51,7 +51,7 @@ var _input_turn_state := 0  # 0 = neutral, 1 = left, 2 = right
 func _ready() -> void:
 	if _reload_test_powerup_type >= 0:
 		test_powerup_type = _reload_test_powerup_type as PowerUpRegistry.PowerUpType
-		_reload_test_powerup_type = -1	
+		_reload_test_powerup_type = -1
 	_setup_test_players()
 	_setup_input_actions()
 	_powerup_runtime = find_child("PowerUpRuntime", true, false)
@@ -92,8 +92,8 @@ func _process(delta: float) -> void:
 	_update_input_simulation(delta)
 
 
-func start_round() -> void:
-	super.start_round()
+func start_round(skip_countdown: bool = true) -> void:
+	super.start_round(skip_countdown)
 	_apply_gate_open_delay(_player_1, player_1_gate_open_delay)
 	_apply_gate_open_delay(_player_2, player_2_gate_open_delay)
 	_setup_observer_player(_player_3)
