@@ -16,7 +16,7 @@ const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 @export var order: int
 
 @export var speed: float = PlayersConstants.PLAYER_SPEED
-@export var angular_speed: float = PlayersConstants.PLAYER_ANGULAR_SPEED
+@export var radius: float = PlayersConstants.PLAYER_TURN_RADIUS
 @export var gate_open_time: float = PlayersConstants.GATE_OPEN_TIME
 @export var head_preset: PlayerHeadPreset
 @export var size: float = BASE_SIZE:
@@ -37,7 +37,7 @@ var is_laying_trail := false
 var last_collision: KinematicCollision2D
 var _speed_multipliers := {}
 var _score_multipliers := {}
-var _angular_speed_multipliers := {}
+var _radius_multipliers := {}
 var _size_multipliers := {}
 var _inverted_control_sources := {}
 var _head_preset_overrides := {}
@@ -144,9 +144,10 @@ func move(delta) -> void:
 		normal_color.a = current_alpha
 		head.self_modulate = normal_color
 
+	var effective_speed := _get_effective_speed()
 	# Only block rotation when multipliers freeze the player (factor == 0).
 	# This keeps round-prep turning working even when base speed is 0.
-	if _get_speed_multiplier_factor() > 0.0:
+	if effective_speed > 0.0:
 		if _is_quarter_turn_enabled():
 			if left_pressed:
 				if not _left_turn_press_consumed:
@@ -164,18 +165,18 @@ func move(delta) -> void:
 		else:
 			_left_turn_press_consumed = false
 			_right_turn_press_consumed = false
-			var eff_angular_speed = _get_effective_angular_speed()
+			var eff_radius = _get_effective_radius()
 			if left_pressed:
-				direction = direction.rotated(-eff_angular_speed * delta)
+				direction = direction.rotated(-effective_speed / eff_radius * delta)
 			if right_pressed:
-				direction = direction.rotated(eff_angular_speed * delta)
+				direction = direction.rotated(effective_speed / eff_radius * delta)
 	direction = direction.normalized()
 
 	# we make sure the arrow point in the right direction
 	arrow.position = Vector2(10 * direction.x, 10 * direction.y)
 	arrow.rotation = direction.angle() + PI / 2
 
-	velocity = _get_effective_speed() * direction
+	velocity = effective_speed * direction
 	last_collision = move_and_collide(velocity * delta)
 	if _can_pass_borders() and last_collision != null:
 		var collider := last_collision.get_collider()
@@ -419,21 +420,21 @@ func get_score_multiplier() -> float:
 	return factor
 
 
-func set_angular_speed_multiplier(source_id: StringName, multiplier: float) -> void:
-	_angular_speed_multipliers[source_id] = maxf(multiplier, 0.0)
+func set_radius_multiplier(source_id: StringName, multiplier: float) -> void:
+	_radius_multipliers[source_id] = maxf(multiplier, 0.0)
 
 
-func remove_angular_speed_multiplier(source_id: StringName) -> void:
-	_angular_speed_multipliers.erase(source_id)
+func remove_radius_multiplier(source_id: StringName) -> void:
+	_radius_multipliers.erase(source_id)
 
 
-func _get_effective_angular_speed() -> float:
-	return angular_speed * _get_angular_speed_multiplier_factor()
+func _get_effective_radius() -> float:
+	return radius * _get_radius_multiplier_factor()
 
 
-func _get_angular_speed_multiplier_factor() -> float:
+func _get_radius_multiplier_factor() -> float:
 	var factor := 1.0
-	for value in _angular_speed_multipliers.values():
+	for value in _radius_multipliers.values():
 		factor *= float(value)
 	return factor
 

@@ -6,6 +6,7 @@ const ActivePowerUpEffectScript = preload("res://src/powerup/active_powerup_effe
 @export var max_random_turn_speed := 8.0
 @export var score_multiplier := 2.0
 @export var speed_multiplier := 1.25
+@export var radius_multiplier := 0.9375
 
 
 func _init() -> void:
@@ -24,6 +25,7 @@ func on_apply(
 	for target_player in targets:
 		target_player.set_score_multiplier(source_id, score_multiplier)
 		target_player.set_speed_multiplier(source_id, speed_multiplier)
+		target_player.set_radius_multiplier(source_id, radius_multiplier)
 	var effect = ActivePowerUpEffectScript.new(self, context, targets, source_id, duration_seconds)
 	return effect
 
@@ -38,3 +40,4 @@ func on_expire(effect) -> void:
 	for target_player in effect.targets:
 		target_player.remove_score_multiplier(effect.source_id)
 		target_player.remove_speed_multiplier(effect.source_id)
+		target_player.remove_radius_multiplier(effect.source_id)

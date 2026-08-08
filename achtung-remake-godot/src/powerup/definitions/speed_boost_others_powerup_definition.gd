@@ -21,8 +21,9 @@ func on_apply(
 ) -> ActivePowerUpEffectScript:
 	for target_player in targets:
 		target_player.set_speed_multiplier(source_id, PowerUpsConstants.SPEED_BOOST_OTHER_SPEEDCOEF)
-		var angular_speed_multiplier = target_player._get_speed_multiplier_factor() / PowerUpsConstants.SPEED_BOOST_OTHER_RADIUSCOEF
-		target_player.set_angular_speed_multiplier(source_id, angular_speed_multiplier)
+		target_player.set_radius_multiplier(
+			source_id, PowerUpsConstants.SPEED_BOOST_OTHER_RADIUSCOEF
+		)
 	var effect = ActivePowerUpEffectScript.new(self, context, targets, source_id, duration_seconds)
 	return effect
 
@@ -30,4 +31,4 @@ func on_apply(
 func on_expire(effect) -> void:
 	for target_player in effect.targets:
 		target_player.remove_speed_multiplier(effect.source_id)
-		target_player.remove_angular_speed_multiplier(effect.source_id)
+		target_player.remove_radius_multiplier(effect.source_id)
