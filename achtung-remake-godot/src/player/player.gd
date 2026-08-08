@@ -419,21 +419,6 @@ func get_score_multiplier() -> float:
 	return factor
 
 
-func set_score_multiplier(source_id: StringName, multiplier: float) -> void:
-	_score_multipliers[source_id] = maxf(multiplier, 0.0)
-
-
-func remove_score_multiplier(source_id: StringName) -> void:
-	_score_multipliers.erase(source_id)
-
-
-func get_score_multiplier() -> float:
-	var factor := 1.0
-	for value in _score_multipliers.values():
-		factor *= float(value)
-	return factor
-
-
 func set_angular_speed_multiplier(source_id: StringName, multiplier: float) -> void:
 	_angular_speed_multipliers[source_id] = maxf(multiplier, 0.0)
 
