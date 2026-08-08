@@ -21,7 +21,8 @@ func on_apply(
 ) -> ActivePowerUpEffectScript:
 	for target_player in targets:
 		target_player.set_speed_multiplier(source_id, PowerUpsConstants.SPEED_BOOST_SELF_SPEEDCOEF)
-		target_player.set_angular_speed_multiplier(source_id, PowerUpsConstants.SPEED_BOOST_SELF_RADIUSCOEF)
+		var angular_speed_multiplier = target_player._get_speed_multiplier_factor() / PowerUpsConstants.SPEED_BOOST_SELF_RADIUSCOEF
+		target_player.set_angular_speed_multiplier(source_id, angular_speed_multiplier)
 	var effect = ActivePowerUpEffectScript.new(self, context, targets, source_id, duration_seconds)
 	return effect
 
