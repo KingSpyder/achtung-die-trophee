@@ -33,8 +33,6 @@ var _player_hold_elapsed_by_id := {}
 var _player_hold_consumed_by_id := {}
 var _player_action_display_box_by_id := {}
 var _spawn_interval_multipliers := {}
-var time_counter := 0.0
-const ORIGINAL_FRAMETIME := 1.0 / PowerUpsConstants.ORIGINAL_FRAMERATE
 
 @onready var _game_physic_controller: GamePhysicControllerScript = get_parent()
 
@@ -48,12 +46,7 @@ func _process(delta: float) -> void:
 	_update_effects(delta)
 	if GameManager.game_status == GameManager.GameStatus.IN_GAME:
 		_update_player_action_triggers(delta)
-		time_counter += delta
-		while time_counter >= ORIGINAL_FRAMETIME:
-			time_counter -= ORIGINAL_FRAMETIME
-			_possibly_add_powerups(PowerUpsConstants.ORIGINAL_FRAMERATE)
-	if GameManager.game_status != GameManager.GameStatus.IN_GAME:
-		return
+		_possibly_add_powerups(delta)
 
 
 func register_player(player: PlayerScript) -> void:
@@ -91,7 +84,6 @@ func clear_round_state() -> void:
 	cancel_all_effects()
 	clear_all_player_actions()
 	_current_alive_players.clear()
-	time_counter = 0.0
 
 
 func clear_tokens() -> void:
@@ -117,21 +109,22 @@ func spawn_specific_token(definition: PowerUpDefinitionScript, position_token: V
 	add_child(token)
 	_active_tokens.append(token)
 
-## Original spawn definition :
-## spawn if math.random() < powerupFactor / (powerup.chance * fps)
-func _possibly_add_powerups(FPS: float) -> void:
+
+## Randomly spawn one or multiple tokens based on the avergae spawn interval of each definition
+func _possibly_add_powerups(delta: float) -> void:
 	if powerup_definitions.is_empty():
 		return
-	var fps: float= max(1, int(Engine.get_frames_per_second()))
 	var powerup_factor := _get_powerup_spawn_factor_multiplier()
 	for definition in powerup_definitions:
 		if definition == null:
 			continue
-		var chance := float(definition.spawn_chance)
-		var p: float = powerup_factor / (chance * FPS)
+		var t_avg_powerup := float(definition.spawn_chance)
+		# powerups follow a Poisson process
+		var p: float = 1 - exp(-delta * powerup_factor / t_avg_powerup)
 		if randf() < p:
 			var pos := _random_token_position()
 			spawn_specific_token(definition, pos)
+
 
 func _update_effects(delta: float) -> void:
 	for index in range(_active_effects.size() - 1, -1, -1):
