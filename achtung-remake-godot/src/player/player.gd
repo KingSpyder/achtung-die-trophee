@@ -147,7 +147,7 @@ func move(delta) -> void:
 	var effective_speed := _get_effective_speed()
 	# Only block rotation when multipliers freeze the player (factor == 0).
 	# This keeps round-prep turning working even when base speed is 0.
-	if effective_speed > 0.0:
+	if _get_speed_multiplier_factor() > 0.0:
 		if _is_quarter_turn_enabled():
 			if left_pressed:
 				if not _left_turn_press_consumed:
