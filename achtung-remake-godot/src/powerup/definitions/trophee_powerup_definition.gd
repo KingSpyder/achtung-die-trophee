@@ -10,6 +10,7 @@ func _init() -> void:
 	activation_mode = ActivationMode.IMMEDIATE
 	duration_seconds = PowerUpsConstants.TROPHEE_DURATION
 	token_color = DEFAULT_SELF_COLOR
+	avg_spawn_interval = PowerUpsConstants.TROPHEE_AVG_INTERVAL
 
 
 func on_apply(
