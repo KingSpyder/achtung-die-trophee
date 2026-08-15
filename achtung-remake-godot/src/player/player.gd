@@ -165,11 +165,14 @@ func move(delta) -> void:
 		else:
 			_left_turn_press_consumed = false
 			_right_turn_press_consumed = false
-			var eff_radius = _get_effective_radius()
+			var angular_speed = effective_speed / _get_effective_radius()
+			if angular_speed == 0.0:
+				# round start case, as we checked that speed multiplier factor is > 0.0
+				angular_speed = PlayersConstants.PLAYER_SPEED / PlayersConstants.PLAYER_TURN_RADIUS
 			if left_pressed:
-				direction = direction.rotated(-effective_speed / eff_radius * delta)
+				direction = direction.rotated(-angular_speed * delta)
 			if right_pressed:
-				direction = direction.rotated(effective_speed / eff_radius * delta)
+				direction = direction.rotated(angular_speed * delta)
 	direction = direction.normalized()
 
 	# we make sure the arrow point in the right direction
