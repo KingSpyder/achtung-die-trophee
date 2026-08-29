@@ -1,7 +1,7 @@
 class_name WallScene
 extends StaticBody2D
 
-const THICKNESS := 10.0
+const THICKNESS := 4.0
 const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 var point_a: Vector2
@@ -25,6 +25,7 @@ func initialize(wall_name: String, init_point_a: Vector2, init_point_b: Vector2)
 
 	# Set line points
 	line2d.points = PackedVector2Array([point_a, point_b])
+	line2d.width = THICKNESS
 
 	# Calculate wall properties
 	var direction = (point_b - point_a).normalized()
