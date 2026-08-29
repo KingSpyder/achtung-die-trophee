@@ -1,3 +1,4 @@
+# gdlint: ignore=max-public-methods
 class_name Player
 extends CharacterBody2D
 
@@ -17,7 +18,6 @@ const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 @export var speed: float = PlayersConstants.PLAYER_SPEED
 @export var radius: float = PlayersConstants.PLAYER_TURN_RADIUS
-@export var gate_open_time: float = PlayersConstants.GATE_OPEN_TIME
 @export var head_preset: PlayerHeadPreset
 @export var size: float = BASE_SIZE:
 	set(value):
@@ -35,6 +35,17 @@ var last_collided_player: Player = null
 
 var is_laying_trail := false
 var last_collision: KinematicCollision2D
+
+## Distance (px) travelled on the current solid trail since the last gate closed.
+var _distance_since_gate := 0.0
+## Distance (px) left to travel before the current open gate closes.
+var _gate_distance_remaining := 0.0
+## True while a gate was opened with indefinite=true (e.g. the untrail_self powerup):
+## it only closes when start_trail() is called explicitly, never from distance travelled.
+var _gate_indefinite := false
+## Test/debug hook: See debug_force_next_gate_after().
+var _forced_gate_open_distance := -1.0
+
 var _speed_multipliers := {}
 var _score_multipliers := {}
 var _radius_multipliers := {}
@@ -188,6 +199,8 @@ func move(delta) -> void:
 			position += last_collision.get_remainder()
 			last_collision = null
 
+	_manage_gate(effective_speed * delta)
+
 
 ## Apply an externally-decided rotation to the player's direction, additive to whatever
 ## the player's own steering already did this frame. Used by powerups that need to nudge
@@ -283,39 +296,43 @@ func _wrap_position_inside_bounds() -> void:
 	print(player_name, "position after wrapping: ", position)
 
 
-## Remove players lines and trails. Stop gate timers.
+## Remove players lines and trails. Reset gate distance tracking.
 func clean(full: bool = true) -> void:
 	$TrailScene.clean_lines()
 	$TrailScene.clean_trails()
 	if full:
 		is_laying_trail = false
-		%GateOpenTimer.stop()
-		%GateCloseTimer.stop()
+		_distance_since_gate = 0.0
+		_gate_distance_remaining = 0.0
+		_gate_indefinite = false
+		_forced_gate_open_distance = -1.0
 
 
-## Activate the player's trail, and start the gate open timer.
+## Activate the player's trail, and reset the distance travelled towards the next gate.
 func start_trail() -> void:
 	_enable_trail_collision()
 	is_laying_trail = true
-	_start_gate_open_timer()
+	_gate_indefinite = false
+	_distance_since_gate = 0.0
 
 
-## Open a gate in the player's trail. Start the gate close timer.
-func open_gate(indefinite_timer: bool = false) -> void:
+## Open a gate in the player's trail. `indefinite` keeps it open until start_trail() is
+## called explicitly (used by powerups like untrail_self), instead of closing after
+## PlayersConstants.GATE_LENGTH px of travel.
+func open_gate(indefinite: bool = false) -> void:
 	is_laying_trail = false
 	_disable_trail_collision()
-	if indefinite_timer:
-		_stop_timers()
-		return
-	_start_gate_close_timer()
+	_gate_indefinite = indefinite
+	_gate_distance_remaining = 0.0 if indefinite else PlayersConstants.GATE_LENGTH
 
 
-## Close the gate in the player's trail. Start the gate open timer.
+## Close the gate in the player's trail, resuming the solid line.
 func _close_gate() -> void:
 	_enable_trail_collision()
 	_update_wall_collision_mask()
 	is_laying_trail = true
-	_start_gate_open_timer()
+	_gate_indefinite = false
+	_distance_since_gate = 0.0
 
 
 ## Disable collision with all trail layers (both RecentTrail and OldTrail), and players.
@@ -345,29 +362,34 @@ func _update_wall_collision_mask() -> void:
 	collision_mask |= (1 << PhysicsLayersScript.WALL_BIT)
 
 
-## Randomly chose a time to open the gate, between 1 and 4 seconds for now (value to change).
-func _start_gate_open_timer():
-	var random_delay = randf_range(1.0, 4.0)
-	%GateOpenTimer.wait_time = random_delay
-	%GateOpenTimer.start()
+## Advance the gate state machine by the distance travelled this frame
+func _manage_gate(distance: float) -> void:
+	if is_laying_trail:
+		if distance <= 0.0:
+			return
+		_distance_since_gate += distance
+		if _forced_gate_open_distance >= 0.0:
+			if _distance_since_gate >= _forced_gate_open_distance:
+				_forced_gate_open_distance = -1.0
+				open_gate()
+			return
+		if _distance_since_gate > PlayersConstants.CHANGE_HOLE_MIN:
+			var hole_min: float = PlayersConstants.CHANGE_HOLE_MIN
+			var hole_target: float = PlayersConstants.CHANGE_HOLE_TARGET
+			var open_chance: float = distance / (hole_target - hole_min)
+			if randf() < open_chance:
+				open_gate()
+	elif not _gate_indefinite:
+		_gate_distance_remaining -= distance
+		if _gate_distance_remaining <= 0.0:
+			_close_gate()
 
 
-func _start_gate_close_timer():
-	%GateCloseTimer.wait_time = gate_open_time
-	%GateCloseTimer.start()
-
-
-func _stop_timers() -> void:
-	%GateOpenTimer.stop()
-	%GateCloseTimer.stop()
-
-
-func _on_gate_open_timer_timeout():
-	open_gate()
-
-
-func _on_gate_close_timer_timeout() -> void:
-	_close_gate()
+## Test/debug hook: Used by test scenes that need
+## deterministic gate timing
+func debug_force_next_gate_after(distance: float) -> void:
+	_forced_gate_open_distance = distance
+	_distance_since_gate = 0.0
 
 
 ## Player death function. Stop the player's movement and

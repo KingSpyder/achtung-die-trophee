@@ -142,12 +142,10 @@ func _spawn_test_player(
 func _apply_gate_open_delay(player: PlayerScript, delay_seconds: float) -> void:
 	if not is_instance_valid(player):
 		return
-	var gate_open_timer: Timer = player.get_node("GateOpenTimer")
-	if gate_open_timer == null:
-		return
-	gate_open_timer.stop()
-	gate_open_timer.wait_time = maxf(delay_seconds, 0.01)
-	gate_open_timer.start()
+	# Gates now open based on distance travelled rather than a real-time timer; convert the
+	# requested delay to an equivalent distance at the player's current speed.
+	var distance := player.speed * maxf(delay_seconds, 0.01)
+	player.debug_force_next_gate_after(distance)
 
 
 func _setup_observer_player(player: PlayerScript) -> void:

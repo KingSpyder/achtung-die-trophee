@@ -25,6 +25,14 @@ const FUNNY_ENDGAME_TEXT := {
 
 const PLAYER_SPEED := 90.0
 const PLAYER_TURN_RADIUS := 35.0
-const GATE_OPEN_TIME := 50 / PLAYER_SPEED
-const TRAIL_WIDTH := 6.0
+const TRAIL_WIDTH := 6.0  # Confirmed in AS
 const INITIAL_TRAIL_LENGTH := 12.0
+
+## Minimum distance (px) of solid trail before a gate can open. Confirmed in AS (change_hole_min).
+const CHANGE_HOLE_MIN := 100.0
+## Distance (px) of solid trail around which a gate is expected (on average) to open.
+## Confirmed in AS (change_hole_target). The per-frame roll is calibrated so gates never
+## open before CHANGE_HOLE_MIN and average out around this value.
+const CHANGE_HOLE_TARGET := 200.0
+## Length (px) of the gap left by an open gate. Confirmed in AS (hole_width).
+const GATE_LENGTH := 15.0
