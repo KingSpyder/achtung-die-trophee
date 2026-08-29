@@ -50,6 +50,7 @@ var _speed_multipliers := {}
 var _score_multipliers := {}
 var _radius_multipliers := {}
 var _size_multipliers := {}
+var _gate_length_multipliers := {}
 var _inverted_control_sources := {}
 var _head_preset_overrides := {}
 var _quarter_turn_sources := {}
@@ -323,7 +324,9 @@ func open_gate(indefinite: bool = false) -> void:
 	is_laying_trail = false
 	_disable_trail_collision()
 	_gate_indefinite = indefinite
-	_gate_distance_remaining = 0.0 if indefinite else PlayersConstants.GATE_LENGTH
+	var gate_length: float = PlayersConstants.GATE_LENGTH
+	var gate_length_factor := _get_gate_length_multiplier_factor()
+	_gate_distance_remaining = 0.0 if indefinite else gate_length * gate_length_factor
 
 
 ## Close the gate in the player's trail, resuming the solid line.
@@ -488,6 +491,21 @@ func _get_size_multiplier_factor() -> float:
 func _update_size_from_multipliers() -> void:
 	var effective_size := _get_effective_size()
 	size = effective_size
+
+
+func set_gate_length_multiplier(source_id: StringName, multiplier: float) -> void:
+	_gate_length_multipliers[source_id] = maxf(multiplier, 0.0)
+
+
+func remove_gate_length_multiplier(source_id: StringName) -> void:
+	_gate_length_multipliers.erase(source_id)
+
+
+func _get_gate_length_multiplier_factor() -> float:
+	var factor := 1.0
+	for value in _gate_length_multipliers.values():
+		factor *= float(value)
+	return factor
 
 
 func set_turn_controls_inverted(source_id: StringName, enabled: bool) -> void:
