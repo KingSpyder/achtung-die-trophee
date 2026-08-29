@@ -5,8 +5,8 @@ signal player_died(player: Player, death_cause: int, collided_player: Player)
 
 enum DeathCause { UNKNOWN, WALL, TRAIL, PLAYER, OUT_OF_BOUNDS }
 
-const DEFAULT_SPEED: float = 100
-const BASE_SIZE: float = 5.0
+const DEFAULT_SPEED: float = PlayersConstants.PLAYER_SPEED
+const BASE_SIZE: float = PlayersConstants.TRAIL_WIDTH
 const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 @export var player_name: String
@@ -15,9 +15,9 @@ const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 @export var right_control: String
 @export var order: int
 
-@export var speed: float = 100
-@export var angular_speed: float = 2.85
-@export var gate_open_time: float = 50 / speed
+@export var speed: float = PlayersConstants.PLAYER_SPEED
+@export var radius: float = PlayersConstants.PLAYER_TURN_RADIUS
+@export var gate_open_time: float = PlayersConstants.GATE_OPEN_TIME
 @export var head_preset: PlayerHeadPreset
 @export var size: float = BASE_SIZE:
 	set(value):
@@ -37,6 +37,7 @@ var is_laying_trail := false
 var last_collision: KinematicCollision2D
 var _speed_multipliers := {}
 var _score_multipliers := {}
+var _radius_multipliers := {}
 var _size_multipliers := {}
 var _inverted_control_sources := {}
 var _head_preset_overrides := {}
@@ -143,6 +144,7 @@ func move(delta) -> void:
 		normal_color.a = current_alpha
 		head.self_modulate = normal_color
 
+	var effective_speed := _get_effective_speed()
 	# Only block rotation when multipliers freeze the player (factor == 0).
 	# This keeps round-prep turning working even when base speed is 0.
 	if _get_speed_multiplier_factor() > 0.0:
@@ -163,6 +165,10 @@ func move(delta) -> void:
 		else:
 			_left_turn_press_consumed = false
 			_right_turn_press_consumed = false
+			var angular_speed = effective_speed / _get_effective_radius()
+			if angular_speed == 0.0:
+				# round start case, as we checked that speed multiplier factor is > 0.0
+				angular_speed = PlayersConstants.PLAYER_SPEED / PlayersConstants.PLAYER_TURN_RADIUS
 			if left_pressed:
 				direction = direction.rotated(-angular_speed * delta)
 			if right_pressed:
@@ -173,7 +179,7 @@ func move(delta) -> void:
 	arrow.position = Vector2(10 * direction.x, 10 * direction.y)
 	arrow.rotation = direction.angle() + PI / 2
 
-	velocity = _get_effective_speed() * direction
+	velocity = effective_speed * direction
 	last_collision = move_and_collide(velocity * delta)
 	if _can_pass_borders() and last_collision != null:
 		var collider := last_collision.get_collider()
@@ -413,6 +419,25 @@ func remove_score_multiplier(source_id: StringName) -> void:
 func get_score_multiplier() -> float:
 	var factor := 1.0
 	for value in _score_multipliers.values():
+		factor *= float(value)
+	return factor
+
+
+func set_radius_multiplier(source_id: StringName, multiplier: float) -> void:
+	_radius_multipliers[source_id] = maxf(multiplier, 0.0)
+
+
+func remove_radius_multiplier(source_id: StringName) -> void:
+	_radius_multipliers.erase(source_id)
+
+
+func _get_effective_radius() -> float:
+	return radius * _get_radius_multiplier_factor()
+
+
+func _get_radius_multiplier_factor() -> float:
+	var factor := 1.0
+	for value in _radius_multipliers.values():
 		factor *= float(value)
 	return factor
 

@@ -25,7 +25,7 @@ func init_players() -> void:
 			"6", PlayersConstants.GREYDON_NAME, PlayersConstants.GREYDON_COLOR
 		),
 		PLAYER_SELECTION_SCENE.instantiate().init_data(
-			"5", PlayersConstants.WILLIAM_NAME, PlayersConstants.WILLIAM_COLOR
+			"5", PlayersConstants.WILLEM_NAME, PlayersConstants.WILLEM_COLOR
 		),
 		PLAYER_SELECTION_SCENE.instantiate().init_data(
 			"4", PlayersConstants.BLUEBELL_NAME, PlayersConstants.BLUEBELL_COLOR

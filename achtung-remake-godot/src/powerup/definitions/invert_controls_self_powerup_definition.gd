@@ -8,9 +8,10 @@ func _init() -> void:
 	powerup_id = &"invert_controls_self"
 	target = Target.SELF
 	activation_mode = ActivationMode.IMMEDIATE
-	duration_seconds = 4.0
+	duration_seconds = PowerUpsConstants.INVERTER_OTHER_DURATION
 	token_color = DEFAULT_SELF_COLOR
 	token_texture = preload("res://art/powerups/invert_self.svg")
+	avg_spawn_interval = PowerUpsConstants.INVERTER_OTHER_AVG_INTERVAL
 
 
 func on_apply(
