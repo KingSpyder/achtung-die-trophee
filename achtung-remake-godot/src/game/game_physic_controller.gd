@@ -4,7 +4,7 @@ extends Node2D
 const PlayerScript = preload("res://src/player/player.gd")
 const WallScenePacked = preload("res://src/game/wallScene.tscn")
 
-const PLAYFIELD_SIZE := 790.0
+const PLAYFIELD_SIZE := 760.0
 
 @onready var powerup_runtime: PowerUpRuntimeController = get_node_or_null("PowerUpRuntime")
 
