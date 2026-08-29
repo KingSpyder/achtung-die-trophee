@@ -21,6 +21,7 @@ func on_apply(
 ) -> ActivePowerUpEffectScript:
 	for target_player in targets:
 		target_player.set_size_multiplier(source_id, PowerUpsConstants.FAT_OTHER_SIZECOEF)
+		target_player.set_gate_length_multiplier(source_id, PowerUpsConstants.FAT_OTHER_SIZECOEF)
 	var effect = ActivePowerUpEffectScript.new(self, context, targets, source_id, duration_seconds)
 	return effect
 
@@ -28,3 +29,4 @@ func on_apply(
 func on_expire(effect) -> void:
 	for target_player in effect.targets:
 		target_player.remove_size_multiplier(effect.source_id)
+		target_player.remove_gate_length_multiplier(effect.source_id)
