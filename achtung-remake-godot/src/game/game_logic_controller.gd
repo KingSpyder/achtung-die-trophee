@@ -7,13 +7,14 @@ const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_displ
 var _round_end_scheduled := false
 var score_font = load("res://assets/fonts/Verdana.ttf")
 var title_score_font = load("res://assets/fonts/Verdana_bold.ttf")
-var font_size = 30
+var font_size = 28
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
 @onready var pause_overlay: PauseOverlay = game_area_scene.get_node("PauseOverlay")
 @onready var countdown_display: CountdownDisplay = game_area_scene.get_node("CountdownOverlay")
 @onready var max_score_label: Label = %MaxScoreLabel
+@onready var score_label: Label = %ScoreLabel
 @onready var winner_box_container: Control = %WinnerBoxContainer
 @onready var winner_panel: PanelContainer = %WinnerPanel
 @onready var winner_label: Label = %WinnerLabel
@@ -26,19 +27,50 @@ func start_game() -> void:
 	GameManager.max_points = (GameManager.players.size() - 1) * 10
 	GameManager.players.sort_custom(GameManager.sort_player_by_order)
 	
-	max_score_label.text = str(GameManager.max_points)
-	max_score_label.add_theme_font_override("font", title_score_font)
-	max_score_label.add_theme_font_size_override("font_size", font_size)
+	# Complete title
+	var title_container := VBoxContainer.new()
+	title_container.name = "TitleContainer"
+	title_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	title_container.add_theme_constant_override("separation", 18)
+	
+	var goal_label := Label.new()
+	goal_label.text = "goal"
+	goal_label.add_theme_font_override("font", title_score_font)
+	goal_label.add_theme_font_size_override("font_size", font_size)
+	goal_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	goal_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title_container.add_child(goal_label)
+	
+	var max_value_label := Label.new()
+	max_value_label.text = str(GameManager.max_points)
+	max_value_label.add_theme_font_override("font", title_score_font)
+	max_value_label.add_theme_font_size_override("font_size", font_size*3)
+	max_value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	max_value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title_container.add_child(max_value_label)
+	
+	var diff_label := Label.new()
+	diff_label.text = "2 points diff"
+	diff_label.add_theme_font_override("font", title_score_font)
+	diff_label.add_theme_font_size_override("font_size", font_size)
+	diff_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	diff_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title_container.add_child(diff_label)
+
+	max_score_label.add_sibling(title_container)
+	max_score_label.visible = false
 	
 	for player in GameManager.players:
 		game_physic_controller.add_player(player)
 		player.player_died.connect(_on_player_died)
+		
 		var player_score_row := HBoxContainer.new()
 		player_score_row.name = player.player_name + "_score_row"
 		player_score_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		player_score_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		player_score_row.add_theme_constant_override("separation", 30)
-		max_score_label.add_sibling(player_score_row)
+		score_label.add_sibling(player_score_row)
 
 		var player_label := Label.new()
 		player_label.text = player.player_name

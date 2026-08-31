@@ -79,6 +79,10 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="WinnerBoxContainer" type="CenterContainer" parent="."]
 unique_name_in_owner = true
 visible = false
