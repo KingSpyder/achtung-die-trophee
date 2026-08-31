@@ -61,13 +61,13 @@ func _on_check_duplicates_keys() -> void:
 			player_selection_node.left_input.add_theme_color_override("font_color", Color.RED)
 			has_duplicated_keys = true
 		else:
-			player_selection_node.left_input.add_theme_color_override("font_color", Color.WHITE)
+			player_selection_node.left_input.add_theme_color_override("font_color", player_selection_node.color)
 
 		if is_key_duplicated(keys_used, player_selection_node.player.right_control):
 			player_selection_node.right_input.add_theme_color_override("font_color", Color.RED)
 			has_duplicated_keys = true
 		else:
-			player_selection_node.right_input.add_theme_color_override("font_color", Color.WHITE)
+			player_selection_node.right_input.add_theme_color_override("font_color", player_selection_node.color)
 
 
 func is_key_duplicated(keys_used: Array[String], key: String) -> bool:
