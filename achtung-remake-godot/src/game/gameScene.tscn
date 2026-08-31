@@ -61,7 +61,7 @@ custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer"]
-custom_minimum_size = Vector2(280, 800)
+custom_minimum_size = Vector2(200, 800)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4

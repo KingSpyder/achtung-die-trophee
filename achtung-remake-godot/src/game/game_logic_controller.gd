@@ -19,7 +19,6 @@ var font_size = 28
 @onready var winner_panel: PanelContainer = %WinnerPanel
 @onready var winner_label: Label = %WinnerLabel
 
-
 ## Initialize the game, set up players scores.
 ## Finish by calling next_round to prepare the first round.
 func start_game() -> void:
@@ -27,12 +26,18 @@ func start_game() -> void:
 	GameManager.max_points = (GameManager.players.size() - 1) * 10
 	GameManager.players.sort_custom(GameManager.sort_player_by_order)
 	
+	var scores_panel := max_score_label.get_parent()
+	var spacer := Control.new()
+	spacer.custom_minimum_size = Vector2(0, 40)
+	scores_panel.add_child(spacer)
+	scores_panel.move_child(spacer, 0)
+	scores_panel.add_theme_constant_override("separation", 12)
+	
 	# Complete title
 	var title_container := VBoxContainer.new()
 	title_container.name = "TitleContainer"
-	title_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	title_container.alignment = BoxContainer.ALIGNMENT_CENTER
-	title_container.add_theme_constant_override("separation", 18)
 	
 	var goal_label := Label.new()
 	goal_label.text = "goal"
@@ -44,7 +49,7 @@ func start_game() -> void:
 	
 	var max_value_label := Label.new()
 	max_value_label.text = str(GameManager.max_points)
-	max_value_label.add_theme_font_override("font", title_score_font)
+	max_value_label.add_theme_font_override("font", score_font)
 	max_value_label.add_theme_font_size_override("font_size", font_size*3)
 	max_value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	max_value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -53,7 +58,7 @@ func start_game() -> void:
 	var diff_label := Label.new()
 	diff_label.text = "2 points diff"
 	diff_label.add_theme_font_override("font", title_score_font)
-	diff_label.add_theme_font_size_override("font_size", font_size)
+	diff_label.add_theme_font_size_override("font_size", font_size-8)
 	diff_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	diff_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title_container.add_child(diff_label)
