@@ -6,7 +6,8 @@ const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_displ
 
 var _round_end_scheduled := false
 var score_font = load("res://assets/fonts/Verdana.ttf")
-var font_size = 25
+var title_score_font = load("res://assets/fonts/Verdana_bold.ttf")
+var font_size = 30
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
@@ -24,14 +25,19 @@ func start_game() -> void:
 	print("game started")
 	GameManager.max_points = (GameManager.players.size() - 1) * 10
 	GameManager.players.sort_custom(GameManager.sort_player_by_order)
+	
 	max_score_label.text = str(GameManager.max_points)
+	max_score_label.add_theme_font_override("font", title_score_font)
+	max_score_label.add_theme_font_size_override("font_size", font_size)
+	
 	for player in GameManager.players:
 		game_physic_controller.add_player(player)
 		player.player_died.connect(_on_player_died)
 		var player_score_row := HBoxContainer.new()
 		player_score_row.name = player.player_name + "_score_row"
+		player_score_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		player_score_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		player_score_row.add_theme_constant_override("separation", 8)
+		player_score_row.add_theme_constant_override("separation", 30)
 		max_score_label.add_sibling(player_score_row)
 
 		var player_label := Label.new()
@@ -39,6 +45,8 @@ func start_game() -> void:
 		player_label.add_theme_font_override("font", score_font)
 		player_label.add_theme_font_size_override("font_size", font_size)
 		player_label.add_theme_color_override("font_color", player.color)
+		player_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		player_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		player_score_row.add_child(player_label)
 
 		var player_score_label := Label.new()
@@ -46,11 +54,13 @@ func start_game() -> void:
 		player_score_label.text = "0"
 		player_score_label.add_theme_font_size_override("font_size", font_size)
 		player_score_label.add_theme_color_override("font_color", player.color)
+		player_score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		player_score_label.size_flags_horizontal = Control.SIZE_SHRINK_END
 		player_score_row.add_child(player_score_label)
 
 		var action_display_box = PlayerActionDisplayBoxScript.new()
 		action_display_box.name = player.player_name + "_action_display_box"
-		action_display_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		action_display_box.size_flags_horizontal = Control.SIZE_SHRINK_END
 		player_score_row.add_child(action_display_box)
 		if game_physic_controller.powerup_runtime != null:
 			game_physic_controller.powerup_runtime.register_player_action_display(
