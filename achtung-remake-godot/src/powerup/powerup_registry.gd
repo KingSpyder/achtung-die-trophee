@@ -108,8 +108,8 @@ static func get_definition_by_type(powerup_type: PowerUpType) -> Resource:
 			return FreezeOthersActionDefinitionScript.new()
 		PowerUpType.INVERT_CONTROLS_OTHERS:
 			return InvertControlsOthersDefinitionScript.new()
-		PowerUpType.INVERT_CONTROLS_SELF:
-			return InvertControlsSelfDefinitionScript.new()
+		#PowerUpType.INVERT_CONTROLS_SELF:
+		#	return InvertControlsSelfDefinitionScript.new()
 		PowerUpType.UNTRAIL_SELF:
 			return UntrailSelfDefinitionScript.new()
 		PowerUpType.PASS_BORDERS_SELF:
