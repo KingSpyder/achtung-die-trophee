@@ -5,6 +5,8 @@ const PlayerScript = preload("res://src/player/player.gd")
 const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_display_box.gd")
 
 var _round_end_scheduled := false
+var score_font = load("res://assets/fonts/Verdana.ttf")
+var font_size = 25
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
@@ -34,11 +36,16 @@ func start_game() -> void:
 
 		var player_label := Label.new()
 		player_label.text = player.player_name
+		player_label.add_theme_font_override("font", score_font)
+		player_label.add_theme_font_size_override("font_size", font_size)
+		player_label.add_theme_color_override("font_color", player.color)
 		player_score_row.add_child(player_label)
 
 		var player_score_label := Label.new()
 		player_score_label.name = player.player_name + "_score"
 		player_score_label.text = "0"
+		player_score_label.add_theme_font_size_override("font_size", font_size)
+		player_score_label.add_theme_color_override("font_color", player.color)
 		player_score_row.add_child(player_score_label)
 
 		var action_display_box = PlayerActionDisplayBoxScript.new()
