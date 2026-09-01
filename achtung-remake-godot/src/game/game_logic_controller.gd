@@ -15,6 +15,7 @@ var _round_end_scheduled := false
 @onready var winner_panel: PanelContainer = %WinnerPanel
 @onready var winner_label: Label = %WinnerLabel
 
+var win_font = load("res://assets/fonts/Castellar.ttf")
 
 ## Initialize the game, set up players scores.
 ## Finish by calling next_round to prepare the first round.
@@ -115,6 +116,30 @@ func _show_winner_box() -> void:
 		if player.score > winner.score:
 			winner = player
 	new_winner_box(winner)
+
+func classic_winner_box(winner) -> void:
+	var arena_size := game_area_scene.size
+	var panel_w := arena_size.x * 0.727273
+	var panel_h := arena_size.y * 0.4
+	winner_panel.size = Vector2(panel_w, panel_h)
+	winner_panel.custom_minimum_size = Vector2(panel_w, panel_h)
+	
+	var style := StyleBoxTexture.new()
+	style.texture = load("res://art/text_sprite/win_screen.svg")
+	style.modulate_color = winner.color
+
+	winner_panel.add_theme_stylebox_override("panel", style)
+
+	var winner_text := "KONEC HRY\n%s WINS!" % winner.player_name
+	
+	winner_label.text = winner_text
+	winner_label.add_theme_font_override("font", win_font)
+	winner_label.add_theme_color_override("font_color", winner.color)
+	winner_box_container.position = Vector2(
+		(game_area_scene.size.x - winner_box_container.size.x) * 0.5,
+		(game_area_scene.size.y - winner_box_container.size.y) * 0.5
+	)
+	winner_box_container.visible = true
 
 func new_winner_box(winner) -> void:
 	var style: StyleBoxFlat = winner_panel.get_theme_stylebox("panel").duplicate()
