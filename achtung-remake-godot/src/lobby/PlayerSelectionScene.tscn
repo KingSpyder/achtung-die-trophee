@@ -44,6 +44,7 @@ mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("1_uomer")
 theme_override_font_sizes/font_size = 30
 toggle_mode = true
+flat = true
 
 [node name="LeftInputContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(200, 0)
