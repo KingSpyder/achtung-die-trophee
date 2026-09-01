@@ -91,6 +91,7 @@ theme_override_constants/separation = -15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="Title 1" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -245,11 +246,11 @@ text = "Greenlee"
 
 [node name="ModesMarginContainer" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 706
 theme_override_constants/margin_top = 24
 
 [node name="ModesHBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_constants/separation = 37
 
 [node name="ArcadeButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer"]
@@ -283,6 +284,7 @@ theme_override_constants/margin_right = 12
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start"]
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="StartButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer"]
 layout_mode = 2
