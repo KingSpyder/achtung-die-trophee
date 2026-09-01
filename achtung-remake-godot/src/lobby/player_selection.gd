@@ -112,6 +112,7 @@ func _on_key_captured(event) -> void:
 			left_wait_input_label.visible = false
 			right_wait_input_label.visible = true
 			left_input.text = event.as_text()
+			left_input.add_theme_color_override("font_color", player.color)
 			player.left_control = event.as_text()
 			map_state = MapState.WAITING_RIGHT
 		MapState.WAITING_RIGHT:
@@ -121,6 +122,7 @@ func _on_key_captured(event) -> void:
 			InputMap.action_add_event(action_name, event)
 			right_wait_input_label.visible = false
 			right_input.text = event.as_text()
+			right_input.add_theme_color_override("font_color", player.color)
 			player.right_control = event.as_text()
 			get_tree().paused = false
 			map_state = MapState.DONE
