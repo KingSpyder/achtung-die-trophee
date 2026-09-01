@@ -4,18 +4,11 @@
 [ext_resource type="Script" uid="uid://djp65rn0m6w3x" path="res://src/game/game_logic_controller.gd" id="1_omymb"]
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_winner"]
 
-[sub_resource type="Theme" id="Theme_omymb"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omymb"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.5649616, 0.5649617, 0.5649613, 1)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_winner"]
-bg_color = Color(0.6, 0.6, 0.6, 1)
+content_margin_left = 48.0
+content_margin_top = 28.0
+content_margin_right = 48.0
+content_margin_bottom = 28.0
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -25,10 +18,16 @@ corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
-content_margin_left = 48.0
-content_margin_top = 28.0
-content_margin_right = 48.0
-content_margin_bottom = 28.0
+
+[sub_resource type="Theme" id="Theme_omymb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omymb"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.5649616, 0.5649617, 0.5649613, 1)
 
 [node name="GameScene" type="Node"]
 script = ExtResource("1_omymb")
@@ -63,6 +62,35 @@ unique_name_in_owner = true
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
+[node name="WinnerBoxContainer" type="CenterContainer" parent="MarginContainer/HFlowContainer/GameAreaScene"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -352.5
+offset_top = -125.0
+offset_right = -352.5
+offset_bottom = -125.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WinnerPanel" type="PanelContainer" parent="MarginContainer/HFlowContainer/GameAreaScene/WinnerBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_winner")
+
+[node name="WinnerLabel" type="Label" parent="MarginContainer/HFlowContainer/GameAreaScene/WinnerBoxContainer/WinnerPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_winner")
+theme_override_font_sizes/font_size = 56
+text = "Winner!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Node" type="Control" parent="MarginContainer/HFlowContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
@@ -85,27 +113,3 @@ layout_mode = 2
 [node name="MaxScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
 unique_name_in_owner = true
 layout_mode = 2
-
-[node name="WinnerBoxContainer" type="CenterContainer" parent="."]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="WinnerPanel" type="PanelContainer" parent="WinnerBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_winner")
-
-[node name="WinnerLabel" type="Label" parent="WinnerBoxContainer/WinnerPanel"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_winner")
-theme_override_font_sizes/font_size = 56
-text = "Winner!"
-horizontal_alignment = 1
-vertical_alignment = 1

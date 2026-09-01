@@ -114,7 +114,9 @@ func _show_winner_box() -> void:
 	for player in GameManager.players:
 		if player.score > winner.score:
 			winner = player
+	new_winner_box(winner)
 
+func new_winner_box(winner) -> void:
 	var style: StyleBoxFlat = winner_panel.get_theme_stylebox("panel").duplicate()
 	style.bg_color = winner.color
 	winner_panel.add_theme_stylebox_override("panel", style)
@@ -123,6 +125,10 @@ func _show_winner_box() -> void:
 	if PlayersConstants.FUNNY_ENDGAME_TEXT.has(winner.player_name):
 		winner_text += "\n" + PlayersConstants.FUNNY_ENDGAME_TEXT[winner.player_name]
 	winner_label.text = winner_text
+	winner_box_container.position = Vector2(
+		(game_area_scene.size.x - winner_box_container.size.x) * 0.5,
+		(game_area_scene.size.y - winner_box_container.size.y) * 0.5
+	)
 	winner_box_container.visible = true
 
 
