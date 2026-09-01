@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://5kfamwx1s240"]
+[gd_scene load_steps=15 format=3 uid="uid://5kfamwx1s240"]
 
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="1_3gx8m"]
 [ext_resource type="Script" uid="uid://cskqofg5uirf8" path="res://src/lobby/lobby_scene.gd" id="1_abajd"]
+[ext_resource type="FontFile" uid="uid://cqom6dwipx528" path="res://assets/fonts/6_Segoe Print.ttf" id="2_abajd"]
 [ext_resource type="FontFile" uid="uid://cx2cpbufgqwxv" path="res://assets/fonts/Verdana_bold.ttf" id="2_ek04j"]
 [ext_resource type="FontFile" uid="uid://blhhtcjp6u0yn" path="res://assets/fonts/Bavista_Soulare.ttf" id="5_abajd"]
 [ext_resource type="FontFile" uid="uid://br5joybvrrpqa" path="res://assets/fonts/Castellar.ttf" id="6_bj5hf"]
@@ -94,14 +95,14 @@ layout_mode = 2
 [node name="Title 1" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_3gx8m")
+theme_override_fonts/font = ExtResource("2_abajd")
 theme_override_font_sizes/font_size = 74
 text = "Achtung, "
 
 [node name="Title 2" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
-theme_override_fonts/font = ExtResource("1_3gx8m")
+theme_override_fonts/font = ExtResource("2_abajd")
 theme_override_font_sizes/font_size = 74
 text = "Die Kurve !"
 
