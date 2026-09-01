@@ -17,6 +17,7 @@ func _ready() -> void:
 	init_players()
 	arcade_button.button_group = game_mode_button_group
 	classic_button.button_group = game_mode_button_group
+	players_list_first_child.get_parent().add_theme_constant_override("separation", 35)
 
 
 func init_players() -> void:

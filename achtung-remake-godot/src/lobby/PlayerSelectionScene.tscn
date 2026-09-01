@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d0kod8dgo8d06"]
+[gd_scene load_steps=8 format=3 uid="uid://d0kod8dgo8d06"]
 
 [ext_resource type="Script" uid="uid://du1ilrm5fleor" path="res://src/lobby/player_selection.gd" id="1_5aw82"]
 [ext_resource type="FontFile" uid="uid://binkv08f2jgxo" path="res://assets/fonts/Verdana.ttf" id="1_uomer"]
@@ -8,6 +8,8 @@
 [sub_resource type="Theme" id="Theme_ook0q"]
 default_font = ExtResource("1_uomer")
 default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_6rlny"]
 
 [sub_resource type="Theme" id="Theme_fqyus"]
 
@@ -31,6 +33,7 @@ theme = SubResource("Theme_ook0q")
 [node name="Name" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+theme = SubResource("Theme_6rlny")
 
 [node name="NameButton" type="Button" parent="Name"]
 unique_name_in_owner = true
