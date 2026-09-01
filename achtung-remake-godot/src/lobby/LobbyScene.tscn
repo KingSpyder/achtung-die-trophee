@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://5kfamwx1s240"]
+[gd_scene load_steps=15 format=3 uid="uid://5kfamwx1s240"]
 
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="1_3gx8m"]
 [ext_resource type="Script" uid="uid://cskqofg5uirf8" path="res://src/lobby/lobby_scene.gd" id="1_abajd"]
@@ -7,6 +7,7 @@
 [ext_resource type="FontFile" uid="uid://br5joybvrrpqa" path="res://assets/fonts/Castellar.ttf" id="6_bj5hf"]
 [ext_resource type="Theme" uid="uid://bphfx5h1x7mtu" path="res://src/lobby/themes/gameModeButton.tres" id="6_eqpb7"]
 [ext_resource type="FontFile" uid="uid://binkv08f2jgxo" path="res://assets/fonts/Verdana.ttf" id="7_eqpb7"]
+[ext_resource type="FontFile" uid="uid://cd7jr1vxiq2u2" path="res://assets/fonts/5_Segoe Print.ttf" id="8_abajd"]
 
 [sub_resource type="Theme" id="Theme_ewlc2"]
 
@@ -282,6 +283,7 @@ theme_override_constants/margin_right = 12
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start"]
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="StartButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer"]
 layout_mode = 2
@@ -291,6 +293,50 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_53bry")
 theme_override_styles/hover = SubResource("StyleBoxFlat_bj5hf")
 text = "Select the players and assign keys
 Press SPACE to PLAY"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="LabelMusic" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("8_abajd")
+theme_override_font_sizes/font_size = 32
+text = "Music: "
+
+[node name="ButtonMusic" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("8_abajd")
+theme_override_font_sizes/font_size = 32
+text = "off
+"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="LabelSound" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("8_abajd")
+theme_override_font_sizes/font_size = 32
+text = "Sound:"
+
+[node name="ButtonSound" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("8_abajd")
+theme_override_font_sizes/font_size = 32
+text = "off"
 
 [node name="ArrowRendered" type="SubViewport" parent="."]
 transparent_bg = true
