@@ -14,6 +14,9 @@ var _round_end_scheduled := false
 @onready var winner_box_container: Control = %WinnerBoxContainer
 @onready var winner_panel: PanelContainer = %WinnerPanel
 @onready var winner_label: Label = %WinnerLabel
+@export var win_music: AudioStream = preload("res://assets/sounds/10_bleep_snd.mp3")
+@export var win_sound: AudioStream = preload("res://assets/sounds/14_applause_snd.mp3")
+
 
 func _ready() -> void:
 	AudioManager.play_music(preload("res://assets/music/Density & Time - MAZE.mp3"))
@@ -126,6 +129,8 @@ func _show_winner_box() -> void:
 		winner_text += "\n" + PlayersConstants.FUNNY_ENDGAME_TEXT[winner.player_name]
 	winner_label.text = winner_text
 	winner_box_container.visible = true
+	
+	AudioManager.play_sfx(win_sound)
 
 
 func pause_game() -> void:
