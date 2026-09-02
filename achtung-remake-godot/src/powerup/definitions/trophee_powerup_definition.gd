@@ -5,13 +5,14 @@ const ActivePowerUpEffectScript = preload("res://src/powerup/active_powerup_effe
 @export var is_present_music: AudioStream = preload("res://assets/music/kraddy part 1.mp3")
 @export var is_active_music: AudioStream = preload("res://assets/music/kraddy part 2.mp3")
 
+
 func _init() -> void:
 	powerup_id = &"trophee"
 	target = Target.SELF
 	activation_mode = ActivationMode.IMMEDIATE
 	duration_seconds = PowerUpsConstants.TROPHEE_DURATION
 	token_color = DEFAULT_SELF_COLOR
-	token_texture = preload("res://assets/images/trophee.png")
+	token_texture = preload("res://art/powerups/trophee_text.svg")
 	avg_spawn_interval = PowerUpsConstants.TROPHEE_AVG_INTERVAL
 	pickup_sound = null
 	
