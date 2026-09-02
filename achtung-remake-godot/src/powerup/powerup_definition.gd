@@ -23,6 +23,7 @@ const DEFAULT_ALL_COLOR: Color = Color(1.0, 1.0, 0.0, 1.0)  # Yellow for ALL pow
 @export var token_texture: Texture2D = null
 @export var avg_spawn_interval := 70.0
 @export var powerup_radius := 20.0
+@export var pickup_sound: AudioStream = preload("res://assets/sounds/10_bleep_snd.mp3")
 
 
 func on_apply(

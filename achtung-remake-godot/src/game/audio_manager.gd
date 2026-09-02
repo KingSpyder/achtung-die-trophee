@@ -24,5 +24,4 @@ func play_sfx(stream: AudioStream) -> void:
 	add_child(sfx_player)
 	
 	sfx_player.play()
-	
 	sfx_player.finished.connect(sfx_player.queue_free)
