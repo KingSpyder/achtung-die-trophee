@@ -314,8 +314,14 @@ text = "Music: "
 [node name="ButtonMusic" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("8_abajd")
 theme_override_font_sizes/font_size = 32
+toggle_mode = true
+action_mode = 0
 text = "off
 "
 
@@ -334,8 +340,13 @@ text = "Sound:"
 [node name="ButtonSound" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("8_abajd")
 theme_override_font_sizes/font_size = 32
+toggle_mode = true
 text = "off"
 
 [node name="ArrowRendered" type="SubViewport" parent="."]
@@ -359,3 +370,5 @@ vertical_alignment = 1
 [connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer/ArcadeButton" to="." method="_on_arcade_button_toggled"]
 [connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer/ClassicButton" to="." method="_on_classic_button_toggled"]
 [connection signal="pressed" from="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer/ButtonMusic" to="." method="_on_button_music_toggled"]
+[connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer2/ButtonSound" to="." method="_on_button_sound_toggled"]

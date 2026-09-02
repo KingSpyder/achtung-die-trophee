@@ -15,6 +15,8 @@ var _round_end_scheduled := false
 @onready var winner_panel: PanelContainer = %WinnerPanel
 @onready var winner_label: Label = %WinnerLabel
 
+func _ready() -> void:
+	AudioManager.play_music(preload("res://assets/music/Density & Time - MAZE.mp3"))
 
 ## Initialize the game, set up players scores.
 ## Finish by calling next_round to prepare the first round.
