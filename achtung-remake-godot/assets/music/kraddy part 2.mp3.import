@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bef03dbmdsd5o"
+path="res://.godot/imported/kraddy part 2.mp3-fed8e03245e6c76a2e2f195811cb600e.mp3str"
+
+[deps]
+
+source_file="res://assets/music/kraddy part 2.mp3"
+dest_files=["res://.godot/imported/kraddy part 2.mp3-fed8e03245e6c76a2e2f195811cb600e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
