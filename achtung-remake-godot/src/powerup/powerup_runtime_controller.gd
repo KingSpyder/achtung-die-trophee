@@ -155,6 +155,7 @@ func _on_token_collected(token: Area2D, collector: PlayerScript) -> void:
 	token.queue_free()
 	if token.definition == null:
 		return
+	AudioManager.play_sfx(token.definition.pickup_sound)
 	grant_or_activate(token.definition, collector)
 
 

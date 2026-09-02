@@ -11,6 +11,7 @@ func _init() -> void:
 	duration_seconds = PowerUpsConstants.TROPHEE_DURATION
 	token_color = DEFAULT_SELF_COLOR
 	avg_spawn_interval = PowerUpsConstants.TROPHEE_AVG_INTERVAL
+	pickup_sound = preload("res://assets/sounds/10_bleep_snd.mp3")
 
 
 func on_apply(

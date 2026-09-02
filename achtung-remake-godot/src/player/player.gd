@@ -25,6 +25,7 @@ const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 		_refresh_head_and_collision_shape()
 
 @export var score := 0
+@export var death_sound: AudioStream = preload("res://assets/sounds/12_explosion_snd.mp3")
 
 var playfield_min := Vector2.ZERO
 var playfield_max := Vector2(800.0, 800.0)
@@ -380,6 +381,7 @@ func death() -> void:
 		player_died.emit(self, last_death_cause, last_collided_player)
 	else:
 		player_died.emit(self, last_death_cause, null)
+	AudioManager.play_sfx(death_sound)
 
 
 ## Reset the player to the initial state: score 0, ready for a new game.
