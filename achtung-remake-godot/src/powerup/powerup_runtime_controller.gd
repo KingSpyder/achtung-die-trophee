@@ -18,6 +18,7 @@ const PowerUpTokenScene: PackedScene = preload("res://src/powerup/powerup_token.
 const PowerUpDefinitionScript = preload("res://src/powerup/powerup_definition.gd")
 const ActivePowerUpEffectScript = preload("res://src/powerup/active_powerup_effect.gd")
 const PowerUpExecutionContextScript = preload("res://src/powerup/powerup_execution_context.gd")
+const TOTAL_AVG_SPAWN_INTERVAL_BASE = 1140
 
 @export var action_hold_seconds := 0.25
 @export var powerup_definitions: Array[Resource]
@@ -40,7 +41,8 @@ var _spawn_interval_multipliers := {}
 func _ready() -> void:
 	if powerup_definitions.is_empty():
 		powerup_definitions = PowerUpRegistry.get_all_definitions()
-
+	var total_avg_spawn_interval_ingame = _calculate_total_avg_spawn_interval()
+	powerup_spawn_factor *= TOTAL_AVG_SPAWN_INTERVAL_BASE / total_avg_spawn_interval_ingame
 
 func _process(delta: float) -> void:
 	_update_effects(delta)
@@ -142,7 +144,7 @@ func remove_powerup_spawn_factor_multiplier(source_id: StringName) -> void:
 
 
 func _get_powerup_spawn_factor_multiplier() -> float:
-	var factor := 1.0
+	var factor := powerup_spawn_factor
 	for value in _spawn_interval_multipliers.values():
 		factor *= float(value)
 	return factor
@@ -304,3 +306,13 @@ func _update_player_action_display(player: PlayerScript, definition, uses: int) 
 		for _index in range(uses):
 			token_textures.append(definition.token_texture)
 	display_box.call("update_display", token_textures)
+	
+	
+func _calculate_total_avg_spawn_interval() -> float:
+	var total := 0.0
+	for definition in powerup_definitions:
+		if definition and "avg_spawn_interval" in definition:
+			total += definition.avg_spawn_interval
+		if total == 0:
+			total = 1
+	return total
