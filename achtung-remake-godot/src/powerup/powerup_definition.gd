@@ -53,6 +53,8 @@ func _load_frames_from_folder(folder_path: String) -> void:
 	if folder_path.is_empty():
 		return
 
+	pickup_sprite_frames.clear() # Réinitialise le tableau
+
 	var dir := DirAccess.open(folder_path)
 	if dir:
 		var file_names: Array[String] = []
@@ -61,19 +63,16 @@ func _load_frames_from_folder(folder_path: String) -> void:
 
 		while file_name != "":
 			if not dir.current_is_dir():
-				# Gère la compatibilité en éditeur (.png) et en projet exporté (.png.import)
-				if file_name.ends_with(".png"):
-					file_names.append(file_name)
-				elif file_name.ends_with(".png.import"):
-					file_names.append(file_name.trim_suffix(".import"))
+				# Nettoie l'extension .import pour ne garder qu'une référence unique par PNG
+				var clean_name := file_name.replace(".import", "")
+				if clean_name.ends_with(".png") and not file_names.has(clean_name):
+					file_names.append(clean_name)
 			file_name = dir.get_next()
 
-		# Tri alphabétique (frame_01.png, frame_02.png...)
 		file_names.sort()
 
-		# Chargement des textures dans le tableau
 		for file in file_names:
 			var full_path := folder_path.path_join(file)
 			var texture := load(full_path) as Texture2D
-			if texture and not pickup_sprite_frames.has(texture):
+			if texture:
 				pickup_sprite_frames.append(texture)

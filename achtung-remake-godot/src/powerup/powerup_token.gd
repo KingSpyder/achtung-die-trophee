@@ -62,10 +62,11 @@ func _spawn_pickup_sprite() -> void:
 	var sprite_frames := SpriteFrames.new()
 	var spawn_pos := global_position
 	var sprite_scale: float = 0.3
-	sprite_frames.set_animation_speed(&"default", definition.get("pickup_sprite_fps"))
-	sprite_frames.set_animation_loop(&"default", false)
 	for texture in definition.get("pickup_sprite_frames"):
 		sprite_frames.add_frame(&"default", texture)
+		 
+	sprite_frames.set_animation_speed(&"default", definition.get("pickup_sprite_fps"))
+	sprite_frames.set_animation_loop(&"default", false)
 	effect_sprite.sprite_frames = sprite_frames
 	effect_sprite.z_index = 10
 	effect_sprite.scale = Vector2.ONE * sprite_scale
