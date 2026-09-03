@@ -29,10 +29,9 @@ func on_apply(
 	var effect = ActivePowerUpEffectScript.new(self, context, targets, source_id, duration_seconds)
 	
 	AudioManager.pause_music()
-	var sfx_player = AudioManager.play_sfx(is_active_music, 0.6)
-	if sfx_player != null:
-		effect.metadata["sfx_player"] = sfx_player
-		
+	var trophee_player = AudioManager.play_trophee(is_active_music, 0.9)
+	if trophee_player != null:
+		effect.metadata["trophee_player"] = trophee_player
 	return effect
 
 
@@ -56,11 +55,11 @@ func on_expire(effect) -> void:
 		target_player.remove_speed_multiplier(effect.source_id)
 		target_player.remove_radius_multiplier(effect.source_id)
 		
-	if effect.metadata.has("sfx_player"):
-		var sfx_player = effect.metadata["sfx_player"]
-		if is_instance_valid(sfx_player):
-			sfx_player.stop()
-			sfx_player.queue_free()
+	if effect.metadata.has("trophee_player"):
+		var trophee_player = effect.metadata["trophee_player"]
+		if is_instance_valid(trophee_player):
+			trophee_player.stop()
+			trophee_player.queue_free()
 	AudioManager.resume_music()
 	
 func on_cancel(effect: ActivePowerUpEffect) -> void:
