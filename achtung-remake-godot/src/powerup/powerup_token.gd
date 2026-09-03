@@ -58,14 +58,16 @@ func _setup_proximity_audio() -> void:
 	var stream: AudioStream = definition.is_present_music
 	if stream is AudioStreamMP3 or stream is AudioStreamOggVorbis:
 		stream.loop = true
+		stream.loop_offset = 7.0
 	elif stream is AudioStreamWAV:
 		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		stream.loop_begin = int(7.0 * stream.mix_rate)
 
 	_presence_player = AudioStreamPlayer.new()
 	_presence_player.stream = stream
 	_presence_player.bus = &"Trophee"
-	add_child(_presence_player) # Enfant direct du token
-	_presence_player.play()
+	add_child(_presence_player)
+	_presence_player.play(4.0) # On commence à 4s
 
 
 func _update_proximity_volume() -> void:
