@@ -9,6 +9,8 @@ const PowerUpDefinitionScript = preload("res://src/powerup/powerup_definition.gd
 const PlayerScript = preload("res://src/player/player.gd")
 const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
+var _presence_player: AudioStreamPlayer = null
+
 @export var definition: PowerUpDefinitionScript:
 	set(value):
 		definition = value
@@ -21,6 +23,12 @@ func _ready() -> void:
 	collision_layer = 0
 	collision_mask = 1 << PhysicsLayersScript.POWERUP_TOKEN_BIT
 	_update_visuals()
+	_setup_proximity_audio()
+
+
+func _process(_delta: float) -> void:
+	if _presence_player != null and _presence_player.playing:
+		_update_proximity_volume()
 
 
 func _update_visuals() -> void:
@@ -43,4 +51,67 @@ func _on_body_entered(body: Node) -> void:
 	var player := body as PlayerScript
 	if player == null:
 		return
+	_spawn_pickup_sprite()
 	collected.emit(self, player)
+	
+
+func _spawn_pickup_sprite() -> void:
+	if definition == null or definition.get("pickup_sprite_frames").is_empty() :
+		return
+	var effect_sprite := AnimatedSprite2D.new()
+	var sprite_frames := SpriteFrames.new()
+	var spawn_pos := global_position
+	var sprite_scale: float = 0.3
+	for texture in definition.get("pickup_sprite_frames"):
+		sprite_frames.add_frame(&"default", texture)
+		 
+	sprite_frames.set_animation_speed(&"default", definition.get("pickup_sprite_fps"))
+	sprite_frames.set_animation_loop(&"default", false)
+	effect_sprite.sprite_frames = sprite_frames
+	effect_sprite.z_index = 10
+	effect_sprite.scale = Vector2.ONE * sprite_scale
+	
+	get_parent().add_child(effect_sprite)
+	effect_sprite.global_position = spawn_pos
+	effect_sprite.play(&"default")
+	effect_sprite.animation_finished.connect(effect_sprite.queue_free)	
+	
+
+func _setup_proximity_audio() -> void:
+	if definition == null or not "is_present_music" in definition or definition.get("is_present_music") == null:
+		return
+
+	var stream: AudioStream = definition.is_present_music
+	if stream is AudioStreamMP3 or stream is AudioStreamOggVorbis:
+		stream.loop = true
+		stream.loop_offset = 7.0
+	elif stream is AudioStreamWAV:
+		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+		stream.loop_begin = int(7.0 * stream.mix_rate)
+
+	_presence_player = AudioStreamPlayer.new()
+	_presence_player.stream = stream
+	_presence_player.bus = &"Trophee"
+	add_child(_presence_player)
+	_presence_player.play(4.0) # On commence à 4s
+
+
+func _update_proximity_volume() -> void:
+	if _presence_player == null:
+		return
+
+	if GameManager.players_alive.is_empty():
+		_presence_player.volume_db = -80.0
+		return
+
+	var min_distance := INF
+	for player in GameManager.players_alive:
+		if is_instance_valid(player):
+			var dist := global_position.distance_to(player.global_position)
+			if dist < min_distance:
+				min_distance = dist
+	var min_d: float = definition.get("presence_min_distance")
+	var max_d: float = definition.get("presence_max_distance")
+	
+	var factor := clampf(1.0 - ((min_distance - min_d) / (max_d - min_d)), 0.5, 1.0)
+	_presence_player.volume_db = linear_to_db(factor)

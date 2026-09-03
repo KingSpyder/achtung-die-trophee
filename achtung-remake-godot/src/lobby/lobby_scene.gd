@@ -11,10 +11,14 @@ var has_duplicated_keys := false
 @onready var arcade_button: Button = %ArcadeButton
 @onready var classic_button: Button = %ClassicButton
 @onready var players_list_first_child: Control = %Legende
+@onready var music_bus_idx = AudioServer.get_bus_index("Music")
+@onready var sfx_bus_idx = AudioServer.get_bus_index("SFX")
+@onready var trophee_bus_idx = AudioServer.get_bus_index("Trophee")
 
 
 func _ready() -> void:
 	init_players()
+	AudioManager.play_music(preload("res://assets/music/Eric Skiff - Underclocked.mp3"))
 	arcade_button.button_group = game_mode_button_group
 	classic_button.button_group = game_mode_button_group
 
@@ -107,3 +111,13 @@ func hide() -> void:
 func show() -> void:
 	%LobbyContainer.visible = true
 	%LobbyBackground.visible = true
+
+
+func _on_button_music_toggled(toggled_on: bool) -> void:
+	$LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer/ButtonMusic.text = "on" if toggled_on else "off"
+	AudioServer.set_bus_mute(music_bus_idx, not toggled_on)
+	AudioServer.set_bus_mute(trophee_bus_idx, not toggled_on)
+
+func _on_button_sound_toggled(toggled_on: bool) -> void:
+	$LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer2/ButtonSound.text = "on" if toggled_on else "off"
+	AudioServer.set_bus_mute(sfx_bus_idx, not toggled_on)

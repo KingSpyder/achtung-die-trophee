@@ -15,7 +15,10 @@ border_width_bottom = 3
 border_color = Color(0.5649616, 0.5649617, 0.5649613, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_winner"]
-bg_color = Color(0.6, 0.6, 0.6, 1)
+content_margin_left = 48.0
+content_margin_top = 28.0
+content_margin_right = 48.0
+content_margin_bottom = 28.0
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
@@ -25,10 +28,6 @@ corner_radius_top_left = 12
 corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
-content_margin_left = 48.0
-content_margin_top = 28.0
-content_margin_right = 48.0
-content_margin_bottom = 28.0
 
 [node name="GameScene" type="Node"]
 script = ExtResource("1_omymb")
