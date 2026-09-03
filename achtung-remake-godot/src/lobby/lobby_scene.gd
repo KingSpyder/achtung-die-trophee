@@ -13,6 +13,7 @@ var has_duplicated_keys := false
 @onready var players_list_first_child: Control = %Legende
 @onready var music_bus_idx = AudioServer.get_bus_index("Music")
 @onready var sfx_bus_idx = AudioServer.get_bus_index("SFX")
+@onready var trophee_bus_idx = AudioServer.get_bus_index("Trophee")
 
 
 func _ready() -> void:
@@ -115,6 +116,7 @@ func show() -> void:
 func _on_button_music_toggled(toggled_on: bool) -> void:
 	$LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer/ButtonMusic.text = "on" if toggled_on else "off"
 	AudioServer.set_bus_mute(music_bus_idx, not toggled_on)
+	AudioServer.set_bus_mute(trophee_bus_idx, not toggled_on)
 
 func _on_button_sound_toggled(toggled_on: bool) -> void:
 	$LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer2/ButtonSound.text = "on" if toggled_on else "off"
