@@ -17,6 +17,9 @@ func _init() -> void:
 	token_texture = preload("res://art/powerups/trophee_text.svg")
 	avg_spawn_interval = PowerUpsConstants.TROPHEE_AVG_INTERVAL
 	pickup_sound = null
+	pickup_sprite_folder = "res://assets/sprites/DefineSprite_21_explosion/"
+	pickup_sprite_fps = 24.0
+	_load_frames_from_folder(pickup_sprite_folder)
 	
 
 func on_apply(
@@ -61,8 +64,36 @@ func on_expire(effect) -> void:
 		var trophee_player = effect.metadata["trophee_player"]
 		if is_instance_valid(trophee_player):
 			trophee_player.stop()
-			trophee_player.queue_free()
 	AudioManager.resume_music()
 	
 func on_cancel(effect: ActivePowerUpEffect) -> void:
 	on_expire(effect)
+
+func _load_frames_from_folder(folder_path: String) -> void:
+	if folder_path.is_empty():
+		return
+
+	var dir := DirAccess.open(folder_path)
+	if dir:
+		var file_names: Array[String] = []
+		dir.list_dir_begin()
+		var file_name := dir.get_next()
+
+		while file_name != "":
+			if not dir.current_is_dir():
+				# Gère la compatibilité en éditeur (.png) et en projet exporté (.png.import)
+				if file_name.ends_with(".png"):
+					file_names.append(file_name)
+				elif file_name.ends_with(".png.import"):
+					file_names.append(file_name.trim_suffix(".import"))
+			file_name = dir.get_next()
+
+		# Tri alphabétique (frame_01.png, frame_02.png...)
+		file_names.sort()
+
+		# Chargement des textures dans le tableau
+		for file in file_names:
+			var full_path := folder_path.path_join(file)
+			var texture := load(full_path) as Texture2D
+			if texture and not pickup_sprite_frames.has(texture):
+				pickup_sprite_frames.append(texture)

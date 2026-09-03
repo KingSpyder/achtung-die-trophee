@@ -25,9 +25,11 @@ func _ready() -> void:
 	_update_visuals()
 	_setup_proximity_audio()
 
+
 func _process(_delta: float) -> void:
 	if _presence_player != null and _presence_player.playing:
 		_update_proximity_volume()
+
 
 func _update_visuals() -> void:
 	if not is_node_ready():
@@ -49,8 +51,31 @@ func _on_body_entered(body: Node) -> void:
 	var player := body as PlayerScript
 	if player == null:
 		return
+	_spawn_pickup_sprite()
 	collected.emit(self, player)
 	
+
+func _spawn_pickup_sprite() -> void:
+	if definition == null or definition.get("pickup_sprite_frames").is_empty() :
+		return
+	var effect_sprite := AnimatedSprite2D.new()
+	var sprite_frames := SpriteFrames.new()
+	var spawn_pos := global_position
+	var sprite_scale: float = 0.3
+	sprite_frames.set_animation_speed(&"default", definition.get("pickup_sprite_fps"))
+	sprite_frames.set_animation_loop(&"default", false)
+	for texture in definition.get("pickup_sprite_frames"):
+		sprite_frames.add_frame(&"default", texture)
+	effect_sprite.sprite_frames = sprite_frames
+	effect_sprite.z_index = 10
+	effect_sprite.scale = Vector2.ONE * sprite_scale
+	
+	get_parent().add_child(effect_sprite)
+	effect_sprite.global_position = spawn_pos
+	effect_sprite.play(&"default")
+	effect_sprite.animation_finished.connect(effect_sprite.queue_free)	
+	
+
 func _setup_proximity_audio() -> void:
 	if definition == null or not "is_present_music" in definition or definition.get("is_present_music") == null:
 		return
