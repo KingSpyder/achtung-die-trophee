@@ -53,7 +53,6 @@ func play_trophee(stream: AudioStream, volume_factor: float=1.0) -> AudioStreamP
 	trophee_player.stream = stream
 	trophee_player.volume_db = linear_to_db(volume_factor)
 	trophee_player.play()
-	trophee_player.finished.connect(trophee_player.queue_free)
 
 	return trophee_player
 

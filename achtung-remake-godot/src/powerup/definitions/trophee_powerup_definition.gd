@@ -4,6 +4,8 @@ extends PowerUpDefinition
 const ActivePowerUpEffectScript = preload("res://src/powerup/active_powerup_effect.gd")
 @export var is_present_music: AudioStream = preload("res://assets/music/kraddy part 1.mp3")
 @export var is_active_music: AudioStream = preload("res://assets/music/kraddy part 2.mp3")
+@export var presence_min_distance: float = 40.0
+@export var presence_max_distance: float = 400.0
 
 
 func _init() -> void:

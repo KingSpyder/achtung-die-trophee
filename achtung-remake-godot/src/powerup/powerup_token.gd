@@ -9,6 +9,8 @@ const PowerUpDefinitionScript = preload("res://src/powerup/powerup_definition.gd
 const PlayerScript = preload("res://src/player/player.gd")
 const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
+var _presence_player: AudioStreamPlayer = null
+
 @export var definition: PowerUpDefinitionScript:
 	set(value):
 		definition = value
@@ -21,7 +23,11 @@ func _ready() -> void:
 	collision_layer = 0
 	collision_mask = 1 << PhysicsLayersScript.POWERUP_TOKEN_BIT
 	_update_visuals()
+	_setup_proximity_audio()
 
+func _process(_delta: float) -> void:
+	if _presence_player != null and _presence_player.playing:
+		_update_proximity_volume()
 
 func _update_visuals() -> void:
 	if not is_node_ready():
@@ -44,3 +50,40 @@ func _on_body_entered(body: Node) -> void:
 	if player == null:
 		return
 	collected.emit(self, player)
+	
+func _setup_proximity_audio() -> void:
+	if definition == null or not "is_present_music" in definition or definition.get("is_present_music") == null:
+		return
+
+	var stream: AudioStream = definition.is_present_music
+	if stream is AudioStreamMP3 or stream is AudioStreamOggVorbis:
+		stream.loop = true
+	elif stream is AudioStreamWAV:
+		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+
+	_presence_player = AudioStreamPlayer.new()
+	_presence_player.stream = stream
+	_presence_player.bus = &"Trophee"
+	add_child(_presence_player) # Enfant direct du token
+	_presence_player.play()
+
+
+func _update_proximity_volume() -> void:
+	if _presence_player == null:
+		return
+
+	if GameManager.players_alive.is_empty():
+		_presence_player.volume_db = -80.0
+		return
+
+	var min_distance := INF
+	for player in GameManager.players_alive:
+		if is_instance_valid(player):
+			var dist := global_position.distance_to(player.global_position)
+			if dist < min_distance:
+				min_distance = dist
+	var min_d: float = definition.get("presence_min_distance")
+	var max_d: float = definition.get("presence_max_distance")
+	
+	var factor := clampf(1.0 - ((min_distance - min_d) / (max_d - min_d)), 0.5, 1.0)
+	_presence_player.volume_db = linear_to_db(factor)
