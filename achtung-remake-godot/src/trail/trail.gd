@@ -6,9 +6,6 @@
 ## collide with, and OldTrail for all older segments that can be collided with by any player.
 extends Node2D
 
-## How many segments should be kept in RecentTrail before moving them to OldTrail.
-const AGE_SEGMENT_FOR_OLD := 10
-
 const PlayerScript = preload("res://src/player/player.gd")
 const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
@@ -42,7 +39,7 @@ func setup_collision_layers() -> void:
 
 
 ## Trail management logic: add line or not, and corresponding collision segments.
-func _process(_delta) -> void:
+func _process(delta) -> void:
 	previous_point = latest_point
 	latest_point = player.global_position
 	# Size change logic
@@ -81,7 +78,7 @@ func _process(_delta) -> void:
 			$RecentTrail.add_child(new_end_segment())
 			player_was_laying_trail = false
 		# Move the oldest segment to $OldTrail if too many in RecentTrail
-		while $RecentTrail.get_child_count() > AGE_SEGMENT_FOR_OLD:
+		while $RecentTrail.get_child_count() > _get_age_segment_for_old(delta):
 			move_recent_to_old()
 
 
@@ -127,6 +124,16 @@ func new_end_segment() -> CollisionShape2D:
 	collision_segment.shape.a = latest_point + perp_vec / 2
 	collision_segment.shape.b = latest_point - perp_vec / 2
 	return collision_segment
+
+
+func _get_age_segment_for_old(delta: float) -> int:
+	if delta <= 0 or player == null or player.speed <= 0 :
+		return 10
+	var nb_segment_to_take_ontime := int(ceil(0.1 / delta)) # Number of segments for a 0.2s long recent trail
+	var distance_per_frame := player.get_effective_speed() * delta
+	var safe_distance := player.size * 2.5
+	var nb_segment_to_take_onsize := int(ceil(safe_distance / distance_per_frame))
+	return max(nb_segment_to_take_ontime, nb_segment_to_take_onsize)
 
 
 ## Move the oldest segment from RecentTrail to OldTrail,
