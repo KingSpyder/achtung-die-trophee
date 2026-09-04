@@ -19,5 +19,5 @@ func on_apply(
 	for target_player in targets:
 		if not is_instance_valid(target_player):
 			continue
-		target_player.clean(false)
+		target_player.call_deferred("clean", false)
 	return null

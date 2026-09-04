@@ -173,19 +173,14 @@ func add_new_line() -> Line2D:
 
 ## Cleanup function to free trail segments.
 func clean_trails() -> void:
-	for segment in $RecentTrail.get_children():
-		$RecentTrail.remove_child(segment)
-		segment.queue_free()
-	for segment in $OldTrail.get_children():
-		$OldTrail.remove_child(segment)
-		segment.queue_free()
+	print("Nombre d'éléments dans OldTrail : ", $OldTrail.get_child_count())
+	_free_all_children($RecentTrail)
+	_free_all_children($OldTrail)
 
 
 ## Cleanup function to free lines.
 func clean_lines() -> void:
-	for line in $Lines.get_children():
-		$Lines.remove_child(line)
-		line.queue_free()
+	_free_all_children($Lines)
 	player_was_laying_trail = false
 	current_line = null
 	if is_instance_valid(player):
@@ -194,3 +189,7 @@ func clean_lines() -> void:
 	else:
 		latest_point = Vector2.ZERO
 		previous_point = Vector2.ZERO
+
+func _free_all_children(container: Node) -> void:
+	for child in container.get_children():
+		child.free()
