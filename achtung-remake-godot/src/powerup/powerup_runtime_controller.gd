@@ -117,7 +117,6 @@ func _possibly_add_powerups(delta: float) -> void:
 	if powerup_definitions.is_empty():
 		return
 	var powerup_factor := _get_powerup_spawn_factor_multiplier()
-	print(powerup_factor)
 	for definition in powerup_definitions:
 		if definition == null:
 			continue
