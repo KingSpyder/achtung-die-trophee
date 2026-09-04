@@ -5,6 +5,7 @@ const PlayerScript = preload("res://src/player/player.gd")
 const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_display_box.gd")
 
 var _round_end_scheduled := false
+var _countdown_request_id := 0
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
@@ -55,8 +56,15 @@ func start_game() -> void:
 ## Start a new round: start moving the players.
 ## Status is set to IN_GAME.
 func start_round(skip_countdown: bool = false) -> void:
+	_countdown_request_id += 1
+	var countdown_request_id := _countdown_request_id
+	if not skip_countdown and countdown_display.is_running():
+		countdown_display.cancel_countdown()
+		skip_countdown = true
 	if not skip_countdown:
 		await countdown_display.run_countdown(3)
+	if countdown_request_id != _countdown_request_id:
+		return
 	print("Round started")
 	GameManager.game_status = GameManager.GameStatus.IN_GAME
 	GameManager.players_alive = GameManager.players.duplicate()
@@ -68,6 +76,8 @@ func start_round(skip_countdown: bool = false) -> void:
 ## End the current round, calculate scores and check if the game should end.
 ## Status is set to ROUND_ENDED, waiting for the player to prepare the next round.
 func end_round() -> void:
+	_countdown_request_id += 1
+	countdown_display.cancel_countdown()
 	for player in GameManager.players:
 		player.set_process(false)
 	game_physic_controller.reset_round_powerups()
@@ -137,7 +147,15 @@ func pause_game() -> void:
 func resume_game() -> void:
 	print("Game resuming")
 	pause_overlay.visible = false
+	_countdown_request_id += 1
+	var countdown_request_id := _countdown_request_id
+	if countdown_display.is_running():
+		countdown_display.cancel_countdown()
+		_unpause()
+		return
 	await countdown_display.run_countdown(3)
+	if countdown_request_id != _countdown_request_id:
+		return
 	_unpause()
 
 

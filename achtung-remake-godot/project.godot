@@ -26,6 +26,7 @@ MultiplayerController="*res://src/network/multiplayer_controller.gd"
 ServerController="*res://src/network/server_controller.gd"
 NetworkConfigs="*res://src/configs/network_configs.gd"
 PlayersConstants="*res://src/res/constants/players_constants.gd"
+AudioManager="*res://src/game/audio_manager.gd"
 
 [display]
 
@@ -55,6 +56,11 @@ escape={
 2d_physics/layer_5="RecentTrailPlayer2"
 2d_physics/layer_6="RecentTrailPlayer3"
 2d_physics/layer_7="RecentTrailPlayer4"
+
+[rendering]
+
+anti_aliasing/quality/msaa_2d=2
+anti_aliasing/screen_space_roughness_limiter/enabled=false
 
 [shader_globals]
 
