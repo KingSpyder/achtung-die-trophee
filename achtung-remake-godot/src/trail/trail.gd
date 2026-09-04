@@ -187,5 +187,10 @@ func clean_lines() -> void:
 		$Lines.remove_child(line)
 		line.queue_free()
 	player_was_laying_trail = false
-	latest_point = Vector2()
-	previous_point = Vector2()
+	current_line = null
+	if is_instance_valid(player):
+		latest_point = player.global_position
+		previous_point = player.global_position
+	else:
+		latest_point = Vector2.ZERO
+		previous_point = Vector2.ZERO
