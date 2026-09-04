@@ -144,7 +144,7 @@ func move(delta) -> void:
 		normal_color.a = current_alpha
 		head.self_modulate = normal_color
 
-	var effective_speed := _get_effective_speed()
+	var effective_speed := get_effective_speed()
 	# Only block rotation when multipliers freeze the player (factor == 0).
 	# This keeps round-prep turning working even when base speed is 0.
 	if _get_speed_multiplier_factor() > 0.0:
@@ -397,7 +397,7 @@ func remove_speed_multiplier(source_id: StringName) -> void:
 	_speed_multipliers.erase(source_id)
 
 
-func _get_effective_speed() -> float:
+func get_effective_speed() -> float:
 	return speed * _get_speed_multiplier_factor()
 
 
