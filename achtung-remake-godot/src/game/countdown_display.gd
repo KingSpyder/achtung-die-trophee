@@ -7,6 +7,7 @@ const EXIT_DURATION := 0.3
 const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 
 var _running := false
+var _run_id := 0
 
 @onready var _label: Label = $CountdownLabel
 
@@ -21,19 +22,30 @@ func _ready() -> void:
 func run_countdown(seconds: int) -> void:
 	if _running:
 		return
+	_run_id += 1
+	var run_id := _run_id
 	_running = true
 	visible = true
 	for i in range(seconds, 0, -1):
-		if not await _appear(str(i)):
+		if not await _appear(str(i), run_id):
 			_running = false
 			return
-		await _hold_and_fade()
-		if not is_instance_valid(self):
+		if not await _hold_and_fade(run_id):
 			_running = false
 			return
-	_appear("GO")
+	_appear("GO", run_id)
 	_finish_go_and_hide()
 	_running = false
+
+
+func is_running() -> bool:
+	return _running
+
+
+func cancel_countdown() -> void:
+	_run_id += 1
+	_running = false
+	visible = false
 
 
 ## Lets GO's hold and fade-out finish in the background, then hides the overlay.
@@ -44,7 +56,7 @@ func _finish_go_and_hide() -> void:
 
 
 ## Pops the label in at the given text. Returns false if the node was freed mid-animation.
-func _appear(text: String) -> bool:
+func _appear(text: String, run_id: int) -> bool:
 	if not is_instance_valid(self):
 		return false
 	_label.text = text
@@ -61,14 +73,14 @@ func _appear(text: String) -> bool:
 	)
 	appear_tween.tween_property(_label, "modulate:a", 1.0, APPEAR_DURATION)
 	await appear_tween.finished
-	return is_instance_valid(self)
+	return is_instance_valid(self) and run_id == _run_id
 
 
 ## Holds the label at full size, then shrinks and fades it out.
-func _hold_and_fade() -> void:
+func _hold_and_fade(run_id: int = _run_id) -> bool:
 	await get_tree().create_timer(HOLD_DURATION).timeout
-	if not is_instance_valid(self):
-		return
+	if not is_instance_valid(self) or run_id != _run_id:
+		return false
 
 	var exit_tween := create_tween()
 	exit_tween.set_parallel(true)
@@ -80,3 +92,4 @@ func _hold_and_fade() -> void:
 	)
 	exit_tween.tween_property(_label, "modulate:a", 0.0, EXIT_DURATION)
 	await exit_tween.finished
+	return is_instance_valid(self) and run_id == _run_id
