@@ -26,6 +26,7 @@ MultiplayerController="*res://src/network/multiplayer_controller.gd"
 ServerController="*res://src/network/server_controller.gd"
 NetworkConfigs="*res://src/configs/network_configs.gd"
 PlayersConstants="*res://src/res/constants/players_constants.gd"
+AudioManager="*res://src/game/audio_manager.gd"
 
 [display]
 
