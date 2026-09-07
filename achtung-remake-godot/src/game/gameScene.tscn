@@ -21,13 +21,7 @@ corner_radius_bottom_left = 12
 
 [sub_resource type="Theme" id="Theme_omymb"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omymb"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.5649616, 0.5649617, 0.5649613, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_06v2v"]
 
 [node name="GameScene" type="Node"]
 script = ExtResource("1_omymb")
@@ -112,5 +106,9 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_06v2v")
 layout_mode = 2
 
 [node name="MaxScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
 unique_name_in_owner = true
 layout_mode = 2
