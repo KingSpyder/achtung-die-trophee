@@ -208,9 +208,9 @@ func classic_winner_box(winner) -> void:
 	winner_label.add_theme_font_size_override("font_size", 80)
 	winner_label.add_theme_color_override("font_color", winner.color)
 	winner_box_container.position = Vector2(
-		(game_area_scene.size.x - winner_box_container.size.x) * 0.5,
-		(game_area_scene.size.y - winner_box_container.size.y) * 0.5
-	)
+	 	(game_area_scene.size.x - winner_box_container.size.x) * 0.5,
+	 	(game_area_scene.size.y - winner_box_container.size.y) * 0.5
+	 )
 	winner_box_container.visible = true
 
 func new_winner_box(winner) -> void:

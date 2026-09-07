@@ -5,14 +5,23 @@
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_winner"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_winner"]
-
-[sub_resource type="Theme" id="Theme_omymb"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_06v2v"]
 content_margin_left = 48.0
 content_margin_top = 28.0
 content_margin_right = 48.0
 content_margin_bottom = 28.0
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="Theme" id="Theme_omymb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_06v2v"]
 
 [node name="GameScene" type="Node"]
 script = ExtResource("1_omymb")
@@ -97,5 +106,9 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_06v2v")
 layout_mode = 2
 
 [node name="MaxScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
 unique_name_in_owner = true
 layout_mode = 2
