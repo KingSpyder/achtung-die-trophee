@@ -6,16 +6,27 @@ const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_displ
 
 var _round_end_scheduled := false
 var _countdown_request_id := 0
+var score_font = load("res://assets/fonts/Verdana.ttf")
+var title_score_font = load("res://assets/fonts/Verdana_bold.ttf")
+var font_size = 28
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
 @onready var pause_overlay: PauseOverlay = game_area_scene.get_node("PauseOverlay")
 @onready var countdown_display: CountdownDisplay = game_area_scene.get_node("CountdownOverlay")
 @onready var max_score_label: Label = %MaxScoreLabel
+@onready var score_label: Label = %ScoreLabel
 @onready var winner_box_container: Control = %WinnerBoxContainer
 @onready var winner_panel: PanelContainer = %WinnerPanel
 @onready var winner_label: Label = %WinnerLabel
+@export var win_music: AudioStream = preload("res://assets/sounds/10_bleep_snd.mp3")
+@export var win_sound: AudioStream = preload("res://assets/sounds/14_applause_snd.mp3")
 
+
+func _ready() -> void:
+	AudioManager.play_music(preload("res://assets/music/Density & Time - MAZE.mp3"))
+
+var win_font = load("res://assets/fonts/Castellar.ttf")
 
 ## Initialize the game, set up players scores.
 ## Finish by calling next_round to prepare the first round.
@@ -23,28 +34,79 @@ func start_game() -> void:
 	print("game started")
 	GameManager.max_points = (GameManager.players.size() - 1) * 10
 	GameManager.players.sort_custom(GameManager.sort_player_by_order)
-	max_score_label.text = str(GameManager.max_points)
+	
+	var scores_panel := max_score_label.get_parent()
+	var spacer := Control.new()
+	spacer.custom_minimum_size = Vector2(0, 40)
+	scores_panel.add_child(spacer)
+	scores_panel.move_child(spacer, 0)
+	scores_panel.add_theme_constant_override("separation", 12)
+	
+	# Complete title
+	var title_container := VBoxContainer.new()
+	title_container.name = "TitleContainer"
+	title_container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	title_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	
+	var goal_label := Label.new()
+	goal_label.text = "goal"
+	goal_label.add_theme_font_override("font", title_score_font)
+	goal_label.add_theme_font_size_override("font_size", font_size)
+	goal_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	goal_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title_container.add_child(goal_label)
+	
+	var max_value_label := Label.new()
+	max_value_label.text = str(GameManager.max_points)
+	max_value_label.add_theme_font_override("font", score_font)
+	max_value_label.add_theme_font_size_override("font_size", font_size*3)
+	max_value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	max_value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title_container.add_child(max_value_label)
+	
+	var diff_label := Label.new()
+	diff_label.text = "2 points diff"
+	diff_label.add_theme_font_override("font", title_score_font)
+	diff_label.add_theme_font_size_override("font_size", font_size-8)
+	diff_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	diff_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title_container.add_child(diff_label)
+
+	max_score_label.add_sibling(title_container)
+	max_score_label.visible = false
+	
 	for player in GameManager.players:
 		game_physic_controller.add_player(player)
 		player.player_died.connect(_on_player_died)
+		
 		var player_score_row := HBoxContainer.new()
 		player_score_row.name = player.player_name + "_score_row"
+		player_score_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		player_score_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		player_score_row.add_theme_constant_override("separation", 8)
-		max_score_label.add_sibling(player_score_row)
+		player_score_row.add_theme_constant_override("separation", 30)
+		score_label.add_sibling(player_score_row)
 
 		var player_label := Label.new()
 		player_label.text = player.player_name
+		player_label.add_theme_font_override("font", score_font)
+		player_label.add_theme_font_size_override("font_size", font_size)
+		player_label.add_theme_color_override("font_color", player.color)
+		player_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		player_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		player_score_row.add_child(player_label)
 
 		var player_score_label := Label.new()
 		player_score_label.name = player.player_name + "_score"
 		player_score_label.text = "0"
+		player_score_label.add_theme_font_size_override("font_size", font_size)
+		player_score_label.add_theme_color_override("font_color", player.color)
+		player_score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		player_score_label.size_flags_horizontal = Control.SIZE_SHRINK_END
 		player_score_row.add_child(player_score_label)
 
 		var action_display_box = PlayerActionDisplayBoxScript.new()
 		action_display_box.name = player.player_name + "_action_display_box"
-		action_display_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		action_display_box.size_flags_horizontal = Control.SIZE_SHRINK_END
 		player_score_row.add_child(action_display_box)
 		if game_physic_controller.powerup_runtime != null:
 			game_physic_controller.powerup_runtime.register_player_action_display(
@@ -124,7 +186,34 @@ func _show_winner_box() -> void:
 	for player in GameManager.players:
 		if player.score > winner.score:
 			winner = player
+	classic_winner_box(winner)
 
+func classic_winner_box(winner) -> void:
+	var arena_size := game_area_scene.size
+	var panel_w := arena_size.x * 0.727273
+	var panel_h := arena_size.y * 0.4
+	winner_panel.size = Vector2(panel_w, panel_h)
+	winner_panel.custom_minimum_size = Vector2(panel_w, panel_h)
+	
+	var style := StyleBoxTexture.new()
+	style.texture = load("res://art/text_sprite/win_screen_shape.svg")
+	style.modulate_color = winner.color
+
+	winner_panel.add_theme_stylebox_override("panel", style)
+
+	var winner_text := "KONEC HRY\n\n%s WINS!" % winner.player_name
+	
+	winner_label.text = winner_text
+	winner_label.add_theme_font_override("font", win_font)
+	winner_label.add_theme_font_size_override("font_size", 80)
+	winner_label.add_theme_color_override("font_color", winner.color)
+	winner_box_container.position = Vector2(
+		(game_area_scene.size.x - winner_box_container.size.x) * 0.5,
+		(game_area_scene.size.y - winner_box_container.size.y) * 0.5
+	)
+	winner_box_container.visible = true
+
+func new_winner_box(winner) -> void:
 	var style: StyleBoxFlat = winner_panel.get_theme_stylebox("panel").duplicate()
 	style.bg_color = winner.color
 	winner_panel.add_theme_stylebox_override("panel", style)
@@ -133,7 +222,13 @@ func _show_winner_box() -> void:
 	if PlayersConstants.FUNNY_ENDGAME_TEXT.has(winner.player_name):
 		winner_text += "\n" + PlayersConstants.FUNNY_ENDGAME_TEXT[winner.player_name]
 	winner_label.text = winner_text
+	winner_box_container.position = Vector2(
+		(game_area_scene.size.x - winner_box_container.size.x) * 0.5,
+		(game_area_scene.size.y - winner_box_container.size.y) * 0.5
+	)
 	winner_box_container.visible = true
+	
+	AudioManager.play_sfx(win_sound)
 
 
 func pause_game() -> void:
