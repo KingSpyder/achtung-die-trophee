@@ -1,8 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://5kfamwx1s240"]
+[gd_scene load_steps=16 format=3 uid="uid://5kfamwx1s240"]
 
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="1_3gx8m"]
 [ext_resource type="Script" uid="uid://cskqofg5uirf8" path="res://src/lobby/lobby_scene.gd" id="1_abajd"]
-[ext_resource type="FontFile" uid="uid://cqom6dwipx528" path="res://assets/fonts/6_Segoe Print.ttf" id="2_abajd"]
+[ext_resource type="FontFile" uid="uid://55cbgd5iyl0t" path="res://assets/fonts/6_Segoe Print.ttf" id="2_abajd"]
 [ext_resource type="FontFile" uid="uid://cx2cpbufgqwxv" path="res://assets/fonts/Verdana_bold.ttf" id="2_ek04j"]
 [ext_resource type="FontFile" uid="uid://blhhtcjp6u0yn" path="res://assets/fonts/Bavista_Soulare.ttf" id="5_abajd"]
 [ext_resource type="FontFile" uid="uid://br5joybvrrpqa" path="res://assets/fonts/Castellar.ttf" id="6_bj5hf"]
@@ -265,6 +265,7 @@ theme_override_font_sizes/font_size = 60
 toggle_mode = true
 button_pressed = true
 text = "Arcade"
+flat = true
 
 [node name="ClassicButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer"]
 unique_name_in_owner = true
@@ -276,6 +277,7 @@ theme_override_fonts/font = ExtResource("6_bj5hf")
 theme_override_font_sizes/font_size = 44
 toggle_mode = true
 text = "Classic"
+flat = true
 
 [node name="Start" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer"]
 layout_mode = 2
