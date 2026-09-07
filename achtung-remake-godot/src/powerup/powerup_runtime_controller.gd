@@ -97,6 +97,13 @@ func cancel_all_effects() -> void:
 	for effect in _active_effects:
 		effect.cancel()
 	_active_effects.clear()
+	
+func cancel_effects_for_player(player: PlayerScript) -> void:
+	for index in range(_active_effects.size() - 1, -1, -1):
+		var effect = _active_effects[index]
+		if effect.targets.has(player):
+			effect.cancel()
+			_active_effects.remove_at(index)
 
 
 func spawn_specific_token(definition: PowerUpDefinitionScript, position_token: Vector2) -> void:
