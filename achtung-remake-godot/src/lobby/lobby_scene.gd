@@ -17,6 +17,7 @@ func _ready() -> void:
 	init_players()
 	arcade_button.button_group = game_mode_button_group
 	classic_button.button_group = game_mode_button_group
+	players_list_first_child.get_parent().add_theme_constant_override("separation", 35)
 
 
 func init_players() -> void:
@@ -58,16 +59,16 @@ func _on_check_duplicates_keys() -> void:
 			continue
 
 		if is_key_duplicated(keys_used, player_selection_node.player.left_control):
-			player_selection_node.left_input.add_theme_color_override("font_color", Color.RED)
+			player_selection_node.left_input.add_theme_color_override("font_color", Color(1.0, 0.85, 0.15, 1.0))
 			has_duplicated_keys = true
 		else:
-			player_selection_node.left_input.add_theme_color_override("font_color", Color.WHITE)
+			player_selection_node.left_input.add_theme_color_override("font_color", player_selection_node.color)
 
 		if is_key_duplicated(keys_used, player_selection_node.player.right_control):
-			player_selection_node.right_input.add_theme_color_override("font_color", Color.RED)
+			player_selection_node.right_input.add_theme_color_override("font_color", Color(1.0, 0.85, 0.15, 1.0))
 			has_duplicated_keys = true
 		else:
-			player_selection_node.right_input.add_theme_color_override("font_color", Color.WHITE)
+			player_selection_node.right_input.add_theme_color_override("font_color", player_selection_node.color)
 
 
 func is_key_duplicated(keys_used: Array[String], key: String) -> bool:
