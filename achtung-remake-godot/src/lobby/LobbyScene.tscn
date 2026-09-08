@@ -303,6 +303,19 @@ toggle_mode = true
 text = "Select the players and assign keys
 Press SPACE to PLAY"
 
+[node name="HBoxContainer2" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Start"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_right = 130
+
+[node name="Button" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Configure
+power_ups
+"
+
 [node name="HBoxContainer2" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
