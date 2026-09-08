@@ -96,7 +96,6 @@ theme_override_constants/separation = -15
 
 [node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
 
 [node name="Title 1" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -110,7 +109,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_fonts/font = ExtResource("2_abajd")
 theme_override_font_sizes/font_size = 80
-text = "die Kurve !"
+text = "die Kurve!"
 
 [node name="Subtitle" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer"]
 layout_direction = 3
@@ -448,6 +447,26 @@ offset_bottom = 957.2231
 rotation = -0.14835298
 texture = SubResource("ViewportTexture_bj5hf")
 
+[node name="Tutorial" type="HBoxContainer" parent="ControlTexts"]
+layout_mode = 0
+offset_left = 1493.0
+offset_top = 36.0
+offset_right = 1673.0
+offset_bottom = 114.0
+size_flags_vertical = 0
+alignment = 2
+
+[node name="StartButton" type="Button" parent="ControlTexts/Tutorial"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_ek04j")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_53bry")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bj5hf")
+toggle_mode = true
+text = "Tutorial"
+
 [node name="ArrowRendered" type="SubViewport" parent="."]
 transparent_bg = true
 size = Vector2i(90, 40)
@@ -471,3 +490,4 @@ vertical_alignment = 1
 [connection signal="pressed" from="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="toggled" from="ControlTexts/VBoxContainer/HBoxContainer/ButtonMusic" to="." method="_on_button_music_toggled"]
 [connection signal="toggled" from="ControlTexts/VBoxContainer/HBoxContainer2/ButtonSound" to="." method="_on_button_sound_toggled"]
+[connection signal="pressed" from="ControlTexts/Tutorial/StartButton" to="." method="_on_start_button_pressed"]
