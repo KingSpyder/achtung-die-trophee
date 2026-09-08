@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://5kfamwx1s240"]
+[gd_scene load_steps=17 format=3 uid="uid://5kfamwx1s240"]
 
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="1_3gx8m"]
 [ext_resource type="Script" uid="uid://cskqofg5uirf8" path="res://src/lobby/lobby_scene.gd" id="1_abajd"]
@@ -55,6 +55,9 @@ border_width_bottom = 5
 border_color = Color(1, 1, 0, 1)
 border_blend = true
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_bj5hf"]
+viewport_path = NodePath("ArrowRendered")
+
 [node name="LobbyScene" type="Node"]
 script = ExtResource("1_abajd")
 
@@ -81,6 +84,7 @@ theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 24
 
 [node name="LobbyVBoxContainer" type="VBoxContainer" parent="LobbyContainer"]
+custom_minimum_size = Vector2(1720, 992)
 layout_mode = 2
 
 [node name="LobbyTitle" type="CenterContainer" parent="LobbyContainer/LobbyVBoxContainer"]
@@ -122,6 +126,7 @@ theme_override_constants/separation = 200
 alignment = 1
 
 [node name="LocalPlayers" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players"]
+custom_minimum_size = Vector2(0, 550)
 layout_mode = 2
 
 [node name="LocalPlayers" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers"]
@@ -131,6 +136,7 @@ layout_mode = 2
 [node name="Legende" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers"]
 unique_name_in_owner = true
 layout_mode = 2
+alignment = 1
 
 [node name="Position" type="Control" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende"]
 custom_minimum_size = Vector2(80, 0)
@@ -141,7 +147,7 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
 [node name="Control" type="Control" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende/Arrow"]
-custom_minimum_size = Vector2(90, 88)
+custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 
 [node name="LeftController" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende"]
@@ -294,38 +300,26 @@ theme_override_fonts/font = ExtResource("2_ek04j")
 theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_53bry")
 theme_override_styles/hover = SubResource("StyleBoxFlat_bj5hf")
+toggle_mode = true
 text = "Select the players and assign keys
 Press SPACE to PLAY"
 
-[node name="ArrowRendered" type="SubViewport" parent="."]
-transparent_bg = true
-size = Vector2i(90, 40)
-render_target_update_mode = 4
-
-[node name="Label" type="Label" parent="ArrowRendered"]
-offset_top = -40.0
-offset_right = 81.0
-offset_bottom = 75.0
-theme_override_colors/font_color = Color(1, 1, 0, 1)
-theme_override_constants/line_spacing = -118
-theme_override_fonts/font = ExtResource("1_3gx8m")
-theme_override_font_sizes/font_size = 90
-text = "-
-		  >"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="HBoxContainer2" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
 
 [node name="ControlTexts" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="TutoSelectPlayer" type="Label" parent="ControlTexts"]
 layout_mode = 0
-offset_left = 193.99997
+offset_left = 193.99998
 offset_top = 180.00002
 offset_right = 661.0
 offset_bottom = 229.00002
@@ -337,11 +331,11 @@ text = "1) Select your players (and keys)"
 
 [node name="TutoSelectMode" type="Label" parent="ControlTexts"]
 layout_mode = 0
-offset_left = 372.99997
-offset_top = 758.99994
-offset_right = 761.3589
-offset_bottom = 807.99994
-rotation = -0.12217305
+offset_left = 395.0
+offset_top = 783.99994
+offset_right = 783.3589
+offset_bottom = 832.99994
+rotation = -0.15707964
 theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("8_abajd")
 theme_override_font_sizes/font_size = 28
@@ -349,10 +343,10 @@ text = "2) Select your game mode"
 
 [node name="Start" type="Label" parent="ControlTexts"]
 layout_mode = 0
-offset_left = 388.0
-offset_top = 859.0
-offset_right = 514.0
-offset_bottom = 908.0
+offset_left = 403.0
+offset_top = 870.0
+offset_right = 529.0
+offset_bottom = 919.0
 theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("8_abajd")
 theme_override_font_sizes/font_size = 28
@@ -360,10 +354,10 @@ text = "3) Start!"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ControlTexts"]
 layout_mode = 0
-offset_left = 1495.0
-offset_top = 753.0
-offset_right = 1670.0
-offset_bottom = 881.0
+offset_left = 1502.0
+offset_top = 762.0
+offset_right = 1677.0
+offset_bottom = 890.0
 size_flags_horizontal = 8
 theme_override_constants/separation = 12
 
@@ -427,6 +421,50 @@ text = "on
 "
 flat = true
 alignment = 2
+
+[node name="Arrow 1" type="TextureRect" parent="ControlTexts"]
+layout_mode = 0
+offset_left = 390.99997
+offset_top = 180.0
+offset_right = 491.028
+offset_bottom = 220.0
+rotation = 1.5114552
+texture = SubResource("ViewportTexture_bj5hf")
+
+[node name="Arrow 2" type="TextureRect" parent="ControlTexts"]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 776.0
+offset_right = 750.0281
+offset_bottom = 816.0
+texture = SubResource("ViewportTexture_bj5hf")
+
+[node name="Arrow 3" type="TextureRect" parent="ControlTexts"]
+layout_mode = 0
+offset_left = 460.19858
+offset_top = 917.2231
+offset_right = 554.97034
+offset_bottom = 957.2231
+rotation = -0.14835298
+texture = SubResource("ViewportTexture_bj5hf")
+
+[node name="ArrowRendered" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(90, 40)
+render_target_update_mode = 4
+
+[node name="Label" type="Label" parent="ArrowRendered"]
+offset_top = -40.0
+offset_right = 81.0
+offset_bottom = 75.0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_constants/line_spacing = -118
+theme_override_fonts/font = ExtResource("1_3gx8m")
+theme_override_font_sizes/font_size = 90
+text = "-
+		  >"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer/ArcadeButton" to="." method="_on_arcade_button_toggled"]
 [connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer/ClassicButton" to="." method="_on_classic_button_toggled"]

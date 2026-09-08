@@ -21,7 +21,7 @@ func _ready() -> void:
 	AudioManager.play_music(preload("res://assets/music/Eric Skiff - Underclocked.mp3"))
 	arcade_button.button_group = game_mode_button_group
 	classic_button.button_group = game_mode_button_group
-	players_list_first_child.get_parent().add_theme_constant_override("separation", 35)
+	players_list_first_child.get_parent().add_theme_constant_override("separation", 10)
 
 
 func init_players() -> void:
