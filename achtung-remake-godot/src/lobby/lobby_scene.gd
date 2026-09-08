@@ -3,6 +3,7 @@ extends Node
 signal start_game
 
 const PLAYER_SELECTION_SCENE: PackedScene = preload("res://src/lobby/PlayerSelectionScene.tscn")
+const POWER_UP_POPUP_SCENE = preload("res://src/lobby/PowerUpConfig.tscn")
 
 var players_selection_nodes: Array[PlayerSelection]
 var game_mode_button_group := ButtonGroup.new()
@@ -122,3 +123,9 @@ func _on_button_music_toggled(toggled_on: bool) -> void:
 func _on_button_sound_toggled(toggled_on: bool) -> void:
 	$ControlTexts/VBoxContainer/HBoxContainer2/ButtonSound.text = "on" if toggled_on else "off"
 	AudioServer.set_bus_mute(sfx_bus_idx, not toggled_on)
+
+
+func _on_powerup_config_button_pressed() -> void:
+	var popup = POWER_UP_POPUP_SCENE.instantiate()
+	get_tree().root.add_child(popup)
+	popup.popup_centered(Vector2i(400, 500))

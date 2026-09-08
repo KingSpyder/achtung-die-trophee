@@ -316,10 +316,6 @@ text = "Configure
 power_ups
 "
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer"]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-
 [node name="ControlTexts" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
@@ -501,6 +497,7 @@ vertical_alignment = 1
 [connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer/ArcadeButton" to="." method="_on_arcade_button_toggled"]
 [connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer/ClassicButton" to="." method="_on_classic_button_toggled"]
 [connection signal="pressed" from="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer2/Button" to="." method="_on_powerup_config_button_pressed"]
 [connection signal="toggled" from="ControlTexts/VBoxContainer/HBoxContainer/ButtonMusic" to="." method="_on_button_music_toggled"]
 [connection signal="toggled" from="ControlTexts/VBoxContainer/HBoxContainer2/ButtonSound" to="." method="_on_button_sound_toggled"]
 [connection signal="pressed" from="ControlTexts/Tutorial/StartButton" to="." method="_on_start_button_pressed"]

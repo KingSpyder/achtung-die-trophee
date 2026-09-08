@@ -37,10 +37,16 @@ var _spawn_interval_multipliers := {}
 
 @onready var _game_physic_controller: GamePhysicControllerScript = get_parent()
 
+static var active_powerup_types: Array[PowerUpRegistry.PowerUpType] = []
 
 func _ready() -> void:
+	if active_powerup_types.is_empty():
+		reset_default_powerups()
 	if powerup_definitions.is_empty():
-		powerup_definitions = PowerUpRegistry.get_all_definitions()
+		for type_val in active_powerup_types:
+			var def = PowerUpRegistry.get_definition_by_type(type_val)
+			if def != null:
+				powerup_definitions.append(def)
 	var total_avg_spawn_rate_ingame = _calculate_total_avg_spawn_rate()
 	powerup_spawn_factor *= TOTAL_AVG_SPAWN_RATE_BASE / total_avg_spawn_rate_ingame
 
@@ -324,3 +330,11 @@ func _calculate_total_avg_spawn_rate() -> float:
 		if total == 0:
 			total = 1
 	return total
+	
+	### Gestion des power-ups actifs ###
+	
+static func reset_default_powerups() -> void:
+	active_powerup_types.clear()
+	for powerup_type in PowerUpRegistry.PowerUpType.size():
+		if PowerUpRegistry.get_definition_by_type(powerup_type) != null:
+			active_powerup_types.append(powerup_type)

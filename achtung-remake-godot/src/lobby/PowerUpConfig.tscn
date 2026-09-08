@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://0rs0gi3t5xa2"]
+
+[ext_resource type="Script" uid="uid://d1lvfrx1istme" path="res://src/lobby/power_up_config.gd" id="1_6tptx"]
+
+[node name="PowerUpConfig" type="AcceptDialog"]
+script = ExtResource("1_6tptx")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
