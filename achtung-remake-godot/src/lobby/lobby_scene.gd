@@ -115,10 +115,10 @@ func show() -> void:
 
 
 func _on_button_music_toggled(toggled_on: bool) -> void:
-	$LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer/ButtonMusic.text = "on" if toggled_on else "off"
+	$ControlTexts/VBoxContainer/HBoxContainer/ButtonMusic.text = "on" if toggled_on else "off"
 	AudioServer.set_bus_mute(music_bus_idx, not toggled_on)
 	AudioServer.set_bus_mute(trophee_bus_idx, not toggled_on)
 
 func _on_button_sound_toggled(toggled_on: bool) -> void:
-	$LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer2/ButtonSound.text = "on" if toggled_on else "off"
+	$ControlTexts/VBoxContainer/HBoxContainer2/ButtonSound.text = "on" if toggled_on else "off"
 	AudioServer.set_bus_mute(sfx_bus_idx, not toggled_on)
