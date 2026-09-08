@@ -128,4 +128,4 @@ func _on_button_sound_toggled(toggled_on: bool) -> void:
 func _on_powerup_config_button_pressed() -> void:
 	var popup = POWER_UP_POPUP_SCENE.instantiate()
 	get_tree().root.add_child(popup)
-	popup.popup_centered(Vector2i(400, 500))
+	popup.popup_centered(Vector2i(1200, 800))

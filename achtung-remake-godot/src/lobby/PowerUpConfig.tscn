@@ -2,16 +2,67 @@
 
 [ext_resource type="Script" uid="uid://d1lvfrx1istme" path="res://src/lobby/power_up_config.gd" id="1_6tptx"]
 
-[node name="PowerUpConfig" type="AcceptDialog"]
+[node name="PowerUpConfig" type="ConfirmationDialog"]
+transparent_bg = true
+oversampling_override = 1.0
+title = ""
+size = Vector2i(1758, 590)
+visible = true
+borderless = true
+transparent = true
+popup_window = true
+ok_button_text = "Validate"
 script = ExtResource("1_6tptx")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 1750.0
+offset_bottom = 541.0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 12
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Power-Ups selection"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 18
+text = "Select the power-ups you want to play with in the list.
+The green power-ups affect the player, the red ones affect your ennemies and the others affect everyone except the Trophée which is a gamble for the player."
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ColumnsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="SelfPowerUps" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ColumnsContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="OthersPowerUps" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ColumnsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="AllPowerUps" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ColumnsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 20
