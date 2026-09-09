@@ -3,6 +3,7 @@ extends Node
 signal start_game
 
 const PLAYER_SELECTION_SCENE: PackedScene = preload("res://src/lobby/PlayerSelectionScene.tscn")
+const POWER_UP_POPUP_SCENE = preload("res://src/lobby/PowerUpConfig.tscn")
 
 var players_selection_nodes: Array[PlayerSelection]
 var game_mode_button_group := ButtonGroup.new()
@@ -21,7 +22,7 @@ func _ready() -> void:
 	AudioManager.play_music(preload("res://assets/music/Eric Skiff - Underclocked.mp3"))
 	arcade_button.button_group = game_mode_button_group
 	classic_button.button_group = game_mode_button_group
-	players_list_first_child.get_parent().add_theme_constant_override("separation", 35)
+	players_list_first_child.get_parent().add_theme_constant_override("separation", 10)
 
 
 func init_players() -> void:
@@ -115,10 +116,16 @@ func show() -> void:
 
 
 func _on_button_music_toggled(toggled_on: bool) -> void:
-	$LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer/ButtonMusic.text = "on" if toggled_on else "off"
+	$ControlTexts/VBoxContainer/HBoxContainer/ButtonMusic.text = "on" if toggled_on else "off"
 	AudioServer.set_bus_mute(music_bus_idx, not toggled_on)
 	AudioServer.set_bus_mute(trophee_bus_idx, not toggled_on)
 
 func _on_button_sound_toggled(toggled_on: bool) -> void:
-	$LobbyContainer/LobbyVBoxContainer/Start/VBoxContainer/HBoxContainer2/ButtonSound.text = "on" if toggled_on else "off"
+	$ControlTexts/VBoxContainer/HBoxContainer2/ButtonSound.text = "on" if toggled_on else "off"
 	AudioServer.set_bus_mute(sfx_bus_idx, not toggled_on)
+
+
+func _on_powerup_config_button_pressed() -> void:
+	var popup = POWER_UP_POPUP_SCENE.instantiate()
+	get_tree().root.add_child(popup)
+	popup.popup_centered(Vector2i(1200, 800))

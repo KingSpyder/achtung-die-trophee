@@ -14,6 +14,9 @@ default_font_size = 30
 [sub_resource type="Theme" id="Theme_fqyus"]
 
 [node name="PlayerSelectionNode" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 65)
+offset_right = 696.0
+offset_bottom = 65.0
 script = ExtResource("1_5aw82")
 
 [node name="InputCatcher" type="Control" parent="."]
@@ -26,17 +29,20 @@ layout_mode = 2
 
 [node name="OrderLabel" type="Label" parent="MarginContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(80, 65)
 layout_mode = 2
+size_flags_vertical = 1
 theme = SubResource("Theme_ook0q")
+vertical_alignment = 1
 
 [node name="Name" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 theme = SubResource("Theme_6rlny")
 
 [node name="NameButton" type="Button" parent="Name"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
 size_flags_horizontal = 0
 focus_mode = 0
@@ -47,14 +53,17 @@ toggle_mode = true
 flat = true
 
 [node name="LeftInputContainer" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2(200, 0)
+clip_contents = true
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_right = 24
 
 [node name="LeftInput" type="Label" parent="LeftInputContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
+size_flags_vertical = 1
 theme = SubResource("Theme_ook0q")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -62,15 +71,19 @@ vertical_alignment = 1
 [node name="LeftWaitInputLabel" type="Label" parent="LeftInputContainer"]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
+size_flags_vertical = 1
 theme = ExtResource("2_5aw82")
+theme_override_font_sizes/font_size = 15
 text = "Press desired
 left key"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RightInputContainer" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2(200, 0)
+clip_contents = true
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 theme = SubResource("Theme_fqyus")
 theme_override_constants/margin_left = 24
@@ -78,7 +91,9 @@ theme_override_constants/margin_right = 24
 
 [node name="RightInput" type="Label" parent="RightInputContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
+size_flags_vertical = 1
 theme = SubResource("Theme_ook0q")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -86,11 +101,13 @@ vertical_alignment = 1
 [node name="RightWaitInputLabel" type="Label" parent="RightInputContainer"]
 unique_name_in_owner = true
 visible = false
+custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
+size_flags_vertical = 1
 theme = ExtResource("2_5aw82")
+theme_override_font_sizes/font_size = 15
 text = "Press desired
 right key"
 horizontal_alignment = 1
-vertical_alignment = 1
 
 [connection signal="toggled" from="Name/NameButton" to="." method="_on_name_button_toggled"]
