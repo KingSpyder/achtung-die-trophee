@@ -24,7 +24,7 @@ const ITS_TIME_SOUND = preload("res://assets/sounds/It's theorem time.mp3")
 	TH_SOUND,
 	ITS_TIME_SOUND,
 ]
-@export var theorem_debug_enabled := true
+@export var theorem_debug_enabled := false
 @export var theorem_debug_player_index := 0
 @onready var game_physic_controller: GamePhysicController = %GameAreaScene.get_node("GameArea")
 

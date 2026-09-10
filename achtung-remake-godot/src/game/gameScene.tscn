@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5lppu5lddem8"]
+[gd_scene load_steps=9 format=3 uid="uid://c5lppu5lddem8"]
 
 [ext_resource type="PackedScene" uid="uid://s4dac2cod3c6" path="res://src/game/gameAreaScene.tscn" id="1_3nvdd"]
 [ext_resource type="Script" uid="uid://djp65rn0m6w3x" path="res://src/game/game_logic_controller.gd" id="1_omymb"]
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_winner"]
 [ext_resource type="Script" uid="uid://c3ajt6fvhm54r" path="res://src/game/game_round_audio_controller.gd" id="4_round_audio"]
+[ext_resource type="FontFile" uid="uid://cd7jr1vxiq2u2" path="res://assets/fonts/5_Segoe Print.ttf" id="5_bsexf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_winner"]
 content_margin_left = 48.0
@@ -116,3 +117,77 @@ layout_mode = 2
 [node name="ScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="LabelMusic" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("5_bsexf")
+theme_override_font_sizes/font_size = 32
+text = "Music: "
+
+[node name="ButtonMusic" type="Button" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0.76862746, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0.76862746, 0, 1)
+theme_override_fonts/font = ExtResource("5_bsexf")
+theme_override_font_sizes/font_size = 32
+toggle_mode = true
+button_pressed = true
+action_mode = 0
+text = "on"
+flat = true
+alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="LabelSound" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("5_bsexf")
+theme_override_font_sizes/font_size = 32
+text = "Sound:"
+
+[node name="ButtonSound" type="Button" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0.76862746, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0.76862746, 0, 1)
+theme_override_fonts/font = ExtResource("5_bsexf")
+theme_override_font_sizes/font_size = 32
+toggle_mode = true
+button_pressed = true
+action_mode = 0
+text = "on
+"
+flat = true
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+
+[connection signal="toggled" from="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ButtonMusic" to="." method="_on_button_music_toggled"]
+[connection signal="toggled" from="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2/ButtonSound" to="." method="_on_button_sound_toggled"]

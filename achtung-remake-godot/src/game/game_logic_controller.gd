@@ -20,6 +20,9 @@ var font_size = 28
 @onready var winner_box_container: Control = %WinnerBoxContainer
 @onready var winner_panel: PanelContainer = %WinnerPanel
 @onready var winner_label: Label = %WinnerLabel
+@onready var music_bus_idx = AudioServer.get_bus_index("Music")
+@onready var sfx_bus_idx = AudioServer.get_bus_index("SFX")
+@onready var trophee_bus_idx = AudioServer.get_bus_index("Trophee")
 @export var win_music: AudioStream = preload("res://assets/sounds/10_bleep_snd.mp3")
 @export var win_sound: AudioStream = preload("res://assets/sounds/14_applause_snd.mp3")
 
@@ -295,3 +298,14 @@ func _on_player_died(player: PlayerScript, death_cause: int, collided_player: Pl
 func _end_round_deferred() -> void:
 	_round_end_scheduled = false
 	end_round()
+
+
+func _on_button_music_toggled(toggled_on: bool) -> void:
+	$MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ButtonMusic.text = "on" if toggled_on else "off"
+	AudioServer.set_bus_mute(music_bus_idx, not toggled_on)
+	AudioServer.set_bus_mute(trophee_bus_idx, not toggled_on)
+
+
+func _on_button_sound_toggled(toggled_on: bool) -> void:
+	$MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2/ButtonSound.text = "on" if toggled_on else "off"
+	AudioServer.set_bus_mute(sfx_bus_idx, not toggled_on)
