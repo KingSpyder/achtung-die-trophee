@@ -7,8 +7,25 @@ const MINIMUM_ROUND_TIME := 120.0
 const COVERAGE_CHECK_INTERVAL := 5.0
 const FINAL_MUSIC_OFFSET := 84.1
 
-@onready var final_music: AudioStream = preload("res://assets/music/Chipzel - Courtesy - Super Hexagnon.mp3")
+const THEOREM_MAX_DISTANCE := 100.0
+const THEOREM_MAX_LONGITUDINAL_OFFSET := 100.0
+const THEOREM_MAX_LATERAL_OFFSET := 80.0
+const THEOREM_DIRECTION_DOT_THRESHOLD := 0.75
+const THEOREM_MAX_DISTANCE_SQUARED := THEOREM_MAX_DISTANCE * THEOREM_MAX_DISTANCE
+var _theorem_situation_active := false
+var _theorem_timer := 0.0
+const PlayerScript = preload("res://src/player/player.gd")
+
+@export var final_music: AudioStream = preload("res://assets/music/Chipzel - Courtesy - Super Hexagnon.mp3")
 @onready var normal_music :AudioStream
+const TH_SOUND = preload("res://assets/sounds/Th-th-th-theorem.mp3")
+const ITS_TIME_SOUND = preload("res://assets/sounds/It's theorem time.mp3")
+@export var theorem_sounds: Array[AudioStream] = [
+	TH_SOUND,
+	ITS_TIME_SOUND,
+]
+@export var theorem_debug_enabled := true
+@export var theorem_debug_player_index := 0
 @onready var game_physic_controller: GamePhysicController = %GameAreaScene.get_node("GameArea")
 
 var _minimum_time_timer := Timer.new()
@@ -16,6 +33,7 @@ var _coverage_timer := Timer.new()
 var _covered_cells := PackedByteArray()
 var _processed_point_counts: Dictionary = {}
 var _final_triggered := false
+var _theorem_debug_overlay: TheoremDebugOverlay
 
 
 func _ready() -> void:
@@ -31,14 +49,37 @@ func _ready() -> void:
 
 	normal_music = AudioManager.music_player.stream
 
+	if theorem_debug_enabled:
+		_theorem_debug_overlay = TheoremDebugOverlay.new()
+		_theorem_debug_overlay.controller = self
+		_theorem_debug_overlay.visible = theorem_debug_enabled
+		_theorem_debug_overlay.z_index = 100
+		game_physic_controller.add_child(_theorem_debug_overlay)
+
 	_reset_coverage()
 
 
 func _process(delta: float) -> void:
+	if _theorem_debug_overlay != null:
+		_theorem_debug_overlay.visible = theorem_debug_enabled
+		if theorem_debug_enabled:
+			_theorem_debug_overlay.queue_redraw()
+
 	if AudioManager.is_current_music(final_music):
 		var current_time := AudioManager.music_player.get_playback_position()
 		if current_time >= 129.4:
 			AudioManager.music_player.seek(FINAL_MUSIC_OFFSET)
+
+	if _is_theorem_situation():
+		if not _theorem_situation_active:
+			play_theorem_sfx(2.0)
+		_theorem_situation_active = true
+		_theorem_timer = 5.0
+	elif _theorem_timer > 0.0:
+		_theorem_timer -= delta
+		_theorem_situation_active = true
+	else:
+		_theorem_situation_active = false
 
 
 func start_round() -> void:
@@ -142,3 +183,106 @@ func _get_coverage_ratio() -> float:
 	for cell in _covered_cells:
 		covered_cells += cell
 	return float(covered_cells) / _covered_cells.size()
+
+
+func play_theorem_sfx(volume_factor: float = 1.0) -> void:
+	if theorem_sounds.is_empty():
+		return
+	var chosen_sound = theorem_sounds.pick_random()
+	print("chosen_sound: ", chosen_sound)
+	var theorem_volume_multipliers: Dictionary = {
+	TH_SOUND: 1.8,
+	ITS_TIME_SOUND: 1.1,
+	}
+	AudioManager.play_sfx(chosen_sound, volume_factor*theorem_volume_multipliers.get(chosen_sound, 1.0))
+
+
+## Detect a player framed by two nearby players moving in the same direction.
+## The nearest candidate on each side of the center is enough, so this stays O(n^2).
+func _is_theorem_situation() -> bool:
+	var alive_players: Array[PlayerScript] = GameManager.players_alive
+	if alive_players.size() < 3:
+		return false
+
+	for center in alive_players:
+		var movement_direction := center.direction.normalized()
+		if movement_direction.is_zero_approx():
+			continue
+		var normal := movement_direction.orthogonal()
+		var left_player: PlayerScript = null
+		var right_player: PlayerScript = null
+		var nearest_left_distance_squared := THEOREM_MAX_DISTANCE_SQUARED
+		var nearest_right_distance_squared := THEOREM_MAX_DISTANCE_SQUARED
+
+		for candidate in alive_players:
+			if candidate == center:
+				continue
+			if movement_direction.dot(candidate.direction.normalized()) < THEOREM_DIRECTION_DOT_THRESHOLD:
+				continue
+
+			var relative_position := candidate.position - center.position
+			var longitudinal_offset := absf(relative_position.dot(movement_direction))
+			var lateral_offset := relative_position.dot(normal)
+			if longitudinal_offset > THEOREM_MAX_LONGITUDINAL_OFFSET:
+				continue
+			if absf(lateral_offset) > THEOREM_MAX_LATERAL_OFFSET:
+				continue
+
+			var distance_squared := relative_position.length_squared()
+			if distance_squared > THEOREM_MAX_DISTANCE_SQUARED:
+				continue
+			if lateral_offset < 0.0 and distance_squared < nearest_left_distance_squared:
+				nearest_left_distance_squared = distance_squared
+				left_player = candidate
+			elif lateral_offset > 0.0 and distance_squared < nearest_right_distance_squared:
+				nearest_right_distance_squared = distance_squared
+				right_player = candidate
+
+		if left_player != null and right_player != null:
+			return true
+
+	return false
+
+
+class TheoremDebugOverlay extends Node2D:
+	var controller: GameRoundAudioController
+
+	const DISTANCE_COLOR := Color(0.2, 0.8, 1.0, 0.65)
+	const LONGITUDINAL_COLOR := Color(1.0, 0.75, 0.2, 0.9)
+	const LATERAL_COLOR := Color(1.0, 0.35, 0.35, 0.9)
+	const CENTER_COLOR := Color(1.0, 1.0, 1.0, 0.95)
+
+	func _draw() -> void:
+		if controller == null or not controller.theorem_debug_enabled:
+			return
+
+		var players: Array[PlayerScript] = GameManager.players_alive
+		if players.is_empty():
+			return
+		if controller.theorem_debug_player_index < 0 or controller.theorem_debug_player_index >= players.size():
+			return
+
+		var center_player := players[controller.theorem_debug_player_index]
+		if center_player == null or not is_instance_valid(center_player):
+			return
+
+		var direction := center_player.direction.normalized()
+		if direction.is_zero_approx():
+			return
+		var normal := direction.orthogonal()
+		var center := center_player.position
+
+		draw_arc(center, controller.THEOREM_MAX_DISTANCE, 0.0, TAU, 96, DISTANCE_COLOR, 2.0)
+		draw_line(
+			center,
+			center + direction * controller.THEOREM_MAX_LONGITUDINAL_OFFSET,
+			LONGITUDINAL_COLOR,
+			3.0
+		)
+		draw_line(
+			center - normal * controller.THEOREM_MAX_LATERAL_OFFSET,
+			center + normal * controller.THEOREM_MAX_LATERAL_OFFSET,
+			LATERAL_COLOR,
+			3.0
+		)
+		draw_circle(center, 5.0, CENTER_COLOR)
