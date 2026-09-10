@@ -175,6 +175,7 @@ func next_round():
 		game_physic_controller.spawn_player(player)
 
 	GameManager.game_status = GameManager.GameStatus.ROUND_READY
+	AudioManager.play_music(preload("res://assets/music/Density & Time - MAZE.mp3"))
 	print("Next round prepared, press space to start")
 
 
