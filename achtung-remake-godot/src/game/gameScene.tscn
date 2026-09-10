@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c5lppu5lddem8"]
+[gd_scene load_steps=8 format=3 uid="uid://c5lppu5lddem8"]
 
 [ext_resource type="PackedScene" uid="uid://s4dac2cod3c6" path="res://src/game/gameAreaScene.tscn" id="1_3nvdd"]
 [ext_resource type="Script" uid="uid://djp65rn0m6w3x" path="res://src/game/game_logic_controller.gd" id="1_omymb"]
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_winner"]
+[ext_resource type="Script" uid="uid://c3ajt6fvhm54r" path="res://src/game/game_round_audio_controller.gd" id="4_round_audio"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_winner"]
 content_margin_left = 48.0
@@ -25,6 +26,9 @@ corner_radius_bottom_left = 12
 
 [node name="GameScene" type="Node"]
 script = ExtResource("1_omymb")
+
+[node name="GameRoundAudioController" type="Node" parent="."]
+script = ExtResource("4_round_audio")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15

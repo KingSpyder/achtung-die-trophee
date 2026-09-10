@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 signal player_died(player: Player, death_cause: int, collided_player: Player)
+signal trails_cleaned
 
 enum DeathCause { UNKNOWN, WALL, TRAIL, PLAYER, OUT_OF_BOUNDS }
 
@@ -288,6 +289,7 @@ func _wrap_position_inside_bounds() -> void:
 func clean(full: bool = true) -> void:
 	$TrailScene.clean_lines()
 	$TrailScene.clean_trails()
+	trails_cleaned.emit()
 	if full:
 		is_laying_trail = false
 		%GateOpenTimer.stop()

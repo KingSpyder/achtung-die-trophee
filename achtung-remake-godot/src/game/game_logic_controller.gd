@@ -12,6 +12,7 @@ var font_size = 28
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
+@onready var round_audio_controller: GameRoundAudioController = $GameRoundAudioController
 @onready var pause_overlay: PauseOverlay = game_area_scene.get_node("PauseOverlay")
 @onready var countdown_display: CountdownDisplay = game_area_scene.get_node("CountdownOverlay")
 @onready var max_score_label: Label = %MaxScoreLabel
@@ -25,6 +26,7 @@ var font_size = 28
 
 func _ready() -> void:
 	AudioManager.play_music(preload("res://assets/music/Density & Time - MAZE.mp3"))
+
 
 var win_font = load("res://assets/fonts/Castellar.ttf")
 
@@ -129,6 +131,7 @@ func start_round(skip_countdown: bool = false) -> void:
 		return
 	print("Round started")
 	GameManager.game_status = GameManager.GameStatus.IN_GAME
+	round_audio_controller.start_round()
 	GameManager.players_alive = GameManager.players.duplicate()
 	game_physic_controller.start_round_powerups(GameManager.players_alive)
 	for player in GameManager.players:
@@ -139,6 +142,7 @@ func start_round(skip_countdown: bool = false) -> void:
 ## Status is set to ROUND_ENDED, waiting for the player to prepare the next round.
 func end_round() -> void:
 	_countdown_request_id += 1
+	round_audio_controller.stop_round()
 	countdown_display.cancel_countdown()
 	for player in GameManager.players:
 		player.set_process(false)
