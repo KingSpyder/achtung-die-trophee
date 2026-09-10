@@ -8,6 +8,7 @@ const POWER_UP_POPUP_SCENE = preload("res://src/lobby/PowerUpConfig.tscn")
 var players_selection_nodes: Array[PlayerSelection]
 var game_mode_button_group := ButtonGroup.new()
 var has_duplicated_keys := false
+var lobby_music := preload("res://assets/music/Eric Skiff - Underclocked.mp3")
 
 @onready var arcade_button: Button = %ArcadeButton
 @onready var classic_button: Button = %ClassicButton
@@ -17,9 +18,10 @@ var has_duplicated_keys := false
 @onready var trophee_bus_idx = AudioServer.get_bus_index("Trophee")
 
 
+
 func _ready() -> void:
 	init_players()
-	AudioManager.play_music(preload("res://assets/music/Eric Skiff - Underclocked.mp3"))
+	AudioManager.play_music(lobby_music)
 	arcade_button.button_group = game_mode_button_group
 	classic_button.button_group = game_mode_button_group
 	players_list_first_child.get_parent().add_theme_constant_override("separation", 10)
