@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b8c3ly1kmate"
+path="res://.godot/imported/Chipzel - Courtesy - Super Hexagnon.mp3-c7127781bfef406fc6c9f24be46bb6b1.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Chipzel - Courtesy - Super Hexagnon.mp3"
+dest_files=["res://.godot/imported/Chipzel - Courtesy - Super Hexagnon.mp3-c7127781bfef406fc6c9f24be46bb6b1.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=84.0
+bpm=0.0
+beat_count=0
+bar_beats=4

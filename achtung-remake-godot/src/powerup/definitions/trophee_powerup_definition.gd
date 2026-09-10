@@ -70,6 +70,7 @@ func on_cancel(effect: ActivePowerUpEffect) -> void:
 	on_expire(effect)
 
 func _load_frames_from_folder(folder_path: String) -> void:
+	# Gestion des frames pour le sprite
 	if folder_path.is_empty():
 		return
 

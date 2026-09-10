@@ -6,18 +6,19 @@ var trophee_player: AudioStreamPlayer
 func _ready() -> void:
 	music_player = AudioStreamPlayer.new()
 	music_player.bus = &"Music"
+	music_player.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(music_player)
 
 	trophee_player = AudioStreamPlayer.new()
 	trophee_player.bus = &"Trophee"
 	add_child(trophee_player)
 
-func play_music(stream: AudioStream, volume_factor: float=1.0) -> void:
+func play_music(stream: AudioStream, volume_factor: float=1.0, start_time: float=0.0) -> void:
 	if music_player.stream == stream and music_player.playing:
 		return # Ne relance pas si déjà en cours
 	music_player.stream = stream
 	music_player.volume_db = linear_to_db(volume_factor)
-	music_player.play()
+	music_player.play(start_time)
 	
 	
 func pause_music() -> void:
@@ -27,6 +28,13 @@ func pause_music() -> void:
 func resume_music() -> void:
 	if music_player:
 		music_player.stream_paused = false
+
+func stop_music() -> void:
+	if music_player and music_player.playing:
+		music_player.stop()
+
+func is_current_music(stream: AudioStream) -> bool:
+	return music_player.stream == stream and music_player.playing
 
 func play_sfx(stream: AudioStream, volume_factor: float=1.0):
 	if stream == null:
