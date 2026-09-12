@@ -48,13 +48,3 @@ debug_color = Color(0.8901961, 0.44705883, 0.12941177, 1)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_i3pqv")
-
-[node name="GateOpenTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-
-[node name="GateCloseTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-one_shot = true
-
-[connection signal="timeout" from="GateOpenTimer" to="." method="_on_gate_open_timer_timeout"]
-[connection signal="timeout" from="GateCloseTimer" to="." method="_on_gate_close_timer_timeout"]
