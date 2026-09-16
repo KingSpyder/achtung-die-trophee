@@ -52,6 +52,8 @@ func _ready() -> void:
 	if _reload_test_powerup_type >= 0:
 		test_powerup_type = _reload_test_powerup_type as PowerUpRegistry.PowerUpType
 		_reload_test_powerup_type = -1
+	# Keeps tests deterministic: no theorem SFX, no coverage-driven music swap.
+	round_audio_controller.process_mode = Node.PROCESS_MODE_DISABLED
 	_setup_test_players()
 	_setup_input_actions()
 	_powerup_runtime = find_child("PowerUpRuntime", true, false)
