@@ -2,7 +2,7 @@ class_name GameRoundAudioController
 extends Node
 
 const COVERAGE_GRID_SIZE := 400
-const COVERAGE_THRESHOLD := 0.15
+const COVERAGE_THRESHOLD := 0.12
 const MINIMUM_ROUND_TIME := 35.0
 const COVERAGE_CHECK_INTERVAL := 1.0
 const FINAL_MUSIC_OFFSET := 84.1
@@ -92,6 +92,7 @@ func start_round() -> void:
 		if player != null and is_instance_valid(player) and not player.trails_cleaned.is_connected(_reset_coverage):
 			player.trails_cleaned.connect(_reset_coverage)
 	_minimum_time_timer.start()
+	_coverage_timer.start()
 
 
 func stop_round() -> void:
