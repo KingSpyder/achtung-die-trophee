@@ -135,7 +135,8 @@ func start_round(skip_countdown: bool = false) -> void:
 		return
 	print("Round started")
 	GameManager.game_status = GameManager.GameStatus.IN_GAME
-	round_audio_controller.start_round()
+	if round_audio_controller:
+		round_audio_controller.start_round()
 	GameManager.players_alive = GameManager.players.duplicate()
 	game_physic_controller.start_round_powerups(GameManager.players_alive)
 	for player in GameManager.players:
@@ -146,7 +147,8 @@ func start_round(skip_countdown: bool = false) -> void:
 ## Status is set to ROUND_ENDED, waiting for the player to prepare the next round.
 func end_round() -> void:
 	_countdown_request_id += 1
-	round_audio_controller.stop_round()
+	if round_audio_controller:
+		round_audio_controller.stop_round()
 	countdown_display.cancel_countdown()
 	for player in GameManager.players:
 		player.set_process(false)
@@ -196,6 +198,7 @@ func _show_winner_box() -> void:
 		if player.score > winner.score:
 			winner = player
 	classic_winner_box(winner)
+	AudioManager.play_sfx(win_sound)
 
 
 func classic_winner_box(winner) -> void:
@@ -238,8 +241,6 @@ func new_winner_box(winner) -> void:
 		(game_area_scene.size.y - winner_box_container.size.y) * 0.5
 	)
 	winner_box_container.visible = true
-
-	AudioManager.play_sfx(win_sound)
 
 
 func pause_game() -> void:
