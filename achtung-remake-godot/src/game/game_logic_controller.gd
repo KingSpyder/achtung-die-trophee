@@ -3,12 +3,17 @@ extends Node
 
 const PlayerScript = preload("res://src/player/player.gd")
 const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_display_box.gd")
+const GAME_MUSIC: AudioStream = preload("res://assets/music/Density & Time - MAZE.mp3")
+@export var win_music: AudioStream = preload("res://assets/sounds/10_bleep_snd.mp3")
+@export var win_sound: AudioStream = preload("res://assets/sounds/14_applause_snd.mp3")
 
-var _round_end_scheduled := false
-var _countdown_request_id := 0
 var score_font = load("res://assets/fonts/Verdana.ttf")
 var title_score_font = load("res://assets/fonts/Verdana_bold.ttf")
+var win_font = load("res://assets/fonts/Castellar.ttf")
+
 var font_size = 28
+var _round_end_scheduled := false
+var _countdown_request_id := 0
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
@@ -23,15 +28,10 @@ var font_size = 28
 @onready var music_bus_idx = AudioServer.get_bus_index("Music")
 @onready var sfx_bus_idx = AudioServer.get_bus_index("SFX")
 @onready var trophee_bus_idx = AudioServer.get_bus_index("Trophee")
-@export var win_music: AudioStream = preload("res://assets/sounds/10_bleep_snd.mp3")
-@export var win_sound: AudioStream = preload("res://assets/sounds/14_applause_snd.mp3")
 
 
 func _ready() -> void:
-	AudioManager.play_music(preload("res://assets/music/Density & Time - MAZE.mp3"))
-
-
-var win_font = load("res://assets/fonts/Castellar.ttf")
+	AudioManager.play_music(GAME_MUSIC)
 
 
 ## Initialize the game, set up players scores.
@@ -135,7 +135,8 @@ func start_round(skip_countdown: bool = false) -> void:
 		return
 	print("Round started")
 	GameManager.game_status = GameManager.GameStatus.IN_GAME
-	round_audio_controller.start_round()
+	if round_audio_controller:
+		round_audio_controller.start_round()
 	GameManager.players_alive = GameManager.players.duplicate()
 	game_physic_controller.start_round_powerups(GameManager.players_alive)
 	for player in GameManager.players:
@@ -146,7 +147,8 @@ func start_round(skip_countdown: bool = false) -> void:
 ## Status is set to ROUND_ENDED, waiting for the player to prepare the next round.
 func end_round() -> void:
 	_countdown_request_id += 1
-	round_audio_controller.stop_round()
+	if round_audio_controller:
+		round_audio_controller.stop_round()
 	countdown_display.cancel_countdown()
 	for player in GameManager.players:
 		player.set_process(false)
@@ -179,7 +181,7 @@ func next_round():
 		game_physic_controller.spawn_player(player)
 
 	GameManager.game_status = GameManager.GameStatus.ROUND_READY
-	AudioManager.play_music(preload("res://assets/music/Density & Time - MAZE.mp3"))
+	AudioManager.play_music(GAME_MUSIC)
 	print("Next round prepared, press space to start")
 
 
@@ -196,6 +198,7 @@ func _show_winner_box() -> void:
 		if player.score > winner.score:
 			winner = player
 	classic_winner_box(winner)
+	AudioManager.play_sfx(win_sound)
 
 
 func classic_winner_box(winner) -> void:
@@ -238,8 +241,6 @@ func new_winner_box(winner) -> void:
 		(game_area_scene.size.y - winner_box_container.size.y) * 0.5
 	)
 	winner_box_container.visible = true
-
-	AudioManager.play_sfx(win_sound)
 
 
 func pause_game() -> void:
