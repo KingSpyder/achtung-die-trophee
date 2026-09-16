@@ -2,10 +2,11 @@ class_name GameRoundAudioController
 extends Node
 
 const COVERAGE_GRID_SIZE := 400
-const COVERAGE_THRESHOLD := 0.30
-const MINIMUM_ROUND_TIME := 120.0
-const COVERAGE_CHECK_INTERVAL := 5.0
+const COVERAGE_THRESHOLD := 0.15
+const MINIMUM_ROUND_TIME := 35.0
+const COVERAGE_CHECK_INTERVAL := 1.0
 const FINAL_MUSIC_OFFSET := 84.1
+var _can_trigger_effets := false
 
 const THEOREM_MAX_DISTANCE := 100.0
 const THEOREM_MAX_LONGITUDINAL_OFFSET := 100.0
@@ -45,6 +46,7 @@ func _ready() -> void:
 	_coverage_timer.one_shot = false
 	_coverage_timer.wait_time = COVERAGE_CHECK_INTERVAL
 	_coverage_timer.timeout.connect(_check_coverage)
+	_coverage_timer.start()
 	add_child(_coverage_timer)
 
 	normal_music = AudioManager.music_player.stream
@@ -107,8 +109,7 @@ func _reset_coverage() -> void:
 
 func _on_minimum_time_reached() -> void:
 	_check_coverage()
-	if not _final_triggered:
-		_coverage_timer.start()
+	_can_trigger_effets = true
 
 
 func _check_coverage() -> void:
@@ -116,7 +117,7 @@ func _check_coverage() -> void:
 	var coverage := _get_coverage_ratio()
 	#print("Trail coverage: ", snapped(coverage * 100.0, 0.1), "%")
 
-	if not _final_triggered and coverage >= COVERAGE_THRESHOLD:
+	if not _final_triggered and coverage >= COVERAGE_THRESHOLD and _can_trigger_effets:
 		_final_triggered = true
 		#print("Final battle triggered! Coverage: ", snapped(coverage * 100.0, 0.1), "%")
 		if final_music is AudioStreamMP3 or final_music is AudioStreamOggVorbis:
