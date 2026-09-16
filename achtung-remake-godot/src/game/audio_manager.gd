@@ -14,6 +14,9 @@ func _ready() -> void:
 	add_child(trophee_player)
 
 func play_music(stream: AudioStream, volume_factor: float=1.0, start_time: float=0.0) -> void:
+	if stream == null:
+		return
+
 	if music_player.stream == stream and music_player.playing:
 		return # Ne relance pas si déjà en cours
 	music_player.stream = stream

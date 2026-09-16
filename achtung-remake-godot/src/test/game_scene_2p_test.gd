@@ -60,6 +60,8 @@ var _player_3: PlayerScript
 
 
 func _ready() -> void:
+	# Keeps tests deterministic: no theorem SFX, no coverage-driven music swap.
+	round_audio_controller.process_mode = Node.PROCESS_MODE_DISABLED
 	_apply_runtime_preset(_consume_runtime_preset())
 	_setup_test_players()
 	start_game()
