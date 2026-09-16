@@ -3,12 +3,17 @@ extends Node
 
 const PlayerScript = preload("res://src/player/player.gd")
 const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_display_box.gd")
+const GAME_MUSIC: AudioStream = preload("res://assets/music/Density & Time - MAZE.mp3")
+@export var win_music: AudioStream = preload("res://assets/sounds/10_bleep_snd.mp3")
+@export var win_sound: AudioStream = preload("res://assets/sounds/14_applause_snd.mp3")
 
-var _round_end_scheduled := false
-var _countdown_request_id := 0
 var score_font = load("res://assets/fonts/Verdana.ttf")
 var title_score_font = load("res://assets/fonts/Verdana_bold.ttf")
+var win_font = load("res://assets/fonts/Castellar.ttf")
+
 var font_size = 28
+var _round_end_scheduled := false
+var _countdown_request_id := 0
 
 @onready var game_area_scene: Control = %GameAreaScene
 @onready var game_physic_controller: GamePhysicController = game_area_scene.get_node("GameArea")
@@ -23,15 +28,10 @@ var font_size = 28
 @onready var music_bus_idx = AudioServer.get_bus_index("Music")
 @onready var sfx_bus_idx = AudioServer.get_bus_index("SFX")
 @onready var trophee_bus_idx = AudioServer.get_bus_index("Trophee")
-@export var win_music: AudioStream = preload("res://assets/sounds/10_bleep_snd.mp3")
-@export var win_sound: AudioStream = preload("res://assets/sounds/14_applause_snd.mp3")
 
 
 func _ready() -> void:
-	AudioManager.play_music(preload("res://assets/music/Density & Time - MAZE.mp3"))
-
-
-var win_font = load("res://assets/fonts/Castellar.ttf")
+	AudioManager.play_music(GAME_MUSIC)
 
 
 ## Initialize the game, set up players scores.
@@ -181,7 +181,7 @@ func next_round():
 		game_physic_controller.spawn_player(player)
 
 	GameManager.game_status = GameManager.GameStatus.ROUND_READY
-	AudioManager.play_music(preload("res://assets/music/Density & Time - MAZE.mp3"))
+	AudioManager.play_music(GAME_MUSIC)
 	print("Next round prepared, press space to start")
 
 
