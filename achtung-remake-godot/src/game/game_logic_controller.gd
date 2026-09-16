@@ -33,26 +33,27 @@ func _ready() -> void:
 
 var win_font = load("res://assets/fonts/Castellar.ttf")
 
+
 ## Initialize the game, set up players scores.
 ## Finish by calling next_round to prepare the first round.
 func start_game() -> void:
 	print("game started")
 	GameManager.max_points = (GameManager.players.size() - 1) * 10
 	GameManager.players.sort_custom(GameManager.sort_player_by_order)
-	
+
 	var scores_panel := max_score_label.get_parent()
 	var spacer := Control.new()
 	spacer.custom_minimum_size = Vector2(0, 40)
 	scores_panel.add_child(spacer)
 	scores_panel.move_child(spacer, 0)
 	scores_panel.add_theme_constant_override("separation", 12)
-	
+
 	# Complete title
 	var title_container := VBoxContainer.new()
 	title_container.name = "TitleContainer"
 	title_container.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	title_container.alignment = BoxContainer.ALIGNMENT_CENTER
-	
+
 	var goal_label := Label.new()
 	goal_label.text = "goal"
 	goal_label.add_theme_font_override("font", title_score_font)
@@ -60,30 +61,30 @@ func start_game() -> void:
 	goal_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	goal_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title_container.add_child(goal_label)
-	
+
 	var max_value_label := Label.new()
 	max_value_label.text = str(GameManager.max_points)
 	max_value_label.add_theme_font_override("font", score_font)
-	max_value_label.add_theme_font_size_override("font_size", font_size*3)
+	max_value_label.add_theme_font_size_override("font_size", font_size * 3)
 	max_value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	max_value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title_container.add_child(max_value_label)
-	
+
 	var diff_label := Label.new()
 	diff_label.text = "2 points diff"
 	diff_label.add_theme_font_override("font", title_score_font)
-	diff_label.add_theme_font_size_override("font_size", font_size-8)
+	diff_label.add_theme_font_size_override("font_size", font_size - 8)
 	diff_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	diff_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title_container.add_child(diff_label)
 
 	max_score_label.add_sibling(title_container)
 	max_score_label.visible = false
-	
+
 	for player in GameManager.players:
 		game_physic_controller.add_player(player)
 		player.player_died.connect(_on_player_died)
-		
+
 		var player_score_row := HBoxContainer.new()
 		player_score_row.name = player.player_name + "_score_row"
 		player_score_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -157,7 +158,7 @@ func end_round() -> void:
 		end_game()
 		return
 	if (
-		scores[0] - scores[1] > GameManager.min_points_difference
+		scores[0] - scores[1] >= GameManager.min_points_difference
 		and scores[0] >= GameManager.max_points
 	):
 		end_game()
@@ -196,13 +197,14 @@ func _show_winner_box() -> void:
 			winner = player
 	classic_winner_box(winner)
 
+
 func classic_winner_box(winner) -> void:
 	var arena_size := game_area_scene.size
 	var panel_w := arena_size.x * 0.727273
 	var panel_h := arena_size.y * 0.4
 	winner_panel.size = Vector2(panel_w, panel_h)
 	winner_panel.custom_minimum_size = Vector2(panel_w, panel_h)
-	
+
 	var style := StyleBoxTexture.new()
 	style.texture = load("res://art/text_sprite/win_screen_shape.svg")
 	style.modulate_color = winner.color
@@ -210,16 +212,17 @@ func classic_winner_box(winner) -> void:
 	winner_panel.add_theme_stylebox_override("panel", style)
 
 	var winner_text := "KONEC HRY\n\n%s WINS!" % winner.player_name
-	
+
 	winner_label.text = winner_text
 	winner_label.add_theme_font_override("font", win_font)
 	winner_label.add_theme_font_size_override("font_size", 80)
 	winner_label.add_theme_color_override("font_color", winner.color)
 	winner_box_container.position = Vector2(
-	 	(game_area_scene.size.x - winner_box_container.size.x) * 0.5,
-	 	(game_area_scene.size.y - winner_box_container.size.y) * 0.5
-	 )
+		(game_area_scene.size.x - winner_box_container.size.x) * 0.5,
+		(game_area_scene.size.y - winner_box_container.size.y) * 0.5
+	)
 	winner_box_container.visible = true
+
 
 func new_winner_box(winner) -> void:
 	var style: StyleBoxFlat = winner_panel.get_theme_stylebox("panel").duplicate()
@@ -235,7 +238,7 @@ func new_winner_box(winner) -> void:
 		(game_area_scene.size.y - winner_box_container.size.y) * 0.5
 	)
 	winner_box_container.visible = true
-	
+
 	AudioManager.play_sfx(win_sound)
 
 
@@ -301,11 +304,15 @@ func _end_round_deferred() -> void:
 
 
 func _on_button_music_toggled(toggled_on: bool) -> void:
-	$MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ButtonMusic.text = "on" if toggled_on else "off"
+	$MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ButtonMusic.text = (
+		"on" if toggled_on else "off"
+	)
 	AudioServer.set_bus_mute(music_bus_idx, not toggled_on)
 	AudioServer.set_bus_mute(trophee_bus_idx, not toggled_on)
 
 
 func _on_button_sound_toggled(toggled_on: bool) -> void:
-	$MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2/ButtonSound.text = "on" if toggled_on else "off"
+	$MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2/ButtonSound.text = (
+		"on" if toggled_on else "off"
+	)
 	AudioServer.set_bus_mute(sfx_bus_idx, not toggled_on)

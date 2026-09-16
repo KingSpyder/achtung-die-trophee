@@ -15,6 +15,7 @@ config/description="Refonte de Achtung die Kurve aka the best game for brain"
 config/version="1.0"
 run/main_scene="uid://b62dwds736bda"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
@@ -32,6 +33,7 @@ AudioManager="*res://src/game/audio_manager.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=3
 window/stretch/mode="canvas_items"
 
 [input]
