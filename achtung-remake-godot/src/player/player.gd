@@ -84,7 +84,7 @@ func _apply_head_preset(preset: PlayerHeadPreset) -> void:
 		return
 	if preset.head_texture != null:
 		head.texture = preset.head_texture
-	head.modulate = PlayerHeadPreset.HEAD_COLOR
+	head.self_modulate = PlayerHeadPreset.HEAD_COLOR
 	_refresh_head_and_collision_shape()
 
 
