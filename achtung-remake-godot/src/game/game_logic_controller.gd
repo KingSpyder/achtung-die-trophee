@@ -42,12 +42,11 @@ func start_game() -> void:
 	GameManager.max_points = (GameManager.players.size() - 1) * 10
 	GameManager.players.sort_custom(GameManager.sort_player_by_order)
 
-	var scores_panel := max_score_label.get_parent()
 	var spacer := Control.new()
 	spacer.custom_minimum_size = Vector2(0, 25)
-	scores_panel.add_child(spacer)
-	scores_panel.move_child(spacer, 0)
-	scores_panel.add_theme_constant_override("separation", 12)
+	scores_container.add_child(spacer)
+	scores_container.move_child(spacer, 0)
+	scores_container.add_theme_constant_override("separation", 12)
 
 	# Complete title
 	var title_container := VBoxContainer.new()
