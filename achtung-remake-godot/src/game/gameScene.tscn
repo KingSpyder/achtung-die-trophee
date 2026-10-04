@@ -108,6 +108,7 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_06v2v")
 
 [node name="Scores" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="MaxScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
@@ -186,7 +187,7 @@ flat = true
 alignment = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 160)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
 [connection signal="toggled" from="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer/ButtonMusic" to="." method="_on_button_music_toggled"]
