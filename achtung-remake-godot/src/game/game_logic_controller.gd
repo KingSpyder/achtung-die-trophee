@@ -305,7 +305,7 @@ func _sort_score_board() -> void:
 	var sorted_players := GameManager.players.duplicate()
 	sorted_players.sort_custom(func(a, b): return a.score > b.score)
 	
-	var title_node = scores_container.get_node_or_null("TitleContainer")
+	var title_node = scores_container.get_node_or_null("ScoreLabel")
 	var header_offset := title_node.get_index() + 1 if title_node else 0
 	
 	for i in range(sorted_players.size()):
