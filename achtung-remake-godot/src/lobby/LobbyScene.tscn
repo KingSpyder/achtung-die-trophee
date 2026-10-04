@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://5kfamwx1s240"]
+[gd_scene load_steps=19 format=3 uid="uid://5kfamwx1s240"]
 
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="1_3gx8m"]
 [ext_resource type="Script" uid="uid://cskqofg5uirf8" path="res://src/lobby/lobby_scene.gd" id="1_abajd"]
@@ -54,6 +54,21 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color(1, 1, 0, 1)
 border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqpb7"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cuawa"]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 0, 1)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_bj5hf"]
 viewport_path = NodePath("ArrowRendered")
@@ -317,8 +332,10 @@ theme_override_colors/icon_pressed_color = Color(0.5529556, 0.55295557, 0.552955
 theme_override_colors/icon_hover_color = Color(0, 1, 1, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
 theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_eqpb7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cuawa")
 text = "Configure
-power_ups
+Power-ups
 "
 
 [node name="ControlTexts" type="Control" parent="."]
