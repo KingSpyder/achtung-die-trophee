@@ -30,6 +30,8 @@ var _countdown_request_id := 0
 @onready var sfx_bus_idx = AudioServer.get_bus_index("SFX")
 @onready var trophee_bus_idx = AudioServer.get_bus_index("Trophee")
 
+@export var max_score_coef = 10
+
 
 func _ready() -> void:
 	AudioManager.play_music(GAME_MUSIC)
@@ -39,7 +41,7 @@ func _ready() -> void:
 ## Finish by calling next_round to prepare the first round.
 func start_game() -> void:
 	print("game started")
-	GameManager.max_points = (GameManager.players.size() - 1) * 10
+	GameManager.max_points = (GameManager.players.size() - 1) * max_score_coef
 	GameManager.players.sort_custom(GameManager.sort_player_by_order)
 
 	var spacer := Control.new()

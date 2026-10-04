@@ -1,13 +1,15 @@
 extends Node
 
-signal start_game
+signal start_game(max_score_coef: int)
 
 const PLAYER_SELECTION_SCENE: PackedScene = preload("res://src/lobby/PlayerSelectionScene.tscn")
 const POWER_UP_POPUP_SCENE = preload("res://src/lobby/PowerUpConfig.tscn")
+const CONFIG_GAME_POPUP_SCENE = preload("res://src/lobby/ConfigGame.tscn")
 
 var players_selection_nodes: Array[PlayerSelection]
 var game_mode_button_group := ButtonGroup.new()
 var has_duplicated_keys := false
+var max_score_coef := 10
 var lobby_music := preload("res://assets/music/Eric Skiff - Underclocked.mp3")
 
 @onready var arcade_button: Button = %ArcadeButton
@@ -16,7 +18,6 @@ var lobby_music := preload("res://assets/music/Eric Skiff - Underclocked.mp3")
 @onready var music_bus_idx = AudioServer.get_bus_index("Music")
 @onready var sfx_bus_idx = AudioServer.get_bus_index("SFX")
 @onready var trophee_bus_idx = AudioServer.get_bus_index("Trophee")
-
 
 
 func _ready() -> void:
@@ -104,7 +105,7 @@ func _on_start_button_pressed() -> void:
 		or GameManager.game_status != GameManager.GameStatus.LOBBY
 	):
 		return
-	start_game.emit()
+	start_game.emit(max_score_coef)
 
 
 func hide() -> void:
@@ -131,3 +132,15 @@ func _on_powerup_config_button_pressed() -> void:
 	var popup = POWER_UP_POPUP_SCENE.instantiate()
 	get_tree().root.add_child(popup)
 	popup.popup_centered(Vector2i(1200, 800))
+
+
+func _on_game_config_button_pressed() -> void:
+	var popup = CONFIG_GAME_POPUP_SCENE.instantiate()
+	popup.selected_max_score_coef = max_score_coef
+	get_tree().root.add_child(popup)
+	popup.max_score_coef_selected.connect(_on_max_score_coef_selected)
+	popup.popup_centered(Vector2i(800, 450))
+
+
+func _on_max_score_coef_selected(value: int) -> void:
+	max_score_coef = value
