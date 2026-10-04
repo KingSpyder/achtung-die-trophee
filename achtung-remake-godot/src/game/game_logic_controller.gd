@@ -20,6 +20,7 @@ var _countdown_request_id := 0
 @onready var round_audio_controller: GameRoundAudioController = $GameRoundAudioController
 @onready var pause_overlay: PauseOverlay = game_area_scene.get_node("PauseOverlay")
 @onready var countdown_display: CountdownDisplay = game_area_scene.get_node("CountdownOverlay")
+@onready var scores_container: VBoxContainer = %Scores
 @onready var max_score_label: Label = %MaxScoreLabel
 @onready var score_label: Label = %ScoreLabel
 @onready var winner_box_container: Control = %WinnerBoxContainer
@@ -43,7 +44,7 @@ func start_game() -> void:
 
 	var scores_panel := max_score_label.get_parent()
 	var spacer := Control.new()
-	spacer.custom_minimum_size = Vector2(0, 40)
+	spacer.custom_minimum_size = Vector2(0, 25)
 	scores_panel.add_child(spacer)
 	scores_panel.move_child(spacer, 0)
 	scores_panel.add_theme_constant_override("separation", 12)
@@ -291,6 +292,8 @@ func _on_player_died(player: PlayerScript, death_cause: int, collided_player: Pl
 		var player_score = find_child(player_alive.player_name + "_score", true, false)
 		if player_score:
 			player_score.text = str(player_alive.score)
+	
+	_sort_score_board()
 
 	if GameManager.players_alive.size() <= 1 and not _round_end_scheduled:
 		_round_end_scheduled = true
@@ -298,6 +301,20 @@ func _on_player_died(player: PlayerScript, death_cause: int, collided_player: Pl
 		# we defer the call to avoid calling end_round in the middle of the player death
 		# signal processing, which can cause issues if multiple players die at the same time.
 
+
+func _sort_score_board() -> void:
+	var sorted_players := GameManager.players.duplicate()
+	sorted_players.sort_custom(func(a, b): return a.score > b.score)
+	
+	var title_node = scores_container.get_node_or_null("TitleContainer")
+	var header_offset := title_node.get_index() + 1 if title_node else 0
+	
+	for i in range(sorted_players.size()):
+		var player = sorted_players[i]
+		var player_score_row = score_label.get_parent().find_child(player.player_name + "_score_row", false, false)
+		if player_score_row:
+			player_score_row.get_parent().move_child(player_score_row, header_offset + i)
+			
 
 func _end_round_deferred() -> void:
 	_round_end_scheduled = false
