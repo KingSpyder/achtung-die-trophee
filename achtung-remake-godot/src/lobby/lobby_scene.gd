@@ -10,7 +10,7 @@ var players_selection_nodes: Array[PlayerSelection]
 var game_mode_button_group := ButtonGroup.new()
 var has_duplicated_keys := false
 var max_score_coef := 10
-var ai_difficulty: int = AiDifficulty.Level.EASY
+var ai_difficulty: int = AiDifficulty.Level.NORMAL
 var lobby_music := preload("res://assets/music/Eric Skiff - Underclocked.mp3")
 
 @onready var arcade_button: Button = %ArcadeButton

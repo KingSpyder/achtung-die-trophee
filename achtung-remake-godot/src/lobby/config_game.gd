@@ -17,7 +17,7 @@ const SCORE_COEFFICIENTS := {
 @onready var hard_ai_button: Button = %HardButton
 
 var selected_max_score_coef := SCORE_COEFFICIENTS["Normal"]
-var selected_ai_difficulty: int = AiDifficulty.Level.EASY
+var selected_ai_difficulty: int = AiDifficulty.Level.NORMAL
 
 
 func _ready() -> void:

@@ -105,7 +105,6 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 24
 toggle_mode = true
-button_pressed = true
 text = "Easy"
 
 [node name="NormalAiButton" type="Button" parent="MarginContainer/VBoxContainerGameDuration/AiOptions"]
@@ -116,6 +115,7 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 24
 toggle_mode = true
+button_pressed = true
 text = "Normal"
 
 [node name="HardButton" type="Button" parent="MarginContainer/VBoxContainerGameDuration/AiOptions"]
