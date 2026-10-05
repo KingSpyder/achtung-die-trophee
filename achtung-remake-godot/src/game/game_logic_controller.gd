@@ -41,6 +41,7 @@ func _ready() -> void:
 ## Finish by calling next_round to prepare the first round.
 func start_game() -> void:
 	print("game started")
+	_setup_ai_players()
 	GameManager.max_points = (GameManager.players.size() - 1) * max_score_coef
 	GameManager.players.sort_custom(GameManager.sort_player_by_order)
 
@@ -120,7 +121,28 @@ func start_game() -> void:
 			game_physic_controller.powerup_runtime.register_player_action_display(
 				player, action_display_box
 			)
+	game_physic_controller.setup_ai(
+		GameManager.players, GameManager.ai_players, GameManager.ai_difficulty
+	)
 	next_round()
+
+
+## A solo game is played against the computer: every character nobody picked in the lobby
+## joins as an AI opponent. As soon as two humans are selected, no AI is added at all.
+func _setup_ai_players() -> void:
+	GameManager.ai_players.clear()
+	if GameManager.players.size() != 1:
+		return
+	for ai_player in AiPlayerFactory.create_opponents(GameManager.players):
+		GameManager.ai_players.push_back(ai_player)
+		GameManager.players.push_back(ai_player)
+	print(
+		"solo game: added ",
+		GameManager.ai_players.size(),
+		" AI opponents (",
+		AiDifficulty.label(GameManager.ai_difficulty),
+		")"
+	)
 
 
 ## Start a new round: start moving the players.
@@ -143,6 +165,7 @@ func start_round(skip_countdown: bool = false) -> void:
 	game_physic_controller.start_round_powerups(GameManager.players_alive)
 	for player in GameManager.players:
 		game_physic_controller.start_player(player)
+	game_physic_controller.start_round_ai()
 
 
 ## End the current round, calculate scores and check if the game should end.
@@ -175,6 +198,7 @@ func end_round() -> void:
 ## Status is set to ROUND_READY, waiting for the player to start the round.
 func next_round():
 	game_physic_controller.reset_round_powerups()
+	game_physic_controller.reset_ai()
 	for player in GameManager.players:
 		player.clean()
 		player.set_process(false)
@@ -272,6 +296,15 @@ func exit_game() -> void:
 	pause_overlay.visible = false
 	_unpause()
 	game_physic_controller.exit_game()
+	_remove_ai_players()
+
+
+## AI players only exist for the duration of a game: the lobby must find its own players only.
+func _remove_ai_players() -> void:
+	for ai_player in GameManager.ai_players:
+		GameManager.players.erase(ai_player)
+		ai_player.queue_free()
+	GameManager.ai_players.clear()
 
 
 func _unpause() -> void:

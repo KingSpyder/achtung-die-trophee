@@ -24,6 +24,13 @@ var players: Array[PlayerScript] = []
 ## Array of players still alive in the current round.
 var players_alive: Array[PlayerScript] = []
 
+## Subset of `players` driven by the AI. Only filled when a single human plays: in that case
+## every remaining character of the roster joins the game as a computer opponent.
+var ai_players: Array[PlayerScript] = []
+
+## Difficulty applied to the AI players, see AiDifficulty.Level. Set from the lobby.
+var ai_difficulty: int = AiDifficulty.Level.NORMAL
+
 
 func sort_player_by_order(p1: PlayerScript, p2: PlayerScript):
 	return p1.order > p2.order
