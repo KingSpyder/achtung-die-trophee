@@ -10,8 +10,9 @@ func _ready() -> void:
 
 
 ## To leave LobbyScene and start the game.
-func _on_start_game() -> void:
+func _on_start_game(max_score_coef: int) -> void:
 	game_scene = preload("res://src/game/gameScene.tscn").instantiate()
+	game_scene.max_score_coef = max_score_coef
 	get_tree().root.add_child(game_scene)
 	%LobbyScene.hide()
 	GameManager.game_status = GameManager.GameStatus.START_GAME

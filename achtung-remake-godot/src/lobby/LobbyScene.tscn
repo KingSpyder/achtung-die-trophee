@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://5kfamwx1s240"]
+[gd_scene load_steps=19 format=3 uid="uid://5kfamwx1s240"]
 
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="1_3gx8m"]
 [ext_resource type="Script" uid="uid://cskqofg5uirf8" path="res://src/lobby/lobby_scene.gd" id="1_abajd"]
@@ -31,29 +31,44 @@ content_margin_bottom = 10.0
 bg_color = Color(0.2, 0.2, 0.2, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_53bry"]
-content_margin_left = 24.0
-content_margin_top = 24.0
-content_margin_right = 24.0
-content_margin_bottom = 24.0
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.2, 0.2, 0.2, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bj5hf"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eqpb7"]
 bg_color = Color(0.2, 0.2, 0.2, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(1, 1, 0, 1)
-border_blend = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bj5hf"]
-content_margin_left = 24.0
-content_margin_top = 24.0
-content_margin_right = 24.0
-content_margin_bottom = 24.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cuawa"]
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(1, 1, 0, 1)
-border_blend = true
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_bj5hf"]
 viewport_path = NodePath("ArrowRendered")
@@ -289,6 +304,21 @@ theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 12
 
+[node name="HBoxContainer3" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="GameConfigButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_53bry")
+theme_override_styles/hover = SubResource("StyleBoxFlat_bj5hf")
+text = "Configure
+game
+"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -309,7 +339,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_constants/margin_right = 115
 
-[node name="Button" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer2"]
+[node name="PowerUpButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer2"]
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 theme_override_colors/icon_focus_color = Color(1, 1, 1, 0.8117647)
@@ -317,8 +347,10 @@ theme_override_colors/icon_pressed_color = Color(0.5529556, 0.55295557, 0.552955
 theme_override_colors/icon_hover_color = Color(0, 1, 1, 1)
 theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
 theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_eqpb7")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cuawa")
 text = "Configure
-power_ups
+Power-ups
 "
 
 [node name="ControlTexts" type="Control" parent="."]
@@ -501,8 +533,9 @@ vertical_alignment = 1
 
 [connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer/ArcadeButton" to="." method="_on_arcade_button_toggled"]
 [connection signal="toggled" from="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer/ClassicButton" to="." method="_on_classic_button_toggled"]
+[connection signal="pressed" from="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer3/GameConfigButton" to="." method="_on_game_config_button_pressed"]
 [connection signal="pressed" from="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer2/Button" to="." method="_on_powerup_config_button_pressed"]
+[connection signal="pressed" from="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer2/PowerUpButton" to="." method="_on_powerup_config_button_pressed"]
 [connection signal="toggled" from="ControlTexts/VBoxContainer/HBoxContainer/ButtonMusic" to="." method="_on_button_music_toggled"]
 [connection signal="toggled" from="ControlTexts/VBoxContainer/HBoxContainer2/ButtonSound" to="." method="_on_button_sound_toggled"]
 [connection signal="pressed" from="ControlTexts/Tutorial/StartButton" to="." method="_on_start_button_pressed"]

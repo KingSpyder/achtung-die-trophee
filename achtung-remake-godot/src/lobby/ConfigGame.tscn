@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgwg2amd2lvec"]
+
+[ext_resource type="Script" uid="uid://rpu8ggd12uc4" path="res://src/lobby/config_game.gd" id="1_wtoc0"]
+
+[node name="ConfigGame" type="ConfirmationDialog"]
+transparent_bg = true
+oversampling_override = 1.0
+title = ""
+size = Vector2i(800, 450)
+visible = true
+borderless = true
+transparent = true
+popup_window = true
+ok_button_text = "Validate"
+script = ExtResource("1_wtoc0")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 792.0
+offset_bottom = 401.0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainerGameDuration" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/VBoxContainerGameDuration"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 24
+text = "Configure game duration. Choose the score to reach per additional player :
+Short = 5 pts ; Normal = 10 pts ; Long = 20 pts
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ScoreOptions" type="HBoxContainer" parent="MarginContainer/VBoxContainerGameDuration"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="ShortButton" type="Button" parent="MarginContainer/VBoxContainerGameDuration/ScoreOptions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+toggle_mode = true
+text = "Short"
+
+[node name="NormalButton" type="Button" parent="MarginContainer/VBoxContainerGameDuration/ScoreOptions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+toggle_mode = true
+button_pressed = true
+text = "Normal"
+
+[node name="LongButton" type="Button" parent="MarginContainer/VBoxContainerGameDuration/ScoreOptions"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+toggle_mode = true
+text = "Long"
