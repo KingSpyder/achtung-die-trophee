@@ -10,6 +10,7 @@ var players_selection_nodes: Array[PlayerSelection]
 var game_mode_button_group := ButtonGroup.new()
 var has_duplicated_keys := false
 var max_score_coef := 10
+var ai_difficulty: int = AiDifficulty.Level.NORMAL
 var lobby_music := preload("res://assets/music/Eric Skiff - Underclocked.mp3")
 
 @onready var arcade_button: Button = %ArcadeButton
@@ -105,6 +106,7 @@ func _on_start_button_pressed() -> void:
 		or GameManager.game_status != GameManager.GameStatus.LOBBY
 	):
 		return
+	GameManager.ai_difficulty = ai_difficulty
 	start_game.emit(max_score_coef)
 
 
@@ -137,10 +139,17 @@ func _on_powerup_config_button_pressed() -> void:
 func _on_game_config_button_pressed() -> void:
 	var popup = CONFIG_GAME_POPUP_SCENE.instantiate()
 	popup.selected_max_score_coef = max_score_coef
+	popup.selected_ai_difficulty = ai_difficulty
 	get_tree().root.add_child(popup)
 	popup.max_score_coef_selected.connect(_on_max_score_coef_selected)
-	popup.popup_centered(Vector2i(800, 450))
+	popup.ai_difficulty_selected.connect(_on_ai_difficulty_selected)
+	popup.popup_centered(Vector2i(800, 660))
 
 
 func _on_max_score_coef_selected(value: int) -> void:
 	max_score_coef = value
+
+
+func _on_ai_difficulty_selected(value: int) -> void:
+	ai_difficulty = value
+	GameManager.ai_difficulty = value

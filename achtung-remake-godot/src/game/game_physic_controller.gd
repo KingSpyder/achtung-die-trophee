@@ -8,6 +8,8 @@ const PLAYFIELD_SIZE := 760.0
 
 @onready var powerup_runtime: PowerUpRuntimeController = get_node_or_null("PowerUpRuntime")
 
+var ai_manager: AiManager = null
+
 
 func _ready() -> void:
 	_create_walls()
@@ -82,6 +84,7 @@ func add_player(player: PlayerScript) -> void:
 func exit_game() -> void:
 	if powerup_runtime:
 		powerup_runtime.clear_round_state()
+	reset_ai()
 	for player in GameManager.players:
 		player.set_process(true)
 		player.reset()
@@ -113,6 +116,28 @@ func start_player(player: PlayerScript) -> void:
 func start_round_powerups(alive_players: Array[PlayerScript]) -> void:
 	if powerup_runtime:
 		powerup_runtime.start_round(alive_players)
+
+
+## Spawn the AI brains driving `ai_players`. `all_players` is the whole roster, because the
+## AI needs to see the human trails as well as its own.
+func setup_ai(all_players: Array, ai_players: Array, difficulty_level: int) -> void:
+	if ai_players.is_empty():
+		return
+	if ai_manager == null:
+		ai_manager = AiManager.new()
+		ai_manager.name = "AiManager"
+		add_child(ai_manager)
+	ai_manager.configure(get_playfield_bounds(), all_players, ai_players, difficulty_level)
+
+
+func start_round_ai() -> void:
+	if ai_manager:
+		ai_manager.start_round()
+
+
+func reset_ai() -> void:
+	if ai_manager:
+		ai_manager.reset()
 
 
 func reset_round_powerups() -> void:

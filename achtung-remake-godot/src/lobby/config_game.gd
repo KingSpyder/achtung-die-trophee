@@ -1,6 +1,7 @@
 extends ConfirmationDialog
 
 signal max_score_coef_selected(value: int)
+signal ai_difficulty_selected(value: int)
 
 const SCORE_COEFFICIENTS := {
 	"Short": 5,
@@ -11,8 +12,12 @@ const SCORE_COEFFICIENTS := {
 @onready var short_button: Button = %ShortButton
 @onready var normal_button: Button = %NormalButton
 @onready var long_button: Button = %LongButton
+@onready var easy_ai_button: Button = %EasyButton
+@onready var normal_ai_button: Button = %NormalAiButton
+@onready var hard_ai_button: Button = %HardButton
 
 var selected_max_score_coef := SCORE_COEFFICIENTS["Normal"]
+var selected_ai_difficulty: int = AiDifficulty.Level.NORMAL
 
 
 func _ready() -> void:
@@ -30,6 +35,19 @@ func _ready() -> void:
 	normal_button.button_pressed = selected_max_score_coef == SCORE_COEFFICIENTS["Normal"]
 	long_button.button_pressed = selected_max_score_coef == SCORE_COEFFICIENTS["Long"]
 
+	var ai_button_group := ButtonGroup.new()
+	ai_button_group.allow_unpress = false
+	var ai_levels := {
+		easy_ai_button: AiDifficulty.Level.EASY,
+		normal_ai_button: AiDifficulty.Level.NORMAL,
+		hard_ai_button: AiDifficulty.Level.HARD,
+	}
+	for option_button in ai_levels:
+		option_button.button_group = ai_button_group
+		_style_option_button(option_button)
+		option_button.toggled.connect(_on_ai_option_toggled.bind(ai_levels[option_button]))
+		option_button.button_pressed = selected_ai_difficulty == ai_levels[option_button]
+
 	confirmed.connect(_on_validate_pressed)
 	canceled.connect(queue_free)
 	close_requested.connect(queue_free)
@@ -40,8 +58,14 @@ func _on_option_toggled(toggled_on: bool, option_button: Button) -> void:
 		selected_max_score_coef = SCORE_COEFFICIENTS[option_button.text]
 
 
+func _on_ai_option_toggled(toggled_on: bool, level: int) -> void:
+	if toggled_on:
+		selected_ai_difficulty = level
+
+
 func _on_validate_pressed() -> void:
 	max_score_coef_selected.emit(selected_max_score_coef)
+	ai_difficulty_selected.emit(selected_ai_difficulty)
 	queue_free()
 
 
