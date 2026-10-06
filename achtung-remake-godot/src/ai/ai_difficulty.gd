@@ -42,12 +42,12 @@ static func profile(level: int) -> AiDifficulty:
 	var difficulty := AiDifficulty.new()
 	match level:
 		Level.HARD:
-			difficulty.look_ahead_distance = 450.0
-			difficulty.urgency_factor = 6.4
+			difficulty.look_ahead_distance = 800.0
+			difficulty.urgency_factor = 8
 			difficulty.reaction_time = 0.0
 			difficulty.blunder_chance = 0.0
-			difficulty.aim_deadzone = 0.25
-			difficulty.safety_margin = 2.0
+			difficulty.aim_deadzone = 0.05
+			difficulty.safety_margin = 0.1
 		Level.NORMAL:
 			difficulty.look_ahead_distance = 320.0
 			difficulty.urgency_factor = 4.2
