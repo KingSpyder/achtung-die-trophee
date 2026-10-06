@@ -19,7 +19,7 @@ func build_collision_shape_for_size(target_size: float) -> Shape2D:
 	if collision_shape == null:
 		return null
 	var safe_size := maxf(target_size, 0.01)
-	var factor := 1.0 * safe_size
+	var factor := 1.0 * safe_size * 0.95  # for easy Gandon gating
 	var scaled_shape := collision_shape.duplicate()
 
 	if scaled_shape is CircleShape2D:
