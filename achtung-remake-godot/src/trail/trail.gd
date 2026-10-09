@@ -112,8 +112,8 @@ func new_border_segments() -> Array[CollisionShape2D]:
 func new_start_segment() -> CollisionShape2D:
 	var perp_vec := perpendicular_vector()
 	var collision_segment = new_collision_segment()
-	collision_segment.shape.a = previous_point + perp_vec / 2
-	collision_segment.shape.b = previous_point - perp_vec / 2
+	collision_segment.shape.a = latest_point + perp_vec / 2
+	collision_segment.shape.b = latest_point - perp_vec / 2
 	return collision_segment
 
 
@@ -121,8 +121,8 @@ func new_start_segment() -> CollisionShape2D:
 func new_end_segment() -> CollisionShape2D:
 	var perp_vec := perpendicular_vector()
 	var collision_segment = new_collision_segment()
-	collision_segment.shape.a = latest_point + perp_vec / 2
-	collision_segment.shape.b = latest_point - perp_vec / 2
+	collision_segment.shape.a = previous_point + perp_vec / 2
+	collision_segment.shape.b = previous_point - perp_vec / 2
 	return collision_segment
 
 
