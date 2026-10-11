@@ -1,8 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://b11ont8gxk0bg"]
+[gd_scene load_steps=9 format=3 uid="uid://b11ont8gxk0bg"]
 
 [ext_resource type="Script" uid="uid://b3ghax1j276m2" path="res://src/level_editor/editor/level_editor.gd" id="1_e2xvr"]
 [ext_resource type="Script" uid="uid://mswd4lu80i88" path="res://src/level_editor/editor/level_editor_canvas.gd" id="2_ifqc2"]
 [ext_resource type="Script" uid="uid://ghypmbg8b0ne" path="res://src/level_editor/level_runner.gd" id="3_5wfff"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5wfff"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgons"]
+bg_color = Color(0.21568628, 0.21568628, 0.23137255, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_846pa"]
+bg_color = Color(0.21568628, 0.21568628, 0.23137255, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4lebn"]
+bg_color = Color(0.21568628, 0.21568628, 0.23137255, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r34ho"]
+bg_color = Color(0.21568628, 0.21568628, 0.23137255, 1)
 
 [node name="LevelEditorScene" type="Control"]
 layout_mode = 3
@@ -59,6 +74,7 @@ alignment = 1
 [node name="Title" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_5wfff")
 text = "Level Editor"
 horizontal_alignment = 1
 
@@ -116,9 +132,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel (ctrl+Z)"
 
+[node name="Sep1" type="HSeparator" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
 [node name="ToolTitle" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_xgons")
 text = "Tools"
 horizontal_alignment = 1
 
@@ -146,9 +166,13 @@ layout_mode = 2
 toggle_mode = true
 text = "Erase"
 
+[node name="Sep2" type="HSeparator" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
 [node name="PlayerTitle" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_846pa")
 text = "Player"
 horizontal_alignment = 1
 
@@ -205,9 +229,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 color = Color(1, 0, 0, 1)
 
+[node name="Sep1" type="HSeparator" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/PlayerColorRow"]
+layout_mode = 2
+
 [node name="ObstacleTitle" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_4lebn")
 text = "Obstacle"
 horizontal_alignment = 1
 
@@ -241,9 +269,13 @@ min_value = 1.0
 max_value = 50.0
 value = 6.0
 
+[node name="Sep3" type="HSeparator" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
 [node name="GateTitle" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_r34ho")
 text = "Gate"
 horizontal_alignment = 1
 
