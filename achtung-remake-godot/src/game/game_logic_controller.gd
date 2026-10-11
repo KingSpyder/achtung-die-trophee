@@ -3,6 +3,7 @@ extends Node
 
 const PlayerScript = preload("res://src/player/player.gd")
 const PlayerActionDisplayBoxScript = preload("res://src/game/player_action_display_box.gd")
+const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 const GAME_MUSIC: AudioStream = preload("res://assets/music/Density & Time - MAZE.mp3")
 @export var win_music: AudioStream = preload("res://assets/sounds/10_bleep_snd.mp3")
 @export var win_sound: AudioStream = preload("res://assets/sounds/14_applause_snd.mp3")
@@ -34,6 +35,7 @@ var _countdown_request_id := 0
 
 
 func _ready() -> void:
+	winner_box_container.z_index = PhysicsLayersScript.OVERLAY_Z_INDEX
 	AudioManager.play_music(GAME_MUSIC)
 
 
