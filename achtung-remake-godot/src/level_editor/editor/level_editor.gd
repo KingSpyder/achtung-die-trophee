@@ -1,7 +1,9 @@
 class_name LevelEditor
 extends Control
 
-const Tool :=LevelEditorCanvas.Tool
+enum ControlCaptureState { IDLE, WAITING_LEFT, WAITING_RIGHT }
+
+const TOOL := LevelEditorCanvas.Tool
 const DEFAULT_PLAYER_COLORS : Array[Color] = [
 		PlayersConstants.FRED_COLOR,
 		PlayersConstants.GREENLEE_COLOR,
@@ -16,6 +18,7 @@ const OBSTACLE_PICK_MARGIN := 6.0
 
 var _tool_group := ButtonGroup.new()
 var _undo_stack: Array[Dictionary] = []
+var _control_capture_state := ControlCaptureState.IDLE
 
 @onready var canvas: LevelEditorCanvas = %Canvas
 @onready var level_runner: LevelRunner = %LevelRunner
@@ -25,6 +28,7 @@ var _undo_stack: Array[Dictionary] = []
 @onready var player_name_edit: LineEdit = %PlayerNameEdit
 @onready var left_key_edit: LineEdit = %LeftKeyEdit
 @onready var right_key_edit: LineEdit = %RightKeyEdit
+@onready var control_button: Button = %ControlButton
 @onready var player_color_button: ColorPickerButton = %PlayerColorButton
 @onready var obstacle_color_button: ColorPickerButton = %ObstacleColorButton
 @onready var width_spin: SpinBox = %WidthSpin
@@ -36,11 +40,11 @@ var _undo_stack: Array[Dictionary] = []
 @onready var test_button: Button = %TestButton
 @onready var undo_button = %UndoButton
 @onready var tool_buttons := {
-	Tool.ERASE: %ToolErase,
-	Tool.PLAYER: %ToolPlayer,
-	Tool.OBSTACLE: %ToolObstacle,
-	Tool.GATE: %ToolGate,
-	Tool.GOAL: %ToolGoal}
+	TOOL.ERASE: %ToolErase,
+	TOOL.PLAYER: %ToolPlayer,
+	TOOL.OBSTACLE: %ToolObstacle,
+	TOOL.GATE: %ToolGate,
+	TOOL.GOAL: %ToolGoal}
 
 func _ready() -> void:
 	for tool_id in tool_buttons:
@@ -51,8 +55,8 @@ func _ready() -> void:
 
 	canvas.set_level(LevelData.new())
 	_sync_canvas_properties()
-	_select_tool(Tool.PLAYER)
-	tool_buttons[Tool.PLAYER].button_pressed = true
+	_select_tool(TOOL.PLAYER)
+	tool_buttons[TOOL.PLAYER].button_pressed = true
 	_refresh_level_list()
 
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -60,6 +64,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 	var key_event := event as InputEventKey
 	if key_event == null:
+		return
+	if _control_capture_state != ControlCaptureState.IDLE:
+		_capture_control_key(key_event)
 		return
 	if key_event.keycode == KEY_Z and key_event.ctrl_pressed:
 		_undo()
@@ -69,6 +76,27 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		canvas.clear_pending()
 	else:
 		return
+	get_viewport().set_input_as_handled()
+
+func _start_control_capture() -> void:
+	_control_capture_state = ControlCaptureState.WAITING_LEFT
+	control_button.text = "Press left control..."
+	control_button.release_focus()
+
+func _capture_control_key(key_event: InputEventKey) -> void:
+	if key_event.keycode == KEY_ESCAPE:
+		_control_capture_state = ControlCaptureState.IDLE
+		control_button.text = "Control"
+	elif key_event.keycode != KEY_SPACE and key_event.keycode != KEY_NONE:
+		var key_name := key_event.as_text()
+		if _control_capture_state == ControlCaptureState.WAITING_LEFT:
+			left_key_edit.text = key_name
+			_control_capture_state = ControlCaptureState.WAITING_RIGHT
+			control_button.text = "Press right control..."
+		else:
+			right_key_edit.text = key_name
+			_control_capture_state = ControlCaptureState.IDLE
+			control_button.text = "Control"
 	get_viewport().set_input_as_handled()
 
 func _select_tool(tool_id: int) -> void:
@@ -84,23 +112,23 @@ func _on_canvas_pressed(canvas_position: Vector2, button_index: int) -> void:
 	if button_index != MOUSE_BUTTON_LEFT:
 		return
 	match canvas.active_tool:
-		Tool.PLAYER:
+		TOOL.PLAYER:
 			canvas.drag_origin = canvas_position
 			canvas.is_dragging = true
-		Tool.OBSTACLE:
+		TOOL.OBSTACLE:
 			canvas.add_pending_point(canvas_position)
-		Tool.GATE:
+		TOOL.GATE:
 			_add_gate(canvas_position)
-		Tool.GOAL:
+		TOOL.GOAL:
 			_place_goal_zone(canvas_position)
-		Tool.ERASE:
+		TOOL.ERASE:
 			_erase_at(canvas_position)
 	canvas.queue_redraw()
 
 func _on_canvas_released(canvas_position: Vector2, button_index: int) -> void:
 	if button_index != MOUSE_BUTTON_LEFT:
 		return
-	if canvas.active_tool == Tool.PLAYER and canvas.is_dragging:
+	if canvas.active_tool == TOOL.PLAYER and canvas.is_dragging:
 		canvas.is_dragging = false
 		var drag := canvas_position - canvas.drag_origin
 		var direction := (

@@ -200,6 +200,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Player1"
 
+[node name="ControlButton" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Control"
+
 [node name="KeysRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 layout_mode = 2
 
@@ -212,7 +218,9 @@ text = "Left"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 text = "A"
+editable = false
 
 [node name="RightKeyLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/KeysRow"]
 custom_minimum_size = Vector2(90, 0)
@@ -223,7 +231,9 @@ text = "Right"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 text = "Z"
+editable = false
 
 [node name="PlayerColorRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 layout_mode = 2
@@ -347,6 +357,7 @@ metadata/_custom_type_script = "uid://ghypmbg8b0ne"
 [connection signal="pressed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/FileRow/SaveButton" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ActionRow/TestButton" to="." method="_on_test_pressed"]
 [connection signal="pressed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ActionRow/UndoButton" to="." method="_undo"]
+[connection signal="pressed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ControlButton" to="." method="_start_control_capture"]
 [connection signal="color_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/PlayerColorRow/PlayerColorButton" to="." method="_on_player_color_changed"]
 [connection signal="color_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ObstacleColorRow/ObstacleColorButton" to="." method="_on_obstacle_color_changed"]
 [connection signal="value_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/WidthRow/WidthSpin" to="." method="_on_width_changed"]
