@@ -26,7 +26,7 @@ var pending_color := Color(0.8, 0.8, 0.8, 1)
 var pending_width := PlayersConstants.TRAIL_WIDTH
 
 var active_tool : Tool = Tool.PLAYER
-var gate_radius := PlayersConstants.GATE_LENGTH
+var gate_radius := PlayersConstants.GATE_LENGTH / 2.0
 
 var player_color := Color(1, 0, 0, 1)
 var pointer_position := Vector2.ZERO
@@ -179,4 +179,4 @@ func _draw_tool_ghost() -> void:
 		Tool.ERASE:
 			draw_arc(pointer_position, 10.0, 0.0, TAU, 24, Color(1, 0.3, 0.3, 0.8), 1.5)
 		Tool.OBSTACLE:
-			draw_circle(pointer_position, 30, GHOST_COLOR)
+			draw_circle(pointer_position, 10, GHOST_COLOR)
