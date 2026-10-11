@@ -39,6 +39,7 @@ var _control_capture_state := ControlCaptureState.IDLE
 @onready var save_button: Button = %SaveButton
 @onready var test_button: Button = %TestButton
 @onready var undo_button = %UndoButton
+@onready var status_label: Label = %StatusLabel
 @onready var tool_buttons := {
 	TOOL.ERASE: %ToolErase,
 	TOOL.PLAYER: %ToolPlayer,
@@ -58,6 +59,10 @@ func _ready() -> void:
 	_select_tool(TOOL.PLAYER)
 	tool_buttons[TOOL.PLAYER].button_pressed = true
 	_refresh_level_list()
+	_set_status(
+		"Chose a tool to place into arena. Left click to place, right click to cancel.\n"
+		+ "Press ESC to cancel pending obstacle."
+	)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not editor_ui.visible or not event.is_pressed() or event.is_echo():
@@ -74,6 +79,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		_close_pending_obstacle()
 	elif key_event.keycode == KEY_ESCAPE and canvas.has_pending_obstacle():
 		canvas.clear_pending()
+		_set_status("Current obstacle canceled.")
 	else:
 		return
 	get_viewport().set_input_as_handled()
@@ -101,7 +107,7 @@ func _capture_control_key(key_event: InputEventKey) -> void:
 
 func _select_tool(tool_id: int) -> void:
 	if canvas.active_tool != tool_id:
-		_close_pending_obstacle()
+		_close_pending_obstacle(true)
 	canvas.active_tool = tool_id
 	canvas.queue_redraw()
 
@@ -117,6 +123,7 @@ func _on_canvas_pressed(canvas_position: Vector2, button_index: int) -> void:
 			canvas.is_dragging = true
 		TOOL.OBSTACLE:
 			canvas.add_pending_point(canvas_position)
+			_set_status("Right click or ENTER to finish obstacle. ESC to cancel.")
 		TOOL.GATE:
 			_add_gate(canvas_position)
 		TOOL.GOAL:
@@ -151,12 +158,18 @@ func _add_player(spawn_position: Vector2, direction: Vector2) -> void:
 	canvas.level.players.push_back(spawn)
 	_undo_stack.push_back({"kind": "player"})
 	_prepare_next_player_defaults()
+	_set_status(
+		"Player '%s' added (%s / %s)."
+		% [spawn.player_name, spawn.left_control, spawn.right_control]
+	)
 
-func _close_pending_obstacle() -> void:
+func _close_pending_obstacle(silent: bool = false) -> void:
 	if not canvas.has_pending_obstacle():
 		return
 	var points := canvas.take_pending_points()
 	if points.size() < 2:
+		if not silent:
+			_set_status("Obstacle needs at least 2 points.")
 		return
 	var obstacle := LevelObstacle.new()
 	obstacle.color = obstacle_color_button.color
@@ -164,6 +177,8 @@ func _close_pending_obstacle() -> void:
 	obstacle.points = points
 	canvas.level.obstacles.push_back(obstacle)
 	_undo_stack.push_back({"kind": "obstacle"})
+	if not silent:
+		_set_status("Obstacle added with %d points." %points.size())
 
 func _add_gate(gate_position: Vector2) -> void:
 	var gate := LevelGate.new()
@@ -171,6 +186,7 @@ func _add_gate(gate_position: Vector2) -> void:
 	gate.radius = gate_radius_spin.value
 	canvas.level.gates.push_back(gate)
 	_undo_stack.push_back({"kind": "gate"})
+	_set_status("Gate added at %s." % gate_position)
 
 func _place_goal_zone(zone_position: Vector2):
 	var level := canvas.level
@@ -185,26 +201,32 @@ func _place_goal_zone(zone_position: Vector2):
 	level.has_goal_zone = true
 	level.goal_zone_position = zone_position
 	level.goal_zone_radius = goal_radius_spin.value
+	_set_status("Goal zone placed at %s." % zone_position)
 
 func _erase_at(point: Vector2) -> void:
 	var level := canvas.level
 	for index in range(level.players.size() - 1, -1, -1):
 		if level.players[index].position.distance_to(point) <= PLAYER_PICK_RADIUS:
 			level.players.remove_at(index)
+			_set_status("Player removed.")
 			return
 	for index in range(level.gates.size() - 1, -1, -1):
 		if level.gates[index].position.distance_to(point) <= level.gates[index].radius:
 			level.gates.remove_at(index)
+			_set_status("Gate removed.")
 			return
 	for index in range(level.obstacles.size() - 1, -1, -1):
 		var obstacle := level.obstacles[index]
 		var reach := obstacle.width * 0.5 + OBSTACLE_PICK_MARGIN
 		if _distance_to_polyline(point, obstacle.points) <= reach:
 			level.obstacles.remove_at(index)
+			_set_status("Obstacle removed.")
 			return
 	if level.has_goal_zone:
 		level.has_goal_zone = false
+		_set_status("Goal zone removed.")
 		return
+	_set_status("Nothing to remove here.")
 
 func _undo() -> void:
 	if canvas.has_pending_obstacle():
@@ -230,38 +252,49 @@ func _undo() -> void:
 			level.goal_zone_position = entry["position"]
 			level.goal_zone_radius = entry["radius"]
 	canvas.queue_redraw()
+	_set_status("Last action undone.")
 
 func _on_new_pressed() -> void:
 	canvas.set_level(LevelData.new())
 	_undo_stack.clear()
 	level_name_edit.text = "new_level"
 	_prepare_next_player_defaults()
+	_set_status("New level created.")
 
 func _on_load_pressed() -> void:
 	if level_list.item_count == 0:
+		_set_status("No level available.")
 		return
 	var level_name := level_list.get_item_text(maxi(level_list.selected, 0))
 	var level := LevelManager.load_level(level_name)
 	if level == null:
+		_set_status("Failed to load '%s'." % level_name)
 		return
 	canvas.set_level(level)
 	_undo_stack.clear()
 	level_name_edit.text = level.level_name
 	goal_radius_spin.value = level.goal_zone_radius
 	_prepare_next_player_defaults()
+	_set_status("Level '%s' loaded." % level_name)
 
 func _on_save_pressed() -> void:
-	_close_pending_obstacle()
+	_close_pending_obstacle(true)
 	var level := canvas.level
 	var file_name := LevelManager.sanitize_name(level_name_edit.text)
 	if file_name.is_empty():
+		_set_status("Level name empty.")
 		return
 	level.level_name = file_name
 	var save_error := LevelManager.save_level(level)
 	if save_error != OK:
+		_set_status("Failed to save level: %d." % save_error)
 		return
 	level_name_edit.text = file_name
 	_refresh_level_list(file_name)
+	_set_status(
+		"Level '%s' saved in %s."
+		% [file_name, LevelManager.get_writable_dir().path_join(file_name + LevelManager.EXTENSION)]
+		)
 
 func _refresh_level_list(selected_name: String = "") -> void:
 	level_list.clear()
@@ -273,14 +306,17 @@ func _refresh_level_list(selected_name: String = "") -> void:
 		index += 1
 
 func _on_test_pressed() -> void:
-	_close_pending_obstacle()
+	_close_pending_obstacle(true)
 	if canvas.level.players.is_empty():
+		_set_status("Place a player to test.")
 		return
 	editor_ui.visible = false
 	level_runner.start(canvas.level.duplicate(true))
+	_set_status("Test started. Space to start/pause. Escape to return to editor.")
 
 func _on_test_closed() -> void:
 	editor_ui.visible = true
+	_set_status("Return to editor.")
 
 
 func _sync_canvas_properties() -> void:
@@ -329,3 +365,6 @@ func _distance_to_polyline(point: Vector2, points: PackedVector2Array) -> float:
 		)
 		best = minf(best, point.distance_to(closest))
 	return best
+
+func _set_status(message: String) -> void:
+	status_label.text = message

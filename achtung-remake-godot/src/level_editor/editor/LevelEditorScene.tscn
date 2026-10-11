@@ -336,6 +336,21 @@ value = 50.0
 [node name="Sep5" type="HSeparator" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 layout_mode = 2
 
+[node name="StatusTitle" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_r34ho")
+text = "Status"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Status"
+autowrap_mode = 2
+
 [node name="CanvasHolder" type="CenterContainer" parent="EditorUI/MarginContainer/Layout"]
 layout_mode = 2
 size_flags_horizontal = 3
