@@ -25,7 +25,7 @@ func start_game() -> void:
 	super.start_game()
 	if not level.enable_powerups and game_physic_controller.powerup_runtime != null:
 		game_physic_controller.powerup_runtime.process_mode = Node.PROCESS_MODE_DISABLED
-		
+
 #func _setup_ai_players() -> void:
 	#GameManager.ai_players.clear()
 
@@ -33,11 +33,14 @@ func next_round() -> void:
 	game_physic_controller.reset_round_powerups()
 	#game_physic_controller.reset_ai()
 	_level_completed = false
+	if is_instance_valid(_goal_zone):
+		_goal_zone.visible = true
+		_goal_zone.set_process(true)
 	winner_box_container.visible = false
 	for player in GameManager.players:
 		player.clean()
 		player.set_process(false)
-	
+
 	for index in range (_level_players.size()):
 		var player := _level_players[index]
 		var spawn := _level_spawns[index]
@@ -47,11 +50,11 @@ func next_round() -> void:
 		player.set_process(true)
 		if player.arrow:
 			player.arrow.visible = true
-			
+
 	GameManager.game_status = GameManager.GameStatus.ROUND_READY
 	AudioManager.play_music(GAME_MUSIC)
 	print("Level ready, press space to start")
-	
+
 # Replayable, end_round cannot end_game()
 func end_round() -> void:
 	_countdown_request_id += 1
@@ -90,7 +93,7 @@ func _install_level_players() -> void:
 	#GameManager.ai_players.clear()
 	_level_players.clear()
 	_level_spawns.clear()
-	
+
 	var order := 1
 	for spawn in level.players:
 		if spawn == null:
@@ -109,13 +112,13 @@ func _install_level_players() -> void:
 		order += 1
 	if _level_players.is_empty():
 		push_warning("Level '%s' has no player" % level.level_name)
-		
+
 func _build_level_geometry() -> void:
 	_clear_level_geometry()
 	_level_root = Node2D.new()
 	_level_root.name = LEVEL_ROOT_NAME
 	game_physic_controller.add_child(_level_root)
-	
+
 	for obstacle in level.obstacles:
 		if obstacle == null:
 			continue
@@ -138,6 +141,9 @@ func _on_goal_zone_reached(player: PlayerScript) -> void:
 	if GameManager.game_status != GameManager.GameStatus.IN_GAME:
 		return
 	_level_completed = true
+	if is_instance_valid(_goal_zone):
+		_goal_zone.visible = false
+		_goal_zone.set_process(false)
 	print("Level completed by ", player.player_name)
 	end_round()
 	classic_winner_box(player)
@@ -163,7 +169,7 @@ func _register_action(action_name: String, key_text: String) -> void:
 	event.keycode = keycode
 	InputMap.action_add_event(action_name, event)
 	_added_action_events.push_back({"action": action_name, "event": event})
-	
+
 func _unregister_controls() -> void:
 	for entry in _added_action_events:
 		var action_name: String = entry["action"]

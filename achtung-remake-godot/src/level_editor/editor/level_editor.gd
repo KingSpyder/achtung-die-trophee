@@ -48,13 +48,13 @@ func _ready() -> void:
 		button.toggle_mode = true
 		button.button_group = _tool_group
 		button.pressed.connect(_select_tool.bind(tool_id))
-		
+
 	canvas.set_level(LevelData.new())
 	_sync_canvas_properties()
 	_select_tool(Tool.PLAYER)
 	tool_buttons[Tool.PLAYER].button_pressed = true
 	_refresh_level_list()
-	
+
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not editor_ui.visible or not event.is_pressed() or event.is_echo():
 		return
@@ -221,7 +221,7 @@ func _on_load_pressed() -> void:
 	level_name_edit.text = level.level_name
 	goal_radius_spin.value = level.goal_zone_radius
 	_prepare_next_player_defaults()
-	
+
 func _on_save_pressed() -> void:
 	_close_pending_obstacle()
 	var level := canvas.level
