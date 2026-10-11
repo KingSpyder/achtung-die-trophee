@@ -105,6 +105,8 @@ func _capture_control_key(key_event: InputEventKey) -> void:
 			control_button.text = "Control"
 	get_viewport().set_input_as_handled()
 
+# --- Tools --------------------------------------------------------------------
+
 func _select_tool(tool_id: int) -> void:
 	if canvas.active_tool != tool_id:
 		_close_pending_obstacle(true)
@@ -146,6 +148,8 @@ func _on_canvas_released(canvas_position: Vector2, button_index: int) -> void:
 
 func _on_canvas_moved(_canvas_position: Vector2) -> void:
 	pass
+
+# --- Object creation ----------------------------------------------------------
 
 func _add_player(spawn_position: Vector2, direction: Vector2) -> void:
 	var spawn := LevelPlayerSpawn.new()
@@ -254,6 +258,8 @@ func _undo() -> void:
 	canvas.queue_redraw()
 	_set_status("Last action undone.")
 
+# --- Level management ---------------------------------------------------------
+
 func _on_new_pressed() -> void:
 	canvas.set_level(LevelData.new())
 	_undo_stack.clear()
@@ -305,6 +311,8 @@ func _refresh_level_list(selected_name: String = "") -> void:
 			level_list.select(index)
 		index += 1
 
+# --- Test preview -------------------------------------------------------------
+
 func _on_test_pressed() -> void:
 	_close_pending_obstacle(true)
 	if canvas.level.players.is_empty():
@@ -318,6 +326,7 @@ func _on_test_closed() -> void:
 	editor_ui.visible = true
 	_set_status("Return to editor.")
 
+# --- Property bindings --------------------------------------------------------
 
 func _sync_canvas_properties() -> void:
 	canvas.player_color = player_color_button.color
