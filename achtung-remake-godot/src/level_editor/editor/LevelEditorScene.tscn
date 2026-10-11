@@ -1,0 +1,272 @@
+[gd_scene load_steps=4 format=3 uid="uid://b11ont8gxk0bg"]
+
+[ext_resource type="Script" uid="uid://b3ghax1j276m2" path="res://src/level_editor/editor/level_editor.gd" id="1_e2xvr"]
+[ext_resource type="Script" uid="uid://mswd4lu80i88" path="res://src/level_editor/editor/level_editor_canvas.gd" id="2_ifqc2"]
+[ext_resource type="Script" uid="uid://ghypmbg8b0ne" path="res://src/level_editor/level_runner.gd" id="3_5wfff"]
+
+[node name="LevelEditorScene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_e2xvr")
+metadata/_custom_type_script = "uid://b3ghax1j276m2"
+
+[node name="EditorUI" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="EditorUI"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.07058824, 0.07058824, 0.09019608, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="EditorUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Layout" type="HBoxContainer" parent="EditorUI/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="ToolPanel" type="PanelContainer" parent="EditorUI/MarginContainer/Layout"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+
+[node name="ToolScroll" type="ScrollContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel"]
+layout_mode = 2
+
+[node name="ToolVBox" type="VBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Level Editor"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/HBoxContainer"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Name"
+
+[node name="LevelNameEdit" type="LineEdit" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "New Level"
+
+[node name="ActionRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="NewButton" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ActionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "New"
+
+[node name="TestButton" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ActionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Test"
+
+[node name="UndoButton" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ActionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel (ctrl+Z)"
+
+[node name="ToolTitle" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Tools"
+horizontal_alignment = 1
+
+[node name="ToolPlayer" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "Player (drag and drop)"
+
+[node name="ToolObstacle" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "Obstacle (left to place, right to end)"
+
+[node name="ToolGate" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "Gate"
+
+[node name="ToolErase" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "Erase"
+
+[node name="PlayerTitle" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Player"
+horizontal_alignment = 1
+
+[node name="PlayerNameRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="PlayerNameLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/PlayerNameRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Name"
+
+[node name="PlayerNameEdit" type="LineEdit" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/PlayerNameRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player1"
+
+[node name="KeysRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="LeftKeyLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/KeysRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Left"
+
+[node name="LeftKeyEdit" type="LineEdit" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/KeysRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "A"
+
+[node name="RightKeyLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/KeysRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Right"
+
+[node name="RightKeyEdit" type="LineEdit" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/KeysRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Z"
+
+[node name="PlayerColorRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="PlayerColorLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/PlayerColorRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Color"
+
+[node name="PlayerColorButton" type="ColorPickerButton" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/PlayerColorRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 0, 0, 1)
+
+[node name="ObstacleTitle" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Obstacle"
+horizontal_alignment = 1
+
+[node name="ObstacleColorRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="ObstacleColorLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ObstacleColorRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Color"
+
+[node name="ObstacleColorButton" type="ColorPickerButton" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ObstacleColorRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.42365062, 0.42365065, 0.42365062, 1)
+
+[node name="WidthRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="WidthLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/WidthRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Width"
+
+[node name="WidthSpin" type="SpinBox" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/WidthRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 50.0
+value = 6.0
+
+[node name="GateTitle" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Gate"
+horizontal_alignment = 1
+
+[node name="GateRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="GateLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/GateRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Gate radius"
+
+[node name="GateRadiusSpin" type="SpinBox" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/GateRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 50.0
+value = 6.0
+
+[node name="CanvasHolder" type="CenterContainer" parent="EditorUI/MarginContainer/Layout"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Canvas" type="Control" parent="EditorUI/MarginContainer/Layout/CanvasHolder"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(760, 760)
+layout_mode = 2
+script = ExtResource("2_ifqc2")
+metadata/_custom_type_script = "uid://mswd4lu80i88"
+
+[node name="LevelRunner" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_5wfff")
+metadata/_custom_type_script = "uid://ghypmbg8b0ne"
+
+[connection signal="pressed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ActionRow/NewButton" to="." method="_on_new_pressed"]
+[connection signal="pressed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ActionRow/TestButton" to="." method="_on_test_pressed"]
+[connection signal="pressed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ActionRow/UndoButton" to="." method="_undo"]
+[connection signal="color_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/PlayerColorRow/PlayerColorButton" to="." method="_on_player_color_changed"]
+[connection signal="color_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ObstacleColorRow/ObstacleColorButton" to="." method="_on_obstacle_color_changed"]
+[connection signal="value_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/WidthRow/WidthSpin" to="." method="_on_width_changed"]
+[connection signal="value_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/GateRow/GateRadiusSpin" to="." method="_on_gate_radius_changed"]
+[connection signal="pointer_moved" from="EditorUI/MarginContainer/Layout/CanvasHolder/Canvas" to="." method="_on_canvas_moved"]
+[connection signal="pointer_pressed" from="EditorUI/MarginContainer/Layout/CanvasHolder/Canvas" to="." method="_on_canvas_pressed"]
+[connection signal="pointer_released" from="EditorUI/MarginContainer/Layout/CanvasHolder/Canvas" to="." method="_on_canvas_released"]
+[connection signal="closed" from="LevelRunner" to="." method="_on_test_closed"]
