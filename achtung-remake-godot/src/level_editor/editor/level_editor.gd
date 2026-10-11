@@ -21,6 +21,7 @@ var _undo_stack: Array[Dictionary] = []
 @onready var level_runner: LevelRunner = %LevelRunner
 @onready var editor_ui: Control = %EditorUI
 @onready var level_name_edit: LineEdit = %LevelNameEdit
+@onready var level_list: OptionButton = %LevelList
 @onready var player_name_edit: LineEdit = %PlayerNameEdit
 @onready var left_key_edit: LineEdit = %LeftKeyEdit
 @onready var right_key_edit: LineEdit = %RightKeyEdit
@@ -29,6 +30,8 @@ var _undo_stack: Array[Dictionary] = []
 @onready var width_spin: SpinBox = %WidthSpin
 @onready var gate_radius_spin: SpinBox = %GateRadiusSpin
 @onready var new_button: Button = %NewButton
+@onready var load_button: Button = %LoadButton
+@onready var save_button: Button = %SaveButton
 @onready var test_button: Button = %TestButton
 @onready var undo_button = %UndoButton
 @onready var tool_buttons := {
@@ -48,6 +51,7 @@ func _ready() -> void:
 	_sync_canvas_properties()
 	_select_tool(Tool.PLAYER)
 	tool_buttons[Tool.PLAYER].button_pressed = true
+	_refresh_level_list()
 	
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not editor_ui.visible or not event.is_pressed() or event.is_echo():
@@ -179,6 +183,40 @@ func _on_new_pressed() -> void:
 	_undo_stack.clear()
 	level_name_edit.text = "new_level"
 	_prepare_next_player_defaults()
+
+func _on_load_pressed() -> void:
+	if level_list.item_count == 0:
+		return
+	var level_name := level_list.get_item_text(maxi(level_list.selected, 0))
+	var level := LevelManager.load_level(level_name)
+	if level == null:
+		return
+	canvas.set_level(level)
+	_undo_stack.clear()
+	level_name_edit.text = level.level_name
+	_prepare_next_player_defaults()
+	
+func _on_save_pressed() -> void:
+	_close_pending_obstacle()
+	var level := canvas.level
+	var file_name := LevelManager.sanitize_name(level_name_edit.text)
+	if file_name.is_empty():
+		return
+	level.level_name = file_name
+	var save_error := LevelManager.save_level(level)
+	if save_error != OK:
+		return
+	level_name_edit.text = file_name
+	_refresh_level_list(file_name)
+
+func _refresh_level_list(selected_name: String = "") -> void:
+	level_list.clear()
+	var index := 0
+	for level_name in LevelManager.list_levels():
+		level_list.add_item(level_name)
+		if level_name == selected_name:
+			level_list.select(index)
+		index += 1
 
 func _on_test_pressed() -> void:
 	_close_pending_obstacle()
