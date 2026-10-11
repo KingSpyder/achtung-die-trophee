@@ -1,5 +1,4 @@
 # Hand drawn tail in level editor.
-
 class_name LevelObstacle
 extends Resource
 

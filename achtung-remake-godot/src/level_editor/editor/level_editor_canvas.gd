@@ -8,7 +8,7 @@ signal pointer_pressed(canvas_position: Vector2, button_index: int)
 signal pointer_moved(canvas_position: Vector2)
 signal pointer_released(canvas_position: Vector2, button_index: int)
 
-enum Tool {ERASE, PLAYER, OBSTACLE, GATE}
+enum Tool {ERASE, PLAYER, OBSTACLE, GATE, GOAL}
 
 const PLAYFIELD_SIZE: float = GamePhysicController.PLAYFIELD_SIZE
 const WALL_COLOR := Color(1, 1, 0, 1)
@@ -27,6 +27,7 @@ var pending_width := PlayersConstants.TRAIL_WIDTH
 
 var active_tool : Tool = Tool.PLAYER
 var gate_radius := PlayersConstants.GATE_LENGTH / 2.0
+var goal_zone_radius := LevelData.DEFAULT_GOAL_ZONE_RADIUS
 
 var player_color := Color(1, 0, 0, 1)
 var pointer_position := Vector2.ZERO
@@ -113,6 +114,7 @@ func _draw() -> void:
 	_draw_pending_obstacle()
 	_draw_gates()
 	_draw_players()
+	_draw_goal_zone()
 	_draw_tool_ghost()
 	
 func _draw_obstacles() -> void:
@@ -161,6 +163,11 @@ func _draw_arrow(origin: Vector2, heading: Vector2, length: float, color: Color)
 	var base := tip - heading * 9.0
 	draw_colored_polygon(PackedVector2Array([tip, base + side, base - side]), color)
 
+func _draw_goal_zone() -> void:
+	if not level.has_goal_zone:
+		return
+	draw_circle(level.goal_zone_position, level.goal_zone_radius, LevelGoalZone.ZONE_COLOR, true)
+
 func _draw_tool_ghost() -> void:
 	if not pointer_inside:
 		return
@@ -180,3 +187,5 @@ func _draw_tool_ghost() -> void:
 			draw_arc(pointer_position, 10.0, 0.0, TAU, 24, Color(1, 0.3, 0.3, 0.8), 1.5)
 		Tool.OBSTACLE:
 			draw_circle(pointer_position, 10, GHOST_COLOR)
+		Tool.GOAL:
+			draw_circle(pointer_position, level.goal_zone_radius, GHOST_COLOR, false, 1.5)

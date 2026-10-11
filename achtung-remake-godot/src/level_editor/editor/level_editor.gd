@@ -29,6 +29,7 @@ var _undo_stack: Array[Dictionary] = []
 @onready var obstacle_color_button: ColorPickerButton = %ObstacleColorButton
 @onready var width_spin: SpinBox = %WidthSpin
 @onready var gate_radius_spin: SpinBox = %GateRadiusSpin
+@onready var goal_radius_spin: SpinBox = %GoalRadiusSpin
 @onready var new_button: Button = %NewButton
 @onready var load_button: Button = %LoadButton
 @onready var save_button: Button = %SaveButton
@@ -38,7 +39,8 @@ var _undo_stack: Array[Dictionary] = []
 	Tool.ERASE: %ToolErase,
 	Tool.PLAYER: %ToolPlayer,
 	Tool.OBSTACLE: %ToolObstacle,
-	Tool.GATE: %ToolGate}
+	Tool.GATE: %ToolGate,
+	Tool.GOAL: %ToolGoal}
 
 func _ready() -> void:
 	for tool_id in tool_buttons:
@@ -89,6 +91,8 @@ func _on_canvas_pressed(canvas_position: Vector2, button_index: int) -> void:
 			canvas.add_pending_point(canvas_position)
 		Tool.GATE:
 			_add_gate(canvas_position)
+		Tool.GOAL:
+			_place_goal_zone(canvas_position)
 		Tool.ERASE:
 			_erase_at(canvas_position)
 	canvas.queue_redraw()
@@ -140,6 +144,20 @@ func _add_gate(gate_position: Vector2) -> void:
 	canvas.level.gates.push_back(gate)
 	_undo_stack.push_back({"kind": "gate"})
 
+func _place_goal_zone(zone_position: Vector2):
+	var level := canvas.level
+	_undo_stack.push_back(
+		{
+			"kind": "goal",
+			"had_goal": level.has_goal_zone,
+			"position": level.goal_zone_position,
+			"radius": level.goal_zone_radius,
+		}
+	)
+	level.has_goal_zone = true
+	level.goal_zone_position = zone_position
+	level.goal_zone_radius = goal_radius_spin.value
+
 func _erase_at(point: Vector2) -> void:
 	var level := canvas.level
 	for index in range(level.players.size() - 1, -1, -1):
@@ -156,6 +174,9 @@ func _erase_at(point: Vector2) -> void:
 		if _distance_to_polyline(point, obstacle.points) <= reach:
 			level.obstacles.remove_at(index)
 			return
+	if level.has_goal_zone:
+		level.has_goal_zone = false
+		return
 
 func _undo() -> void:
 	if canvas.has_pending_obstacle():
@@ -176,6 +197,10 @@ func _undo() -> void:
 		"gate":
 			if not level.gates.is_empty():
 				level.gates.remove_at(level.gates.size() - 1)
+		"goal":
+			level.has_goal_zone = entry["had_goal"]
+			level.goal_zone_position = entry["position"]
+			level.goal_zone_radius = entry["radius"]
 	canvas.queue_redraw()
 
 func _on_new_pressed() -> void:
@@ -194,6 +219,7 @@ func _on_load_pressed() -> void:
 	canvas.set_level(level)
 	_undo_stack.clear()
 	level_name_edit.text = level.level_name
+	goal_radius_spin.value = level.goal_zone_radius
 	_prepare_next_player_defaults()
 	
 func _on_save_pressed() -> void:
@@ -234,6 +260,7 @@ func _sync_canvas_properties() -> void:
 	canvas.pending_color = obstacle_color_button.color
 	canvas.pending_width = width_spin.value
 	canvas.gate_radius = gate_radius_spin.value
+	canvas.goal_zone_radius = goal_radius_spin.value
 	canvas.queue_redraw()
 
 func _on_player_color_changed(color: Color) -> void:
@@ -250,6 +277,10 @@ func _on_width_changed(value: float) -> void:
 
 func _on_gate_radius_changed(value: float) -> void:
 	canvas.gate_radius = value
+	canvas.queue_redraw()
+
+func _on_goal_radius_changed(value: float) -> void:
+	canvas.goal_zone_radius = value
 	canvas.queue_redraw()
 
 func _prepare_next_player_defaults() -> void:

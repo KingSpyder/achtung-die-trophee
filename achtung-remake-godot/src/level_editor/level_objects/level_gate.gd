@@ -3,4 +3,4 @@ class_name LevelGate
 extends Resource
 
 @export var position := Vector2.ZERO
-@export var radius := PlayersConstants.GATE_LENGTH
+@export var radius := PlayersConstants.GATE_LENGTH / 2.0

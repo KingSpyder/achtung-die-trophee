@@ -10,6 +10,7 @@ const LEVEL_ROOT_NAME := "Level Geometry"
 var _lobby_players: Array[PlayerScript] = []
 var _level_players: Array[PlayerScript] = []
 var _level_spawns: Array[LevelPlayerSpawn] = []
+var _goal_zone: LevelGoalZone
 var _created_actions: PackedStringArray = []
 var _added_action_events: Array[Dictionary] = []
 var _level_root: Node2D
@@ -119,13 +120,30 @@ func _build_level_geometry() -> void:
 		if obstacle == null:
 			continue
 		_level_root.add_child(LevelBuilder.build_obstacle(obstacle, level.gates))
+	if level.has_goal_zone:
+		_goal_zone = LevelBuilder.build_goal_zone(level)
+		_level_root.add_child(_goal_zone)
+		_goal_zone.player_reached.connect(_on_goal_zone_reached)
 
 func _clear_level_geometry() -> void:
+	_goal_zone = null
 	if is_instance_valid(_level_root):
 		_level_root.get_parent().remove_child((_level_root))
 		_level_root.queue_free()
 	_level_root = null
-	
+
+func _on_goal_zone_reached(player: PlayerScript) -> void:
+	if _level_completed:
+		return
+	if GameManager.game_status != GameManager.GameStatus.IN_GAME:
+		return
+	_level_completed = true
+	print("Level completed by ", player.player_name)
+	end_round()
+	classic_winner_box(player)
+	winner_label.text = "LEVEL\nCOMPLETE"
+	AudioManager.play_sfx(win_sound)
+
 func _register_controls(spawn: LevelPlayerSpawn) -> void:
 	_register_action(spawn.player_name + "_left", spawn.left_control)
 	_register_action(spawn.player_name + "_right", spawn.right_control)

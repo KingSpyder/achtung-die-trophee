@@ -59,6 +59,11 @@ static func build_run_collision(run: PackedVector2Array, width: float) -> Array:
 	shapes.append(_segment_shape(run[run.size() - 1] + end_segment_perp, run[run.size() - 1] - end_segment_perp))
 	return shapes
 
+static func build_goal_zone(level: LevelData) -> LevelGoalZone:
+	var zone := LevelGoalZone.new()
+	zone.setup(level.goal_zone_position, level.goal_zone_radius)
+	return zone
+
 # Give normal direction of a segment
 static func _segment_normal(point_a: Vector2, point_b: Vector2) -> Vector2:
 	var segment := point_b - point_a

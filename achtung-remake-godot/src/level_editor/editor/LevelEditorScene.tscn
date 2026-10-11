@@ -164,6 +164,12 @@ layout_mode = 2
 toggle_mode = true
 text = "Gate"
 
+[node name="ToolGoal" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "Goal zone"
+
 [node name="ToolErase" type="Button" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -299,6 +305,27 @@ min_value = 1.0
 max_value = 50.0
 value = 6.0
 
+[node name="Sep4" type="HSeparator" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="GoalRow" type="HBoxContainer" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
+[node name="GoalLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/GoalRow"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Goal zone radius"
+
+[node name="GoalRadiusSpin" type="SpinBox" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/GoalRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+value = 50.0
+
+[node name="Sep5" type="HSeparator" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+
 [node name="CanvasHolder" type="CenterContainer" parent="EditorUI/MarginContainer/Layout"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -324,6 +351,7 @@ metadata/_custom_type_script = "uid://ghypmbg8b0ne"
 [connection signal="color_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/ObstacleColorRow/ObstacleColorButton" to="." method="_on_obstacle_color_changed"]
 [connection signal="value_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/WidthRow/WidthSpin" to="." method="_on_width_changed"]
 [connection signal="value_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/GateRow/GateRadiusSpin" to="." method="_on_gate_radius_changed"]
+[connection signal="value_changed" from="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox/GoalRow/GoalRadiusSpin" to="." method="_on_goal_radius_changed"]
 [connection signal="pointer_moved" from="EditorUI/MarginContainer/Layout/CanvasHolder/Canvas" to="." method="_on_canvas_moved"]
 [connection signal="pointer_pressed" from="EditorUI/MarginContainer/Layout/CanvasHolder/Canvas" to="." method="_on_canvas_pressed"]
 [connection signal="pointer_released" from="EditorUI/MarginContainer/Layout/CanvasHolder/Canvas" to="." method="_on_canvas_released"]
