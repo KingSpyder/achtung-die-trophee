@@ -16,6 +16,10 @@ var _added_action_events: Array[Dictionary] = []
 var _level_root: Node2D
 var _level_completed := false
 
+@onready var objective_panel: PanelContainer = game_area_scene.get_node("LevelObjectivePanel")
+@onready var objective_label: Label = objective_panel.get_node("ObjectiveLabel")
+
+
 func start_game() -> void:
 	if level == null:
 		push_error("LevelGameController: no level assigned.")
@@ -33,6 +37,7 @@ func next_round() -> void:
 	game_physic_controller.reset_round_powerups()
 	#game_physic_controller.reset_ai()
 	_level_completed = false
+	_show_level_objective()
 	if is_instance_valid(_goal_zone):
 		_goal_zone.visible = true
 		_goal_zone.set_process(true)
@@ -54,6 +59,16 @@ func next_round() -> void:
 	GameManager.game_status = GameManager.GameStatus.ROUND_READY
 	AudioManager.play_music(GAME_MUSIC)
 	print("Level ready, press space to start")
+
+
+func start_round(skip_countdown: bool = false) -> void:
+	objective_panel.visible = false
+	await super.start_round(skip_countdown)
+
+
+func has_completed_level() -> bool:
+	return _level_completed
+
 
 # Replayable, end_round cannot end_game()
 func end_round() -> void:
@@ -149,6 +164,11 @@ func _on_goal_zone_reached(player: PlayerScript) -> void:
 	classic_winner_box(player)
 	winner_label.text = "LEVEL\nCOMPLETE"
 	AudioManager.play_sfx(win_sound)
+
+
+func _show_level_objective() -> void:
+	objective_label.text = level.objective_message
+	objective_panel.visible = not level.objective_message.strip_edges().is_empty()
 
 func _register_controls(spawn: LevelPlayerSpawn) -> void:
 	_register_action(spawn.player_name + "_left", spawn.left_control)

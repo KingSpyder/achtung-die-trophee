@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://rt7sopyl1yop"]
+[gd_scene load_steps=11 format=3 uid="uid://rt7sopyl1yop"]
 
 [ext_resource type="Script" uid="uid://dxtlnkvb7kd58" path="res://src/lobby/tutorial/tutorial_scene.gd" id="1_jil3f"]
 [ext_resource type="FontFile" uid="uid://55cbgd5iyl0t" path="res://assets/fonts/6_Segoe Print.ttf" id="2_brv2m"]
 [ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_snjue"]
+[ext_resource type="FontFile" uid="uid://cd7jr1vxiq2u2" path="res://assets/fonts/5_Segoe Print.ttf" id="4_3fo5y"]
 [ext_resource type="Texture2D" uid="uid://bn0vcgocb7cre" path="res://assets/images/tutorial_image_1.png" id="4_snjue"]
 [ext_resource type="Texture2D" uid="uid://bbtng78ljnjgu" path="res://assets/images/tutorial_image_2.png" id="5_3fo5y"]
 
@@ -20,6 +21,29 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_073y0"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.2, 0.2, 0.2, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0, 0.101960786, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3fo5y"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 0, 0.101960786, 1)
 
 [node name="TutorialScene" type="Node2D"]
 script = ExtResource("1_jil3f")
@@ -196,10 +220,22 @@ theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
 theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxFlat_TutorialNormal")
 theme_override_styles/hover = SubResource("StyleBoxFlat_TutorialHover")
-toggle_mode = true
 text = "Click here to go
 to the menu
 "
+
+[node name="TrainButton" type="Button" parent="Tutorialcontainer/ControlPlacement"]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 0
+offset_left = 1017.0
+offset_top = 769.0
+offset_right = 1260.0
+offset_bottom = 849.0
+theme_override_fonts/font = ExtResource("4_3fo5y")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_073y0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3fo5y")
+text = "Train yourself!"
 
 [node name="TextureRect" type="TextureRect" parent="Tutorialcontainer/ControlPlacement"]
 layout_mode = 0
@@ -212,9 +248,10 @@ texture = ExtResource("4_snjue")
 [node name="TextureRect2" type="TextureRect" parent="Tutorialcontainer/ControlPlacement"]
 layout_mode = 0
 offset_left = 946.0
-offset_top = 398.0
+offset_top = 381.0
 offset_right = 1304.0
-offset_bottom = 764.0
+offset_bottom = 747.0
 texture = ExtResource("5_3fo5y")
 
 [connection signal="pressed" from="Tutorialcontainer/ControlPlacement/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
+[connection signal="pressed" from="Tutorialcontainer/ControlPlacement/TrainButton" to="." method="_on_train_button_pressed"]

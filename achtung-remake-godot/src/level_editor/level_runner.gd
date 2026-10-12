@@ -4,10 +4,12 @@ class_name LevelRunner
 extends Node
 
 signal closed
+signal level_completed
 
 const LEVEL_GAME_SCENE: PackedScene = preload("res://src/level_editor/LevelGameScene.tscn")
 
 var controller: LevelGameController = null
+var advance_after_completion := false
 
 func _ready() -> void:
 	# Keep reacting to input while the level is paused by the pause overlay.
@@ -50,7 +52,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	match GameManager.game_status:
 		GameManager.GameStatus.START_GAME:
 			controller.start_game()
-		GameManager.GameStatus.ROUND_ENDED, GameManager.GameStatus.GAME_ENDED:
+		GameManager.GameStatus.ROUND_ENDED:
+			if advance_after_completion and controller.has_completed_level():
+				level_completed.emit()
+			else:
+				controller.next_round()
+		GameManager.GameStatus.GAME_ENDED:
 			controller.next_round()
 		GameManager.GameStatus.ROUND_READY:
 			controller.start_round()

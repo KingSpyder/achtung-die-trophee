@@ -191,6 +191,7 @@ horizontal_alignment = 1
 
 [node name="LevelObjectivePanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 z_index = 10
 layout_mode = 0
 offset_left = 212.0
