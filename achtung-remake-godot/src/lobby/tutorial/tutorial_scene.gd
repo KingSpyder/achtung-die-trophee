@@ -7,7 +7,11 @@ const POWERUP_ICON_SIZE := Vector2(60, 60)
 const POWERUP_ICON_SEPARATION := 8
 const LOBBY_MUSIC: AudioStream = preload("res://assets/music/Eric Skiff - Underclocked.mp3")
 const TUTORIAL_LEVELS: Array[LevelData] = [
-	preload("res://src/level_editor/levels/test_level.tres"),
+	preload("res://src/level_editor/levels/tutolevel1.tres"),
+	preload("res://src/level_editor/levels/tutolevel2.tres"),
+	preload("res://src/level_editor/levels/tutolevel3.tres"),
+	preload("res://src/level_editor/levels/tutolevel4.tres"),
+	preload("res://src/level_editor/levels/tutolevel5.tres"),
 ]
 
 var _level_runner: LevelRunner
