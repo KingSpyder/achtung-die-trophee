@@ -24,6 +24,7 @@ var _control_capture_state := ControlCaptureState.IDLE
 @onready var level_runner: LevelRunner = %LevelRunner
 @onready var editor_ui: Control = %EditorUI
 @onready var level_name_edit: LineEdit = %LevelNameEdit
+@onready var objective_message_edit: TextEdit = %ObjectiveMessageEdit
 @onready var level_list: OptionButton = %LevelList
 @onready var player_name_edit: LineEdit = %PlayerNameEdit
 @onready var left_key_edit: LineEdit = %LeftKeyEdit
@@ -264,6 +265,7 @@ func _on_new_pressed() -> void:
 	canvas.set_level(LevelData.new())
 	_undo_stack.clear()
 	level_name_edit.text = "new_level"
+	objective_message_edit.text = ""
 	_prepare_next_player_defaults()
 	_set_status("New level created.")
 
@@ -279,6 +281,7 @@ func _on_load_pressed() -> void:
 	canvas.set_level(level)
 	_undo_stack.clear()
 	level_name_edit.text = level.level_name
+	objective_message_edit.text = level.objective_message
 	goal_radius_spin.value = level.goal_zone_radius
 	_prepare_next_player_defaults()
 	_set_status("Level '%s' loaded." % level_name)
@@ -291,6 +294,7 @@ func _on_save_pressed() -> void:
 		_set_status("Level name empty.")
 		return
 	level.level_name = file_name
+	level.objective_message = objective_message_edit.text
 	var save_error := LevelManager.save_level(level)
 	if save_error != OK:
 		_set_status("Failed to save level: %d." % save_error)
@@ -318,6 +322,7 @@ func _on_test_pressed() -> void:
 	if canvas.level.players.is_empty():
 		_set_status("Place a player to test.")
 		return
+	canvas.level.objective_message = objective_message_edit.text
 	editor_ui.visible = false
 	level_runner.start(canvas.level.duplicate(true))
 	_set_status("Test started. Space to start/pause. Escape to return to editor.")

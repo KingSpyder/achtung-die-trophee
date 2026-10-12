@@ -136,6 +136,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel (ctrl+Z)"
 
+[node name="ObjectiveMessageLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+layout_mode = 2
+text = "Objective message"
+
+[node name="ObjectiveMessageEdit" type="TextEdit" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Text displayed before the level starts"
+
 [node name="Sep1" type="HSeparator" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
 layout_mode = 2
 

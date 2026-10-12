@@ -6,6 +6,7 @@ extends Resource
 const DEFAULT_GOAL_ZONE_RADIUS := 50.0
 
 @export var level_name := "New level"
+@export_multiline var objective_message := ""
 @export var players: Array[LevelPlayerSpawn] = []
 @export var obstacles: Array[LevelObstacle] = []
 @export var gates: Array[LevelGate] = []
