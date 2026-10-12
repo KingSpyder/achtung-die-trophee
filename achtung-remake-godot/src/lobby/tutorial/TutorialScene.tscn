@@ -1,0 +1,220 @@
+[gd_scene load_steps=8 format=3 uid="uid://rt7sopyl1yop"]
+
+[ext_resource type="Script" uid="uid://dxtlnkvb7kd58" path="res://src/lobby/tutorial/tutorial_scene.gd" id="1_jil3f"]
+[ext_resource type="FontFile" uid="uid://55cbgd5iyl0t" path="res://assets/fonts/6_Segoe Print.ttf" id="2_brv2m"]
+[ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_snjue"]
+[ext_resource type="Texture2D" uid="uid://bn0vcgocb7cre" path="res://assets/images/tutorial_image_1.png" id="4_snjue"]
+[ext_resource type="Texture2D" uid="uid://bbtng78ljnjgu" path="res://assets/images/tutorial_image_2.png" id="5_3fo5y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_TutorialNormal"]
+bg_color = Color(0.2, 0.2, 0.2, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_TutorialHover"]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 0, 1)
+
+[node name="TutorialScene" type="Node2D"]
+script = ExtResource("1_jil3f")
+
+[node name="TutorialBackground" type="ColorRect" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Tutorialcontainer" type="MarginContainer" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_constants/margin_left = 300
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 300
+theme_override_constants/margin_bottom = 30
+
+[node name="TutorialLabelContainer" type="VBoxContainer" parent="Tutorialcontainer"]
+layout_mode = 2
+theme_override_constants/separation = 35
+
+[node name="PlayTogetherLabel" type="RichTextLabel" parent="Tutorialcontainer/TutorialLabelContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Play together:[/font][/color] You can play against up to 6
+friends with this game, on 1 keyboard!"
+fit_content = true
+
+[node name="GoalLabel" type="RichTextLabel" parent="Tutorialcontainer/TutorialLabelContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Goal:[/font][/color] Stay alive and do not crash unto others.
+Everytime someone else dies, you will get a 
+point. The first to reach the goal, will win the
+game."
+fit_content = true
+
+[node name="ControlLabel" type="RichTextLabel" parent="Tutorialcontainer/TutorialLabelContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Controls:[/font][/color] Press your left or right key to turn left
+or right.
+Your curve will make holes, where you and others 
+can try to sneak through."
+fit_content = true
+
+[node name="Game Mode" type="RichTextLabel" parent="Tutorialcontainer/TutorialLabelContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Game mode:[/font][/color] You can play either in [color=#00d900]arcade[/color] 
+mode, or in [color=#00d900]classic[/color] mode. The only difference is 
+that in classic mode there are no powerups, and 
+in arcade mode, there are."
+fit_content = true
+
+[node name="Powerups" type="RichTextLabel" parent="Tutorialcontainer/TutorialLabelContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/normal_font_size = 22
+bbcode_enabled = true
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Powerups:[/font][/color] All the powerups are listed below. They can help you in 
+you struggle.
+You can chose the powerups to play with by the Configure PowerUps 
+button in the menu and get precsie description of their effect."
+fit_content = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Tutorialcontainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="SelfPowerUpRow" type="HBoxContainer" parent="Tutorialcontainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SelfPowerUpLabel" type="Label" parent="Tutorialcontainer/VBoxContainer/SelfPowerUpRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8509804, 0, 1)
+theme_override_fonts/font = ExtResource("2_brv2m")
+theme_override_font_sizes/font_size = 32
+text = "Powerups working on you"
+
+[node name="OthersPowerUpRow" type="HBoxContainer" parent="Tutorialcontainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="OthersPowerUpLabel" type="Label" parent="Tutorialcontainer/VBoxContainer/OthersPowerUpRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85882354, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_brv2m")
+theme_override_font_sizes/font_size = 32
+text = "Powerups working on others"
+
+[node name="AllPowerUpRow" type="HBoxContainer" parent="Tutorialcontainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AllPowerUpLabel" type="Label" parent="Tutorialcontainer/VBoxContainer/AllPowerUpRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0.8117647, 1)
+theme_override_fonts/font = ExtResource("2_brv2m")
+theme_override_font_sizes/font_size = 32
+text = "Powerups working on you"
+
+[node name="Space" type="VBoxContainer" parent="Tutorialcontainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ControlPlacement" type="Control" parent="Tutorialcontainer"]
+layout_mode = 2
+
+[node name="VBoxTitle" type="VBoxContainer" parent="Tutorialcontainer/ControlPlacement"]
+layout_mode = 0
+offset_left = 505.0
+offset_top = 6.0
+offset_right = 1316.0
+offset_bottom = 149.0
+theme_override_constants/separation = -15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Tutorialcontainer/ControlPlacement/VBoxTitle"]
+layout_mode = 2
+
+[node name="Title 1" type="Label" parent="Tutorialcontainer/ControlPlacement/VBoxTitle/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_brv2m")
+theme_override_font_sizes/font_size = 80
+text = "Achtung, "
+
+[node name="Title 2" type="Label" parent="Tutorialcontainer/ControlPlacement/VBoxTitle/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_fonts/font = ExtResource("2_brv2m")
+theme_override_font_sizes/font_size = 80
+text = "die Kurve!"
+
+[node name="Subtitle" type="Label" parent="Tutorialcontainer/ControlPlacement/VBoxTitle"]
+layout_direction = 3
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("3_snjue")
+theme_override_font_sizes/font_size = 50
+text = "Trophée Edition"
+
+[node name="BackToMenuButton" type="Button" parent="Tutorialcontainer/ControlPlacement"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 0
+offset_left = 997.0
+offset_top = 895.0
+offset_right = 1280.0
+offset_bottom = 995.0
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 0.8117647)
+theme_override_colors/icon_pressed_color = Color(0.5529556, 0.55295557, 0.55295557, 1)
+theme_override_colors/icon_hover_color = Color(0, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_TutorialNormal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_TutorialHover")
+toggle_mode = true
+text = "Click here to go
+to the menu
+"
+
+[node name="TextureRect" type="TextureRect" parent="Tutorialcontainer/ControlPlacement"]
+layout_mode = 0
+offset_left = 556.0
+offset_top = 116.0
+offset_right = 914.0
+offset_bottom = 482.0
+texture = ExtResource("4_snjue")
+
+[node name="TextureRect2" type="TextureRect" parent="Tutorialcontainer/ControlPlacement"]
+layout_mode = 0
+offset_left = 946.0
+offset_top = 398.0
+offset_right = 1304.0
+offset_bottom = 764.0
+texture = ExtResource("5_3fo5y")
+
+[connection signal="pressed" from="Tutorialcontainer/ControlPlacement/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
