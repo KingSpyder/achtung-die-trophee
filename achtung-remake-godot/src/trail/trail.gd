@@ -129,9 +129,9 @@ func new_end_segment() -> CollisionShape2D:
 func _get_age_segment_for_old(delta: float) -> int:
 	if delta <= 0 or player == null or player.speed <= 0 :
 		return 10
-	var nb_segment_to_take_ontime := int(ceil(0.1 / delta)) # Number of segments for a 0.2s long recent trail
+	var nb_segment_to_take_ontime := int(ceil(0.4 / delta))
 	var distance_per_frame := player.get_effective_speed() * delta
-	var safe_distance := player.size * 2.5
+	var safe_distance := player.size * 10
 	var nb_segment_to_take_onsize := int(ceil(safe_distance / distance_per_frame))
 	return max(nb_segment_to_take_ontime, nb_segment_to_take_onsize)
 
