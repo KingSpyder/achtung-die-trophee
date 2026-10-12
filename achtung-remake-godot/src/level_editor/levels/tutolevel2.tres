@@ -1,0 +1,53 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://src/level_editor/level_objects/level_gate.gd" id="1_wmeqt"]
+[ext_resource type="Script" path="res://src/level_editor/level_objects/level_obstacle.gd" id="2_24adg"]
+[ext_resource type="Script" path="res://src/level_editor/level_objects/level_player_spawn.gd" id="3_d8frh"]
+[ext_resource type="Script" path="res://src/level_editor/level_data.gd" id="4_fobt7"]
+
+[sub_resource type="Resource" id="Resource_8blio"]
+script = ExtResource("2_24adg")
+color = Color(0, 1, 0, 1)
+points = PackedVector2Array(228.24988, 568.99994, 228.24988, 151.24997)
+
+[sub_resource type="Resource" id="Resource_evvxy"]
+script = ExtResource("2_24adg")
+color = Color(0, 1, 0, 1)
+points = PackedVector2Array(531.2499, 76.999985, 342.99988, 264.49997, 342.99988, 342.49997)
+
+[sub_resource type="Resource" id="Resource_j1nx4"]
+script = ExtResource("2_24adg")
+color = Color(0, 1, 0, 1)
+points = PackedVector2Array(341.49988, 418.24994, 342.99988, 494.74994, 531.9999, 682.99994)
+
+[sub_resource type="Resource" id="Resource_tvare"]
+script = ExtResource("2_24adg")
+color = Color(0, 1, 0, 1)
+points = PackedVector2Array(569.4999, 607.24994, 722.4999, 569.74994)
+
+[sub_resource type="Resource" id="Resource_xdvid"]
+script = ExtResource("2_24adg")
+color = Color(0, 1, 0, 1)
+points = PackedVector2Array(567.9999, 148.99997, 723.2499, 188.74997)
+
+[sub_resource type="Resource" id="Resource_01paq"]
+script = ExtResource("2_24adg")
+color = Color(0, 1, 0, 1)
+points = PackedVector2Array(530.4999, 491.74994, 495.99988, 418.99994, 494.49988, 341.74997, 531.9999, 268.99997)
+
+[sub_resource type="Resource" id="Resource_rdg5s"]
+script = ExtResource("3_d8frh")
+player_name = "P1"
+color = Color(0.99607843, 0, 0, 1)
+position = Vector2(76.74988, 379.24994)
+
+[resource]
+script = ExtResource("4_fobt7")
+level_name = "tutolevel2"
+objective_message = "Move stage 2
+Avoid obstacles to reach blue zone
+Left=A, Right=Z"
+players = Array[ExtResource("3_d8frh")]([SubResource("Resource_rdg5s")])
+obstacles = Array[ExtResource("2_24adg")]([SubResource("Resource_8blio"), SubResource("Resource_evvxy"), SubResource("Resource_j1nx4"), SubResource("Resource_tvare"), SubResource("Resource_xdvid"), SubResource("Resource_01paq")])
+has_goal_zone = true
+goal_zone_position = Vector2(645.9999, 379.24994)
