@@ -1,9 +1,9 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=69 format=3]
+[gd_resource type="Resource" script_class="LevelData" load_steps=69 format=3 uid="uid://bmk2xb6u630bq"]
 
-[ext_resource type="Script" path="res://src/level_editor/level_objects/level_gate.gd" id="1_31pmh"]
-[ext_resource type="Script" path="res://src/level_editor/level_objects/level_obstacle.gd" id="2_gpgjo"]
-[ext_resource type="Script" path="res://src/level_editor/level_objects/level_player_spawn.gd" id="3_qjlu6"]
-[ext_resource type="Script" path="res://src/level_editor/level_data.gd" id="4_nn417"]
+[ext_resource type="Script" uid="uid://buj82sfomhx6g" path="res://src/level_editor/level_objects/level_gate.gd" id="1_31pmh"]
+[ext_resource type="Script" uid="uid://g83fe2du8xvd" path="res://src/level_editor/level_objects/level_obstacle.gd" id="2_gpgjo"]
+[ext_resource type="Script" uid="uid://b531unbh63np1" path="res://src/level_editor/level_objects/level_player_spawn.gd" id="3_qjlu6"]
+[ext_resource type="Script" uid="uid://j8wap7kbto56" path="res://src/level_editor/level_data.gd" id="4_nn417"]
 
 [sub_resource type="Resource" id="Resource_x7fbo"]
 script = ExtResource("1_31pmh")
