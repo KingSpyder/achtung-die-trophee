@@ -17,7 +17,7 @@ const CLEAR_DURATION := 0.0
 const PASS_BORDERS_SELF_DURATION := 15.0
 const PASS_BORDERS_OTHER_DURATION := 10.0
 const SURPRISE_DURATION := 0.0
-const FREEZE_OTHER_DURATION := 3.0
+const FREEZE_OTHER_DURATION := 2.5
 const TROPHEE_DURATION := 40.0
 
 # Power-Ups spawn chance (average spawn intervals)
