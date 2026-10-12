@@ -20,7 +20,7 @@ func _init() -> void:
 	pickup_sprite_folder = "res://assets/sprites/DefineSprite_21_explosion/"
 	pickup_sprite_fps = 24.0
 	_load_frames_from_folder(pickup_sprite_folder)
-	
+
 
 func on_apply(
 	context,
@@ -32,7 +32,7 @@ func on_apply(
 		target_player.set_speed_multiplier(source_id, PowerUpsConstants.TROPHEE_SPEEDCOEF)
 		target_player.set_radius_multiplier(source_id, PowerUpsConstants.TROPHEE_RADIUSCOEF)
 	var effect = ActivePowerUpEffectScript.new(self, context, targets, source_id, duration_seconds)
-	
+
 	AudioManager.pause_music()
 	var trophee_player = AudioManager.play_trophee(is_active_music, 0.9)
 	if trophee_player != null:
@@ -52,20 +52,20 @@ func on_tick(effect, delta: float) -> void:
 			* delta
 		)
 		target_player.rotate_direction(random_angle)
-		
+
 
 func on_expire(effect) -> void:
 	for target_player in effect.targets:
 		target_player.remove_score_multiplier(effect.source_id)
 		target_player.remove_speed_multiplier(effect.source_id)
 		target_player.remove_radius_multiplier(effect.source_id)
-		
+
 	if effect.metadata.has("trophee_player"):
 		var trophee_player = effect.metadata["trophee_player"]
 		if is_instance_valid(trophee_player):
 			trophee_player.stop()
 	AudioManager.resume_music()
-	
+
 func on_cancel(effect: ActivePowerUpEffect) -> void:
 	on_expire(effect)
 
