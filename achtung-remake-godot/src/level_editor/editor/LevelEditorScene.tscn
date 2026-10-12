@@ -348,8 +348,21 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Status"
+text = "Status
+"
 autowrap_mode = 2
+
+[node name="UseLabel" type="Label" parent="EditorUI/MarginContainer/Layout/ToolPanel/ToolScroll/ToolVBox"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player : Click to place, drag to set direction.
+Obstacle : Click to add points. Right-click or press Enter to finish.
+Gate : Click to carve a hole in any intersecting obstacle.
+Goal Zone : Click to place the target area required to complete the level.
+Erase : Click an element to remove it.
+Ctrl + Z : Undo the last action."
+autowrap_mode = 3
 
 [node name="CanvasHolder" type="CenterContainer" parent="EditorUI/MarginContainer/Layout"]
 layout_mode = 2

@@ -376,4 +376,4 @@ func _distance_to_polyline(point: Vector2, points: PackedVector2Array) -> float:
 	return best
 
 func _set_status(message: String) -> void:
-	status_label.text = message
+	status_label.text = message + "\n"
