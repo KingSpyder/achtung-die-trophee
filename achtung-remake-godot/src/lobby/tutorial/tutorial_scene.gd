@@ -12,6 +12,7 @@ const TUTORIAL_LEVELS: Array[LevelData] = [
 	preload("res://src/level_editor/levels/tutolevel3.tres"),
 	preload("res://src/level_editor/levels/tutolevel4.tres"),
 	preload("res://src/level_editor/levels/tutolevel5.tres"),
+	preload("res://src/level_editor/levels/labyrinthlevel.tres"),
 ]
 
 var _level_runner: LevelRunner
