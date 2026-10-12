@@ -1,0 +1,110 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=23 format=3 uid="uid://dvkovxdr0hcpl"]
+
+[ext_resource type="Script" uid="uid://buj82sfomhx6g" path="res://src/level_editor/level_objects/level_gate.gd" id="1_7v5ur"]
+[ext_resource type="Script" uid="uid://g83fe2du8xvd" path="res://src/level_editor/level_objects/level_obstacle.gd" id="2_c4tvd"]
+[ext_resource type="Script" uid="uid://b531unbh63np1" path="res://src/level_editor/level_objects/level_player_spawn.gd" id="3_2tw8g"]
+[ext_resource type="Script" uid="uid://j8wap7kbto56" path="res://src/level_editor/level_data.gd" id="4_gu4sl"]
+
+[sub_resource type="Resource" id="Resource_tf6m6"]
+script = ExtResource("1_7v5ur")
+position = Vector2(75.99988, 225.49997)
+radius = 9.0
+
+[sub_resource type="Resource" id="Resource_dat51"]
+script = ExtResource("1_7v5ur")
+position = Vector2(228.99988, 152.74997)
+radius = 9.0
+
+[sub_resource type="Resource" id="Resource_0gcya"]
+script = ExtResource("1_7v5ur")
+position = Vector2(381.24988, 37.999985)
+radius = 8.0
+
+[sub_resource type="Resource" id="Resource_de0gj"]
+script = ExtResource("1_7v5ur")
+position = Vector2(380.49988, 263.74997)
+radius = 8.0
+
+[sub_resource type="Resource" id="Resource_paksh"]
+script = ExtResource("1_7v5ur")
+position = Vector2(189.99988, 378.49994)
+radius = 8.0
+
+[sub_resource type="Resource" id="Resource_b85c2"]
+script = ExtResource("1_7v5ur")
+position = Vector2(534.2499, 227.74997)
+radius = 7.0
+
+[sub_resource type="Resource" id="Resource_wx6au"]
+script = ExtResource("1_7v5ur")
+position = Vector2(534.2499, 76.249985)
+radius = 7.0
+
+[sub_resource type="Resource" id="Resource_k1fhx"]
+script = ExtResource("1_7v5ur")
+position = Vector2(113.49988, 531.49994)
+radius = 10.0
+
+[sub_resource type="Resource" id="Resource_oramu"]
+script = ExtResource("1_7v5ur")
+position = Vector2(265.74988, 532.99994)
+radius = 10.0
+
+[sub_resource type="Resource" id="Resource_r3i58"]
+script = ExtResource("1_7v5ur")
+position = Vector2(607.7499, 378.49994)
+radius = 8.0
+
+[sub_resource type="Resource" id="Resource_sffi2"]
+script = ExtResource("1_7v5ur")
+position = Vector2(700.7499, 377.74994)
+radius = 9.0
+
+[sub_resource type="Resource" id="Resource_gixpi"]
+script = ExtResource("1_7v5ur")
+position = Vector2(379.74988, 721.99994)
+radius = 6.0
+
+[sub_resource type="Resource" id="Resource_51kpm"]
+script = ExtResource("2_c4tvd")
+color = Color(1, 0.4804684, 0, 1)
+points = PackedVector2Array(0.24987793, 226.99997, 228.99988, 227.74997, 228.24988, 1.2499847)
+
+[sub_resource type="Resource" id="Resource_2k2tj"]
+script = ExtResource("2_c4tvd")
+color = Color(1, 0.4804684, 0, 1)
+points = PackedVector2Array(0.24987793, 377.74994, 381.24988, 380.74994, 380.49988, 1.2499847)
+
+[sub_resource type="Resource" id="Resource_pm7jq"]
+script = ExtResource("2_c4tvd")
+color = Color(1, 0.4804684, 0, 1)
+points = PackedVector2Array(0.9998779, 530.74994, 533.4999, 532.24994, 534.2499, 1.2499847)
+
+[sub_resource type="Resource" id="Resource_yrfch"]
+script = ExtResource("2_c4tvd")
+color = Color(1, 0.4804684, 0, 1)
+points = PackedVector2Array(535.7499, 377.74994, 759.2499, 377.74994)
+
+[sub_resource type="Resource" id="Resource_jx5kp"]
+script = ExtResource("2_c4tvd")
+color = Color(1, 0.4804684, 0, 1)
+points = PackedVector2Array(378.99988, 533.74994, 379.74988, 759.49994)
+
+[sub_resource type="Resource" id="Resource_56t33"]
+script = ExtResource("3_2tw8g")
+player_name = "P1"
+color = Color(0.99607843, 0, 0, 1)
+position = Vector2(115.74988, 114.49997)
+direction = Vector2(0.70710677, 0.70710677)
+
+[resource]
+script = ExtResource("4_gu4sl")
+level_name = "tutolevel4"
+objective_message = "Gate stage 2
+Find a way through gates to reach blue zone
+Left=A, Right=Z"
+players = Array[ExtResource("3_2tw8g")]([SubResource("Resource_56t33")])
+obstacles = Array[ExtResource("2_c4tvd")]([SubResource("Resource_51kpm"), SubResource("Resource_2k2tj"), SubResource("Resource_pm7jq"), SubResource("Resource_yrfch"), SubResource("Resource_jx5kp")])
+gates = Array[ExtResource("1_7v5ur")]([SubResource("Resource_tf6m6"), SubResource("Resource_dat51"), SubResource("Resource_0gcya"), SubResource("Resource_de0gj"), SubResource("Resource_paksh"), SubResource("Resource_b85c2"), SubResource("Resource_wx6au"), SubResource("Resource_k1fhx"), SubResource("Resource_oramu"), SubResource("Resource_r3i58"), SubResource("Resource_sffi2"), SubResource("Resource_gixpi")])
+has_goal_zone = true
+goal_zone_position = Vector2(683.4999, 681.49994)

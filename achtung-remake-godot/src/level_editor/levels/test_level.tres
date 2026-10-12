@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=9 format=3 uid="uid://ck1qnlqf0607j"]
+
+[ext_resource type="Script" uid="uid://buj82sfomhx6g" path="res://src/level_editor/level_objects/level_gate.gd" id="1_rorhc"]
+[ext_resource type="Script" uid="uid://g83fe2du8xvd" path="res://src/level_editor/level_objects/level_obstacle.gd" id="2_l0hix"]
+[ext_resource type="Script" uid="uid://b531unbh63np1" path="res://src/level_editor/level_objects/level_player_spawn.gd" id="3_unw0u"]
+[ext_resource type="Script" uid="uid://j8wap7kbto56" path="res://src/level_editor/level_data.gd" id="4_1harv"]
+
+[sub_resource type="Resource" id="Resource_2injv"]
+script = ExtResource("1_rorhc")
+position = Vector2(380.49988, 367.99994)
+radius = 6.0
+
+[sub_resource type="Resource" id="Resource_gq0ai"]
+script = ExtResource("1_rorhc")
+position = Vector2(602.4999, 265.99997)
+radius = 6.0
+
+[sub_resource type="Resource" id="Resource_ir3hf"]
+script = ExtResource("2_l0hix")
+color = Color(0.42365062, 0.42365065, 0.42365062, 1)
+points = PackedVector2Array(376.74988, 578.74994, 381.99988, 220.99997, 567.9999, 218.74997, 646.7499, 328.99997)
+
+[sub_resource type="Resource" id="Resource_10io6"]
+script = ExtResource("3_unw0u")
+player_name = "Player1"
+position = Vector2(189.24988, 378.49994)
+
+[resource]
+script = ExtResource("4_1harv")
+level_name = "test_level"
+players = Array[ExtResource("3_unw0u")]([SubResource("Resource_10io6")])
+obstacles = Array[ExtResource("2_l0hix")]([SubResource("Resource_ir3hf")])
+gates = Array[ExtResource("1_rorhc")]([SubResource("Resource_2injv"), SubResource("Resource_gq0ai")])

@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://8f7nh6rscj2j"]
+
+[ext_resource type="Script" uid="uid://ch7vd7lp4vubx" path="res://src/level_editor/level_game_logic_controller.gd" id="1_4s0tr"]
+[ext_resource type="PackedScene" uid="uid://c5lppu5lddem8" path="res://src/game/gameScene.tscn" id="2_m40do"]
+
+[node name="GameScene" instance=ExtResource("2_m40do")]
+script = ExtResource("1_4s0tr")
+level = null

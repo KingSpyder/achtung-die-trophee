@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://src/level_editor/level_objects/level_gate.gd" id="1_ckgrb"]
+[ext_resource type="Script" path="res://src/level_editor/level_objects/level_obstacle.gd" id="2_dsqba"]
+[ext_resource type="Script" path="res://src/level_editor/level_objects/level_player_spawn.gd" id="3_oke0d"]
+[ext_resource type="Script" path="res://src/level_editor/level_data.gd" id="4_pbfxt"]
+
+[sub_resource type="Resource" id="Resource_3c67y"]
+script = ExtResource("1_ckgrb")
+position = Vector2(386.49988, 378.49994)
+radius = 6.0
+
+[sub_resource type="Resource" id="Resource_yviy8"]
+script = ExtResource("1_ckgrb")
+position = Vector2(441.24988, 346.99997)
+radius = 6.0
+
+[sub_resource type="Resource" id="Resource_3bfu1"]
+script = ExtResource("2_dsqba")
+color = Color(0.42365062, 0.42365065, 0.42365062, 1)
+points = PackedVector2Array(385.74988, 568.24994, 385.74988, 184.99997, 483.99988, 466.24994)
+
+[sub_resource type="Resource" id="Resource_bnpo0"]
+script = ExtResource("3_oke0d")
+player_name = "Player1"
+position = Vector2(229.74988, 379.99994)
+
+[resource]
+script = ExtResource("4_pbfxt")
+level_name = "test_save"
+players = Array[ExtResource("3_oke0d")]([SubResource("Resource_bnpo0")])
+obstacles = Array[ExtResource("2_dsqba")]([SubResource("Resource_3bfu1")])
+gates = Array[ExtResource("1_ckgrb")]([SubResource("Resource_3c67y"), SubResource("Resource_yviy8")])

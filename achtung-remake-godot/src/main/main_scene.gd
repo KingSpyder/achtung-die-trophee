@@ -33,6 +33,8 @@ func _on_quit_game() -> void:
 
 ## Cycle between game states.
 func _on_cycle_game() -> void:
+	if not is_instance_valid(game_scene):
+		return
 	match GameManager.game_status:
 		GameManager.GameStatus.LOBBY:
 			input_detected = false
@@ -56,6 +58,8 @@ func _on_cycle_game() -> void:
 
 ## Handle key input events for game states changes.
 func _on_key_captured(event) -> void:
+	if not is_instance_valid(game_scene):
+		return
 	input_detected = true
 	if event.is_action_pressed("escape"):
 		_on_quit_game()
