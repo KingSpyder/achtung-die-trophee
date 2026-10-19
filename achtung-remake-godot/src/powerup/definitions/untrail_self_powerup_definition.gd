@@ -28,7 +28,17 @@ func on_apply(
 
 
 func on_expire(effect) -> void:
+	var runtime_controller = effect.context.powerup_runtime_controller
 	for target_player in effect.targets:
 		if not is_instance_valid(target_player):
 			continue
-		target_player.start_trail()
+		# On vérifie qu'il n'y a pas d'autres untrail effectifs sur target_player
+		var has_other_untrail_active := false
+		for active_effect in runtime_controller._active_effects:
+			if (active_effect != effect
+			and active_effect.definition.powerup_id == powerup_id
+			and active_effect.targets.has(target_player)):
+				has_other_untrail_active = true
+				break
+		if not has_other_untrail_active:
+			target_player.start_trail()
