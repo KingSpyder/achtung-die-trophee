@@ -6,3 +6,6 @@
 [node name="GameScene" instance=ExtResource("2_m40do")]
 script = ExtResource("1_4s0tr")
 level = null
+
+[node name="GameAreaScene" parent="MarginContainer/HFlowContainer" index="0"]
+layout_mode = 2

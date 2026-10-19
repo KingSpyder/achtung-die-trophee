@@ -89,12 +89,19 @@ func start_game() -> void:
 		game_physic_controller.add_player(player)
 		player.player_died.connect(_on_player_died)
 
+		var row_wrapper := Control.new()
+		row_wrapper.name = player.player_name + "_row_wrapper"
+		row_wrapper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row_wrapper.custom_minimum_size = Vector2(0, font_size * 1.5) # Hauteur fixe de la ligne
+		score_label.add_sibling(row_wrapper)
+
 		var player_score_row := HBoxContainer.new()
 		player_score_row.name = player.player_name + "_score_row"
 		player_score_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		player_score_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		player_score_row.add_theme_constant_override("separation", 30)
-		score_label.add_sibling(player_score_row)
+		player_score_row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		row_wrapper.add_child(player_score_row)
 
 		var player_label := Label.new()
 		player_label.text = player.player_name
@@ -116,8 +123,11 @@ func start_game() -> void:
 
 		var action_display_box = PlayerActionDisplayBoxScript.new()
 		action_display_box.name = player.player_name + "_action_display_box"
-		action_display_box.size_flags_horizontal = Control.SIZE_SHRINK_END
-		player_score_row.add_child(action_display_box)
+		action_display_box.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT)
+		action_display_box.custom_minimum_size = Vector2(30, 30)
+		action_display_box.position.x += 20
+		action_display_box.position.y -= action_display_box.custom_minimum_size.y / 2.0
+		row_wrapper.add_child(action_display_box)
 		if game_physic_controller.powerup_runtime != null:
 			game_physic_controller.powerup_runtime.register_player_action_display(
 				player, action_display_box
@@ -295,8 +305,9 @@ func _on_player_died(player: PlayerScript, death_cause: int, collided_player: Pl
 		var player_score = find_child(player_alive.player_name + "_score", true, false)
 		if player_score:
 			player_score.text = str(player_alive.score)
-	
+
 	_sort_score_board()
+	game_physic_controller.powerup_runtime.clear_player_actions(player)
 
 	if GameManager.players_alive.size() <= 1 and not _round_end_scheduled:
 		_round_end_scheduled = true
@@ -308,16 +319,16 @@ func _on_player_died(player: PlayerScript, death_cause: int, collided_player: Pl
 func _sort_score_board() -> void:
 	var sorted_players := GameManager.players.duplicate()
 	sorted_players.sort_custom(func(a, b): return a.score > b.score)
-	
+
 	var title_node = scores_container.get_node_or_null("ScoreLabel")
 	var header_offset := title_node.get_index() + 1 if title_node else 0
-	
+
 	for i in range(sorted_players.size()):
 		var player = sorted_players[i]
 		var player_score_row = score_label.get_parent().find_child(player.player_name + "_score_row", false, false)
 		if player_score_row:
 			player_score_row.get_parent().move_child(player_score_row, header_offset + i)
-			
+
 
 func _end_round_deferred() -> void:
 	_round_end_scheduled = false
