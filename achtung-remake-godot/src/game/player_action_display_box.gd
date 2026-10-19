@@ -1,7 +1,7 @@
 class_name PlayerActionDisplayBox
 extends HBoxContainer
 
-const ICON_SIZE := Vector2(18, 18)
+const ICON_SIZE := Vector2(30, 30)
 
 
 func update_display(token_textures: Array) -> void:
@@ -14,5 +14,6 @@ func update_display(token_textures: Array) -> void:
 		var icon := TextureRect.new()
 		icon.texture = token_texture
 		icon.custom_minimum_size = ICON_SIZE
-		icon.expand_mode = TextureRect.EXPAND_FIT_HEIGHT_PROPORTIONAL
+		icon.expand_mode = TextureRect.EXPAND_FIT_HEIGHT
+		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		add_child(icon)

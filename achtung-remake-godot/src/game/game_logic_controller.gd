@@ -89,12 +89,19 @@ func start_game() -> void:
 		game_physic_controller.add_player(player)
 		player.player_died.connect(_on_player_died)
 
+		var row_wrapper := Control.new()
+		row_wrapper.name = player.player_name + "_row_wrapper"
+		row_wrapper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row_wrapper.custom_minimum_size = Vector2(0, font_size * 1.5) # Hauteur fixe de la ligne
+		score_label.add_sibling(row_wrapper)
+
 		var player_score_row := HBoxContainer.new()
 		player_score_row.name = player.player_name + "_score_row"
 		player_score_row.alignment = BoxContainer.ALIGNMENT_CENTER
 		player_score_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		player_score_row.add_theme_constant_override("separation", 30)
-		score_label.add_sibling(player_score_row)
+		player_score_row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		row_wrapper.add_child(player_score_row)
 
 		var player_label := Label.new()
 		player_label.text = player.player_name
@@ -116,8 +123,11 @@ func start_game() -> void:
 
 		var action_display_box = PlayerActionDisplayBoxScript.new()
 		action_display_box.name = player.player_name + "_action_display_box"
-		action_display_box.size_flags_horizontal = Control.SIZE_SHRINK_END
-		player_score_row.add_child(action_display_box)
+		action_display_box.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT)
+		action_display_box.custom_minimum_size = Vector2(30, 30)
+		action_display_box.position.x += 20
+		action_display_box.position.y -= action_display_box.custom_minimum_size.y / 2.0
+		row_wrapper.add_child(action_display_box)
 		if game_physic_controller.powerup_runtime != null:
 			game_physic_controller.powerup_runtime.register_player_action_display(
 				player, action_display_box
