@@ -17,6 +17,9 @@ const PhysicsLayersScript = preload("res://src/configs/physics_layers.gd")
 @export var right_control: String
 @export var order: int
 
+## When true the player is steered by an AiController instead of the keyboard.
+@export var is_ai := false
+
 @export var speed: float = PlayersConstants.PLAYER_SPEED
 @export var radius: float = PlayersConstants.PLAYER_TURN_RADIUS
 @export var head_preset: PlayerHeadPreset
@@ -37,6 +40,10 @@ var last_collided_player: Player = null
 
 var is_laying_trail := false
 var last_collision: KinematicCollision2D
+
+## Steering requested by the AI brain for this frame: -1 turns left, 0 goes straight,
+## 1 turns right. Only read when is_ai is true.
+var ai_turn := 0
 
 ## Distance (px) travelled on the current solid trail since the last gate closed.
 var _distance_since_gate := 0.0
@@ -145,6 +152,9 @@ func move(delta) -> void:
 	#Rotation & Movement
 	var left_pressed := _is_action_pressed_safe(player_name + "_left")
 	var right_pressed := _is_action_pressed_safe(player_name + "_right")
+	if is_ai:
+		left_pressed = ai_turn < 0
+		right_pressed = ai_turn > 0
 	var current_alpha := head.self_modulate.a
 	if _are_turn_controls_inverted():
 		var inverted_color := PlayerHeadPreset.HEAD_COLOR_INVERTED
@@ -179,7 +189,7 @@ func move(delta) -> void:
 		else:
 			_left_turn_press_consumed = false
 			_right_turn_press_consumed = false
-			var angular_speed = effective_speed / _get_effective_radius()
+			var angular_speed = effective_speed / get_effective_radius()
 			if angular_speed == 0.0:
 				# round start case, as we checked that speed multiplier factor is > 0.0
 				angular_speed = PlayersConstants.PLAYER_SPEED / PlayersConstants.PLAYER_TURN_RADIUS
@@ -195,7 +205,7 @@ func move(delta) -> void:
 
 	velocity = effective_speed * direction
 	last_collision = move_and_collide(velocity * delta)
-	if _can_pass_borders() and last_collision != null:
+	if can_pass_borders() and last_collision != null:
 		var collider := last_collision.get_collider()
 		if collider != null and collider.is_in_group("Walls"):
 			# Let the player go through walls; out_of_bounds decides when to wrap.
@@ -230,7 +240,7 @@ func _check_collision() -> bool:
 ## (e.g. touching own recent trail).
 func _identify_collider(collider: Object) -> bool:
 	if collider.is_in_group("Walls"):
-		if _can_pass_borders():
+		if can_pass_borders():
 			print(player_name, " passed through a wall")
 			return false
 		last_death_cause = DeathCause.WALL
@@ -272,7 +282,7 @@ func _check_out_of_bounds() -> bool:
 		and position.y < max_bound.y
 	):
 		return false
-	if _can_pass_borders():
+	if can_pass_borders():
 		_wrap_position_inside_bounds()
 		return false
 	last_death_cause = DeathCause.OUT_OF_BOUNDS
@@ -362,7 +372,7 @@ func _enable_trail_collision() -> void:
 
 
 func _update_wall_collision_mask() -> void:
-	if _can_pass_borders():
+	if can_pass_borders():
 		collision_mask &= ~(1 << PhysicsLayersScript.WALL_BIT)
 		return
 	collision_mask |= (1 << PhysicsLayersScript.WALL_BIT)
@@ -460,7 +470,7 @@ func remove_radius_multiplier(source_id: StringName) -> void:
 	_radius_multipliers.erase(source_id)
 
 
-func _get_effective_radius() -> float:
+func get_effective_radius() -> float:
 	return radius * _get_radius_multiplier_factor()
 
 
@@ -554,7 +564,7 @@ func set_pass_borders_enabled(source_id: StringName, enabled: bool) -> void:
 	_update_wall_collision_mask()
 
 
-func _can_pass_borders() -> bool:
+func can_pass_borders() -> bool:
 	return not _pass_borders_sources.is_empty()
 
 

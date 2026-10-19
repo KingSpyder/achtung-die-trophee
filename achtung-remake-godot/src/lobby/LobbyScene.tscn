@@ -50,10 +50,10 @@ border_color = Color(1, 1, 0, 1)
 [sub_resource type="ViewportTexture" id="ViewportTexture_bj5hf"]
 viewport_path = NodePath("ArrowRendered")
 
-[node name="LobbyScene" type="Node"]
+[node name="LobbyScene" type="Node" unique_id=804649745]
 script = ExtResource("1_abajd")
 
-[node name="LobbyBackground" type="ColorRect" parent="."]
+[node name="LobbyBackground" type="ColorRect" parent="." unique_id=1056066870]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
@@ -62,7 +62,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="LobbyContainer" type="MarginContainer" parent="."]
+[node name="LobbyContainer" type="MarginContainer" parent="." unique_id=703373609]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,73 +75,73 @@ theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 24
 
-[node name="LobbyVBoxContainer" type="VBoxContainer" parent="LobbyContainer"]
+[node name="LobbyVBoxContainer" type="VBoxContainer" parent="LobbyContainer" unique_id=654456964]
 custom_minimum_size = Vector2(1720, 992)
 layout_mode = 2
 
-[node name="LobbyTitle" type="CenterContainer" parent="LobbyContainer/LobbyVBoxContainer"]
+[node name="LobbyTitle" type="CenterContainer" parent="LobbyContainer/LobbyVBoxContainer" unique_id=1999173971]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle" unique_id=1715817940]
 layout_mode = 2
 theme_override_constants/separation = -15
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer" unique_id=1631032709]
 layout_mode = 2
 
-[node name="Title 1" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer/HBoxContainer"]
+[node name="Title 1" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer/HBoxContainer" unique_id=442471053]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_abajd")
 theme_override_font_sizes/font_size = 80
 text = "Achtung, "
 
-[node name="Title 2" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer/HBoxContainer"]
+[node name="Title 2" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer/HBoxContainer" unique_id=2098426969]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 1, 0, 1)
 theme_override_fonts/font = ExtResource("2_abajd")
 theme_override_font_sizes/font_size = 80
 text = "die Kurve!"
 
-[node name="Subtitle" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer"]
-layout_direction = 3
+[node name="Subtitle" type="Label" parent="LobbyContainer/LobbyVBoxContainer/LobbyTitle/VBoxContainer" unique_id=364935700]
 layout_mode = 2
+layout_direction = 3
 theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("1_3gx8m")
 theme_override_font_sizes/font_size = 50
 text = "Trophée Edition"
 
-[node name="Players" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer"]
+[node name="Players" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer" unique_id=164812821]
 layout_mode = 2
 theme_override_constants/separation = 200
 alignment = 1
 
-[node name="LocalPlayers" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players"]
+[node name="LocalPlayers" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players" unique_id=84780763]
 custom_minimum_size = Vector2(0, 550)
 layout_mode = 2
 
-[node name="LocalPlayers" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers"]
+[node name="LocalPlayers" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers" unique_id=1246562648]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Legende" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers"]
+[node name="Legende" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers" unique_id=287180477]
 unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="Position" type="Control" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende"]
+[node name="Position" type="Control" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende" unique_id=898371492]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 
-[node name="Arrow" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende"]
+[node name="Arrow" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende" unique_id=1812017583]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="Control" type="Control" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende/Arrow"]
+[node name="Control" type="Control" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende/Arrow" unique_id=1348082546]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 
-[node name="LeftController" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende"]
+[node name="LeftController" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende" unique_id=1569677589]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 24
@@ -149,7 +149,7 @@ theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="Left" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende/LeftController"]
+[node name="Left" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende/LeftController" unique_id=806440205]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ek04j")
 theme_override_font_sizes/font_size = 30
@@ -157,11 +157,11 @@ text = "left"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RightController" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende"]
+[node name="RightController" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende" unique_id=1068945095]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 
-[node name="Right" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende/RightController"]
+[node name="Right" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/LocalPlayers/LocalPlayers/Legende/RightController" unique_id=1666372366]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ek04j")
 theme_override_font_sizes/font_size = 30
@@ -169,18 +169,18 @@ text = "right"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RemotePlayers" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players"]
+[node name="RemotePlayers" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players" unique_id=213116149]
 layout_mode = 2
 theme_override_constants/margin_top = 50
 
-[node name="VBoxContainer" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers" unique_id=488624481]
 layout_mode = 2
 theme_override_constants/separation = 23
 
-[node name="Titre" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer"]
+[node name="Titre" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer" unique_id=981706870]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/Titre"]
+[node name="Label" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/Titre" unique_id=173461087]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ek04j")
 theme_override_font_sizes/font_size = 30
@@ -188,69 +188,69 @@ text = "Online Players (WIP)"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer" unique_id=2105789036]
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ek04j")
 
-[node name="MarginContainer" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer" unique_id=1252022295]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 14
 
-[node name="Players" type="ScrollContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer"]
+[node name="Players" type="ScrollContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer" unique_id=2098616226]
 custom_minimum_size = Vector2(500, 400)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players"]
+[node name="VBoxContainer" type="VBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players" unique_id=762152309]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer" unique_id=1232815673]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer/HBoxContainer" unique_id=1201352269]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_eqpb7")
 text = "Nico"
 
-[node name="Button" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer/HBoxContainer"]
-layout_direction = 3
+[node name="Button" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer/HBoxContainer" unique_id=1231805853]
 layout_mode = 2
+layout_direction = 3
 theme = SubResource("Theme_eqpb7")
 theme_override_styles/normal = SubResource("StyleBoxFlat_abajd")
 text = "Assign"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer" unique_id=938202779]
 custom_minimum_size = Vector2(500, 50)
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer/HBoxContainer2"]
+[node name="Label2" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer/HBoxContainer2" unique_id=408213735]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_eqpb7")
 text = "FocusGreenlee"
 
-[node name="Label" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="LobbyContainer/LobbyVBoxContainer/Players/RemotePlayers/VBoxContainer/PanelContainer/MarginContainer/Players/VBoxContainer/HBoxContainer2" unique_id=2081032930]
 layout_mode = 2
 theme = SubResource("Theme_eqpb7")
 theme_override_colors/font_color = Color(0, 0.99607843, 0, 1)
 text = "Greenlee"
 
-[node name="ModesMarginContainer" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer"]
+[node name="ModesMarginContainer" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer" unique_id=634066694]
 layout_mode = 2
 theme_override_constants/margin_top = 24
 
-[node name="ModesHBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer"]
+[node name="ModesHBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer" unique_id=357934712]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 37
 
-[node name="ArcadeButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer"]
+[node name="ArcadeButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer" unique_id=1748107723]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -263,7 +263,7 @@ button_pressed = true
 text = "Arcade"
 flat = true
 
-[node name="ClassicButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer"]
+[node name="ClassicButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/ModesMarginContainer/ModesHBoxContainer" unique_id=1867372147]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
@@ -275,13 +275,13 @@ toggle_mode = true
 text = "Classic"
 flat = true
 
-[node name="Start" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer"]
+[node name="Start" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer" unique_id=834871799]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 12
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start" unique_id=587599858]
 layout_mode = 2
 size_flags_horizontal = 0
 
@@ -297,11 +297,11 @@ text = "Configure
 game
 "
 
-[node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start"]
+[node name="HBoxContainer" type="HBoxContainer" parent="LobbyContainer/LobbyVBoxContainer/Start" unique_id=2077800938]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="StartButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer"]
+[node name="StartButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer" unique_id=961276756]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_ek04j")
 theme_override_font_sizes/font_size = 40
@@ -311,13 +311,13 @@ toggle_mode = true
 text = "Select the players and assign keys
 Press SPACE to PLAY"
 
-[node name="HBoxContainer2" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Start"]
+[node name="HBoxContainer2" type="MarginContainer" parent="LobbyContainer/LobbyVBoxContainer/Start" unique_id=951918818]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_constants/margin_right = 115
 
-[node name="PowerUpButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer2"]
+[node name="PowerUpButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer2" unique_id=152714377]
 custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
 theme_override_colors/icon_focus_color = Color(1, 1, 1, 0.8117647)
@@ -331,7 +331,7 @@ text = "Configure
 Power-ups
 "
 
-[node name="ControlTexts" type="Control" parent="."]
+[node name="ControlTexts" type="Control" parent="." unique_id=2102274434]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -340,7 +340,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TutoSelectPlayer" type="Label" parent="ControlTexts"]
+[node name="TutoSelectPlayer" type="Label" parent="ControlTexts" unique_id=1687581461]
 layout_mode = 0
 offset_left = 193.99998
 offset_top = 180.00002
@@ -352,7 +352,7 @@ theme_override_fonts/font = ExtResource("8_abajd")
 theme_override_font_sizes/font_size = 28
 text = "1) Select your players (and keys)"
 
-[node name="TutoSelectMode" type="Label" parent="ControlTexts"]
+[node name="TutoSelectMode" type="Label" parent="ControlTexts" unique_id=6144630]
 layout_mode = 0
 offset_left = 395.0
 offset_top = 783.99994
@@ -364,7 +364,7 @@ theme_override_fonts/font = ExtResource("8_abajd")
 theme_override_font_sizes/font_size = 28
 text = "2) Select your game mode"
 
-[node name="Start" type="Label" parent="ControlTexts"]
+[node name="Start" type="Label" parent="ControlTexts" unique_id=1825375479]
 layout_mode = 0
 offset_left = 403.0
 offset_top = 870.0
@@ -375,7 +375,7 @@ theme_override_fonts/font = ExtResource("8_abajd")
 theme_override_font_sizes/font_size = 28
 text = "3) Start!"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ControlTexts"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlTexts" unique_id=832392760]
 layout_mode = 0
 offset_left = 1502.0
 offset_top = 736.0
@@ -384,19 +384,19 @@ offset_bottom = 864.0
 size_flags_horizontal = 8
 theme_override_constants/separation = 12
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlTexts/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlTexts/VBoxContainer" unique_id=1002328203]
 layout_mode = 2
 size_flags_horizontal = 8
 alignment = 2
 
-[node name="LabelMusic" type="Label" parent="ControlTexts/VBoxContainer/HBoxContainer"]
+[node name="LabelMusic" type="Label" parent="ControlTexts/VBoxContainer/HBoxContainer" unique_id=1939609167]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("8_abajd")
 theme_override_font_sizes/font_size = 32
 text = "Music: "
 
-[node name="ButtonMusic" type="Button" parent="ControlTexts/VBoxContainer/HBoxContainer"]
+[node name="ButtonMusic" type="Button" parent="ControlTexts/VBoxContainer/HBoxContainer" unique_id=1056928014]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 focus_mode = 0
@@ -414,19 +414,19 @@ text = "on"
 flat = true
 alignment = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="ControlTexts/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="ControlTexts/VBoxContainer" unique_id=1370449728]
 layout_mode = 2
 size_flags_horizontal = 8
 alignment = 2
 
-[node name="LabelSound" type="Label" parent="ControlTexts/VBoxContainer/HBoxContainer2"]
+[node name="LabelSound" type="Label" parent="ControlTexts/VBoxContainer/HBoxContainer2" unique_id=282516667]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("8_abajd")
 theme_override_font_sizes/font_size = 32
 text = "Sound:"
 
-[node name="ButtonSound" type="Button" parent="ControlTexts/VBoxContainer/HBoxContainer2"]
+[node name="ButtonSound" type="Button" parent="ControlTexts/VBoxContainer/HBoxContainer2" unique_id=144549923]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 focus_mode = 0
@@ -445,7 +445,7 @@ text = "on
 flat = true
 alignment = 2
 
-[node name="Arrow 1" type="TextureRect" parent="ControlTexts"]
+[node name="Arrow 1" type="TextureRect" parent="ControlTexts" unique_id=867907868]
 layout_mode = 0
 offset_left = 390.99997
 offset_top = 180.0
@@ -454,7 +454,7 @@ offset_bottom = 220.0
 rotation = 1.5114552
 texture = SubResource("ViewportTexture_bj5hf")
 
-[node name="Arrow 2" type="TextureRect" parent="ControlTexts"]
+[node name="Arrow 2" type="TextureRect" parent="ControlTexts" unique_id=264441471]
 layout_mode = 0
 offset_left = 650.0
 offset_top = 776.0
@@ -462,7 +462,7 @@ offset_right = 750.0281
 offset_bottom = 816.0
 texture = SubResource("ViewportTexture_bj5hf")
 
-[node name="Arrow 3" type="TextureRect" parent="ControlTexts"]
+[node name="Arrow 3" type="TextureRect" parent="ControlTexts" unique_id=1943946452]
 layout_mode = 0
 offset_left = 460.19858
 offset_top = 917.2231
@@ -471,7 +471,7 @@ offset_bottom = 957.2231
 rotation = -0.14835298
 texture = SubResource("ViewportTexture_bj5hf")
 
-[node name="Tutorial" type="HBoxContainer" parent="ControlTexts"]
+[node name="Tutorial" type="HBoxContainer" parent="ControlTexts" unique_id=60255460]
 layout_mode = 0
 offset_left = 1493.0
 offset_top = 36.0
@@ -492,12 +492,12 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_eqpb7")
 theme_override_styles/hover = SubResource("StyleBoxFlat_cuawa")
 text = "Tutorial"
 
-[node name="ArrowRendered" type="SubViewport" parent="."]
+[node name="ArrowRendered" type="SubViewport" parent="." unique_id=1605401145]
 transparent_bg = true
 size = Vector2i(90, 40)
 render_target_update_mode = 4
 
-[node name="Label" type="Label" parent="ArrowRendered"]
+[node name="Label" type="Label" parent="ArrowRendered" unique_id=1154567074]
 offset_top = -40.0
 offset_right = 81.0
 offset_bottom = 75.0
