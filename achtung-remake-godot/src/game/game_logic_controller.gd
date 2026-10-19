@@ -295,8 +295,9 @@ func _on_player_died(player: PlayerScript, death_cause: int, collided_player: Pl
 		var player_score = find_child(player_alive.player_name + "_score", true, false)
 		if player_score:
 			player_score.text = str(player_alive.score)
-	
+
 	_sort_score_board()
+	game_physic_controller.powerup_runtime.clear_player_actions(player)
 
 	if GameManager.players_alive.size() <= 1 and not _round_end_scheduled:
 		_round_end_scheduled = true
@@ -308,16 +309,16 @@ func _on_player_died(player: PlayerScript, death_cause: int, collided_player: Pl
 func _sort_score_board() -> void:
 	var sorted_players := GameManager.players.duplicate()
 	sorted_players.sort_custom(func(a, b): return a.score > b.score)
-	
+
 	var title_node = scores_container.get_node_or_null("ScoreLabel")
 	var header_offset := title_node.get_index() + 1 if title_node else 0
-	
+
 	for i in range(sorted_players.size()):
 		var player = sorted_players[i]
 		var player_score_row = score_label.get_parent().find_child(player.player_name + "_score_row", false, false)
 		if player_score_row:
 			player_score_row.get_parent().move_child(player_score_row, header_offset + i)
-			
+
 
 func _end_round_deferred() -> void:
 	_round_end_scheduled = false

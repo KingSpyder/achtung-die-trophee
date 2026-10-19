@@ -300,6 +300,10 @@ func _clear_player_action(player: PlayerScript) -> void:
 	_update_player_action_display(player, null, 0)
 
 
+func clear_player_actions(player: PlayerScript) -> void:
+	_clear_player_action(player)
+
+
 func clear_all_player_actions() -> void:
 	for player in _registered_players:
 		if not is_instance_valid(player):
