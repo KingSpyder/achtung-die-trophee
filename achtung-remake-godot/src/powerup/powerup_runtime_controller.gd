@@ -20,6 +20,8 @@ const ActivePowerUpEffectScript = preload("res://src/powerup/active_powerup_effe
 const PowerUpExecutionContextScript = preload("res://src/powerup/powerup_execution_context.gd")
 const TOTAL_AVG_SPAWN_RATE_BASE = 1.0/70 * 10 + 1.0/80 * 4 + 1.0/50
 
+static var active_powerup_types: Array[PowerUpRegistry.PowerUpType] = []
+
 @export var action_hold_seconds := 0.25
 @export var powerup_definitions: Array[Resource]
 @export var powerup_spawn_factor := 1.0
@@ -36,8 +38,6 @@ var _player_action_display_box_by_id := {}
 var _spawn_interval_multipliers := {}
 
 @onready var _game_physic_controller: GamePhysicControllerScript = get_parent()
-
-static var active_powerup_types: Array[PowerUpRegistry.PowerUpType] = []
 
 func _ready() -> void:
 	if active_powerup_types.is_empty():
@@ -105,7 +105,7 @@ func cancel_all_effects() -> void:
 	for effect in _active_effects:
 		effect.cancel()
 	_active_effects.clear()
-	
+
 func cancel_effects_for_player(player: PlayerScript) -> void:
 	for index in range(_active_effects.size() - 1, -1, -1):
 		var effect = _active_effects[index]
@@ -320,8 +320,8 @@ func _update_player_action_display(player: PlayerScript, definition, uses: int) 
 		for _index in range(uses):
 			token_textures.append(definition.token_texture)
 	display_box.call("update_display", token_textures)
-	
-	
+
+
 func _calculate_total_avg_spawn_rate() -> float:
 	var total := 0.0
 	for definition in powerup_definitions:
@@ -330,9 +330,9 @@ func _calculate_total_avg_spawn_rate() -> float:
 		if total == 0:
 			total = 1
 	return total
-	
+
 	### Gestion des power-ups actifs ###
-	
+
 static func reset_default_powerups() -> void:
 	active_powerup_types.clear()
 	for powerup_type in PowerUpRegistry.PowerUpType.size():
