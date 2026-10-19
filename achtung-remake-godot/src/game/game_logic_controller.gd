@@ -358,9 +358,9 @@ func _sort_score_board() -> void:
 
 	for i in range(sorted_players.size()):
 		var player = sorted_players[i]
-		var player_score_row = score_label.get_parent().find_child(player.player_name + "_score_row", false, false)
-		if player_score_row:
-			player_score_row.get_parent().move_child(player_score_row, header_offset + i)
+		var player_row_wrapper = score_label.get_parent().find_child(player.player_name + "_row_wrapper", false, false)
+		if player_row_wrapper:
+			player_row_wrapper.get_parent().move_child(player_row_wrapper, header_offset + i)
 
 
 func _end_round_deferred() -> void:

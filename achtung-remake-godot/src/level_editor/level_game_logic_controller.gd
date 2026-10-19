@@ -30,8 +30,8 @@ func start_game() -> void:
 	if not level.enable_powerups and game_physic_controller.powerup_runtime != null:
 		game_physic_controller.powerup_runtime.process_mode = Node.PROCESS_MODE_DISABLED
 
-#func _setup_ai_players() -> void:
-	#GameManager.ai_players.clear()
+func _setup_ai_players() -> void:
+	GameManager.ai_players.clear()
 
 func next_round() -> void:
 	game_physic_controller.reset_round_powerups()

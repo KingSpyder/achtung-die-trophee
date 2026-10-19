@@ -24,6 +24,7 @@ func start(level: LevelData, auto_start_round: bool = false) -> void:
 		push_warning("LevelRunner: no level to start")
 		return
 	controller = LEVEL_GAME_SCENE.instantiate() as LevelGameController
+	controller.process_mode = Node.PROCESS_MODE_PAUSABLE
 	controller.level = level
 	add_child(controller)
 	controller.start_game()
@@ -38,7 +39,7 @@ func stop() -> void:
 	get_tree().paused = false
 	GameManager.game_status = GameManager.GameStatus.LOBBY
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not is_running():
 		return
 	if event.is_action_pressed("escape"):
