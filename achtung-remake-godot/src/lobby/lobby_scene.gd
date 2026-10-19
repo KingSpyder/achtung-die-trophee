@@ -5,6 +5,7 @@ signal start_game(max_score_coef: int)
 const PLAYER_SELECTION_SCENE: PackedScene = preload("res://src/lobby/PlayerSelectionScene.tscn")
 const POWER_UP_POPUP_SCENE = preload("res://src/lobby/PowerUpConfig.tscn")
 const CONFIG_GAME_POPUP_SCENE = preload("res://src/lobby/ConfigGame.tscn")
+const TUTORIAL_POPUP_SCENE = preload("res://src/lobby/tutorial/TutorialScene.tscn")
 
 var players_selection_nodes: Array[PlayerSelection]
 var game_mode_button_group := ButtonGroup.new()
@@ -153,3 +154,14 @@ func _on_max_score_coef_selected(value: int) -> void:
 func _on_ai_difficulty_selected(value: int) -> void:
 	ai_difficulty = value
 	GameManager.ai_difficulty = value
+
+
+func _on_tutorial_pressed() -> void:
+	var tutorial := TUTORIAL_POPUP_SCENE.instantiate() as TutorialScene
+	tutorial.back_to_lobby.connect(_on_tutorial_closed)
+	get_tree().root.add_child(tutorial)
+	hide()
+
+
+func _on_tutorial_closed() -> void:
+	show()

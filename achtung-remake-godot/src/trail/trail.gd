@@ -112,8 +112,8 @@ func new_border_segments() -> Array[CollisionShape2D]:
 func new_start_segment() -> CollisionShape2D:
 	var perp_vec := perpendicular_vector()
 	var collision_segment = new_collision_segment()
-	collision_segment.shape.a = previous_point + perp_vec / 2
-	collision_segment.shape.b = previous_point - perp_vec / 2
+	collision_segment.shape.a = latest_point + perp_vec / 2
+	collision_segment.shape.b = latest_point - perp_vec / 2
 	return collision_segment
 
 
@@ -121,17 +121,17 @@ func new_start_segment() -> CollisionShape2D:
 func new_end_segment() -> CollisionShape2D:
 	var perp_vec := perpendicular_vector()
 	var collision_segment = new_collision_segment()
-	collision_segment.shape.a = latest_point + perp_vec / 2
-	collision_segment.shape.b = latest_point - perp_vec / 2
+	collision_segment.shape.a = previous_point + perp_vec / 2
+	collision_segment.shape.b = previous_point - perp_vec / 2
 	return collision_segment
 
 
 func _get_age_segment_for_old(delta: float) -> int:
 	if delta <= 0 or player == null or player.speed <= 0 :
 		return 10
-	var nb_segment_to_take_ontime := int(ceil(0.1 / delta)) # Number of segments for a 0.2s long recent trail
+	var nb_segment_to_take_ontime := int(ceil(0.4 / delta))
 	var distance_per_frame := player.get_effective_speed() * delta
-	var safe_distance := player.size * 2.5
+	var safe_distance := player.size * 10
 	var nb_segment_to_take_onsize := int(ceil(safe_distance / distance_per_frame))
 	return max(nb_segment_to_take_ontime, nb_segment_to_take_onsize)
 

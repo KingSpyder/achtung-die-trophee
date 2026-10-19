@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=10 format=3 uid="uid://dswop2hs7ecpm"]
+
+[ext_resource type="Script" uid="uid://buj82sfomhx6g" path="res://src/level_editor/level_objects/level_gate.gd" id="1_smkl1"]
+[ext_resource type="Script" uid="uid://g83fe2du8xvd" path="res://src/level_editor/level_objects/level_obstacle.gd" id="2_sb6sg"]
+[ext_resource type="Script" uid="uid://b531unbh63np1" path="res://src/level_editor/level_objects/level_player_spawn.gd" id="3_5alby"]
+[ext_resource type="Script" uid="uid://j8wap7kbto56" path="res://src/level_editor/level_data.gd" id="4_dk8kc"]
+
+[sub_resource type="Resource" id="Resource_mins0"]
+script = ExtResource("1_smkl1")
+position = Vector2(381.24988, 115.24997)
+radius = 10.0
+
+[sub_resource type="Resource" id="Resource_ycjpw"]
+script = ExtResource("1_smkl1")
+position = Vector2(381.99988, 281.74997)
+radius = 10.0
+
+[sub_resource type="Resource" id="Resource_u5573"]
+script = ExtResource("1_smkl1")
+position = Vector2(380.49988, 568.99994)
+radius = 10.0
+
+[sub_resource type="Resource" id="Resource_f5cff"]
+script = ExtResource("2_sb6sg")
+color = Color(0, 0, 1, 1)
+points = PackedVector2Array(379.74988, 756.49994, 381.99988, 0.49998474)
+
+[sub_resource type="Resource" id="Resource_0foyt"]
+script = ExtResource("3_5alby")
+player_name = "P1"
+color = Color(0.99607843, 0, 0, 1)
+position = Vector2(76.74988, 380.74994)
+
+[resource]
+script = ExtResource("4_dk8kc")
+level_name = "tutolevel3"
+objective_message = "Gate stage 1
+Get through a gate to reach blue zone
+Left=A, Right=Z"
+players = Array[ExtResource("3_5alby")]([SubResource("Resource_0foyt")])
+obstacles = Array[ExtResource("2_sb6sg")]([SubResource("Resource_f5cff")])
+gates = Array[ExtResource("1_smkl1")]([SubResource("Resource_mins0"), SubResource("Resource_ycjpw"), SubResource("Resource_u5573")])
+has_goal_zone = true
+goal_zone_position = Vector2(645.2499, 379.99994)
