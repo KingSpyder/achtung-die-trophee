@@ -114,8 +114,14 @@ func start_player(player: PlayerScript) -> void:
 
 
 func start_round_powerups(alive_players: Array[PlayerScript]) -> void:
-	if powerup_runtime:
-		powerup_runtime.start_round(alive_players)
+	if powerup_runtime == null:
+		return
+	if GameManager.game_mode == GameManager.GameMode.CLASSIC_MODE:
+		powerup_runtime.clear_round_state()
+		powerup_runtime.process_mode = Node.PROCESS_MODE_DISABLED
+		return
+	powerup_runtime.process_mode = Node.PROCESS_MODE_INHERIT
+	powerup_runtime.start_round(alive_players)
 
 
 ## Spawn the AI brains driving `ai_players`. `all_players` is the whole roster, because the
