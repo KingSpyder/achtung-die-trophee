@@ -308,6 +308,7 @@ func exit_game() -> void:
 	pause_overlay.visible = false
 	_unpause()
 	game_physic_controller.exit_game()
+	GameManager.players_alive.clear()
 	_remove_ai_players()
 
 
