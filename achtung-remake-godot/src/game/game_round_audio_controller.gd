@@ -202,7 +202,10 @@ func play_theorem_sfx(volume_factor: float = 1.0) -> void:
 ## Detect a player framed by two nearby players moving in the same direction.
 ## The nearest candidate on each side of the center is enough, so this stays O(n^2).
 func _is_theorem_situation() -> bool:
-	var alive_players: Array[PlayerScript] = GameManager.players_alive
+	var alive_players: Array[PlayerScript] = []
+	for player in GameManager.players_alive:
+		if player != null and is_instance_valid(player):
+			alive_players.append(player)
 	if alive_players.size() < 3:
 		return false
 
