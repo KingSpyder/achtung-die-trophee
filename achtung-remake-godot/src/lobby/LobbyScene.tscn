@@ -1,14 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://5kfamwx1s240"]
+[gd_scene format=3 uid="uid://5kfamwx1s240"]
 
-[ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="1_3gx8m"]
+[ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken_Hotty.otf" id="1_3gx8m"]
 [ext_resource type="Script" uid="uid://cskqofg5uirf8" path="res://src/lobby/lobby_scene.gd" id="1_abajd"]
-[ext_resource type="FontFile" uid="uid://55cbgd5iyl0t" path="res://assets/fonts/6_Segoe Print.ttf" id="2_abajd"]
+[ext_resource type="FontFile" uid="uid://55cbgd5iyl0t" path="res://assets/fonts/6_Segoe_Print.ttf" id="2_abajd"]
 [ext_resource type="FontFile" uid="uid://cx2cpbufgqwxv" path="res://assets/fonts/Verdana_bold.ttf" id="2_ek04j"]
 [ext_resource type="FontFile" uid="uid://blhhtcjp6u0yn" path="res://assets/fonts/Bavista_Soulare.ttf" id="5_abajd"]
 [ext_resource type="FontFile" uid="uid://br5joybvrrpqa" path="res://assets/fonts/Castellar.ttf" id="6_bj5hf"]
 [ext_resource type="Theme" uid="uid://bphfx5h1x7mtu" path="res://src/lobby/themes/gameModeButton.tres" id="6_eqpb7"]
 [ext_resource type="FontFile" uid="uid://binkv08f2jgxo" path="res://assets/fonts/Verdana.ttf" id="7_eqpb7"]
-[ext_resource type="FontFile" uid="uid://cd7jr1vxiq2u2" path="res://assets/fonts/5_Segoe Print.ttf" id="8_abajd"]
+[ext_resource type="FontFile" uid="uid://cd7jr1vxiq2u2" path="res://assets/fonts/5_Segoe_Print.ttf" id="8_abajd"]
 
 [sub_resource type="Theme" id="Theme_ewlc2"]
 
@@ -285,7 +285,7 @@ theme_override_constants/margin_right = 12
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="GameConfigButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer3"]
+[node name="GameConfigButton" type="Button" parent="LobbyContainer/LobbyVBoxContainer/Start/HBoxContainer3" unique_id=777697703]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -480,7 +480,7 @@ offset_bottom = 114.0
 size_flags_vertical = 0
 alignment = 2
 
-[node name="TutorialButton" type="Button" parent="ControlTexts/Tutorial"]
+[node name="TutorialButton" type="Button" parent="ControlTexts/Tutorial" unique_id=1544846143]
 custom_minimum_size = Vector2(150, 60)
 layout_mode = 2
 theme_override_colors/icon_focus_color = Color(1, 1, 1, 0.8117647)

@@ -1,10 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5lppu5lddem8"]
+[gd_scene format=3 uid="uid://c5lppu5lddem8"]
 
 [ext_resource type="PackedScene" uid="uid://s4dac2cod3c6" path="res://src/game/gameAreaScene.tscn" id="1_3nvdd"]
 [ext_resource type="Script" uid="uid://djp65rn0m6w3x" path="res://src/game/game_logic_controller.gd" id="1_omymb"]
-[ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_winner"]
+[ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken_Hotty.otf" id="3_winner"]
 [ext_resource type="Script" uid="uid://c3ajt6fvhm54r" path="res://src/game/game_round_audio_controller.gd" id="4_round_audio"]
-[ext_resource type="FontFile" uid="uid://cd7jr1vxiq2u2" path="res://assets/fonts/5_Segoe Print.ttf" id="5_bsexf"]
+[ext_resource type="FontFile" uid="uid://cd7jr1vxiq2u2" path="res://assets/fonts/5_Segoe_Print.ttf" id="5_bsexf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_winner"]
 content_margin_left = 48.0
@@ -25,13 +25,13 @@ corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_06v2v"]
 
-[node name="GameScene" type="Node"]
+[node name="GameScene" type="Node" unique_id=1462959736]
 script = ExtResource("1_omymb")
 
-[node name="GameRoundAudioController" type="Node" parent="."]
+[node name="GameRoundAudioController" type="Node" parent="." unique_id=1279507091]
 script = ExtResource("4_round_audio")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=777075128]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,7 +41,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1701383812]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -51,17 +51,18 @@ grow_vertical = 2
 theme_override_constants/margin_left = 685
 theme_override_constants/margin_top = 125
 
-[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer"]
+[node name="HFlowContainer" type="HFlowContainer" parent="MarginContainer" unique_id=402257633]
 custom_minimum_size = Vector2(1920, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="GameAreaScene" parent="MarginContainer/HFlowContainer" instance=ExtResource("1_3nvdd")]
+[node name="GameAreaScene" parent="MarginContainer/HFlowContainer" unique_id=572814532 instance=ExtResource("1_3nvdd")]
 unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="WinnerBoxContainer" type="CenterContainer" parent="MarginContainer/HFlowContainer/GameAreaScene"]
+[node name="WinnerBoxContainer" type="CenterContainer" parent="MarginContainer/HFlowContainer/GameAreaScene" unique_id=1349381680]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -75,12 +76,12 @@ offset_bottom = -125.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="WinnerPanel" type="PanelContainer" parent="MarginContainer/HFlowContainer/GameAreaScene/WinnerBoxContainer"]
+[node name="WinnerPanel" type="PanelContainer" parent="MarginContainer/HFlowContainer/GameAreaScene/WinnerBoxContainer" unique_id=439636333]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_winner")
 
-[node name="WinnerLabel" type="Label" parent="MarginContainer/HFlowContainer/GameAreaScene/WinnerBoxContainer/WinnerPanel"]
+[node name="WinnerLabel" type="Label" parent="MarginContainer/HFlowContainer/GameAreaScene/WinnerBoxContainer/WinnerPanel" unique_id=1656469110]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -91,53 +92,53 @@ text = "Winner!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Node" type="Control" parent="MarginContainer/HFlowContainer"]
+[node name="Node" type="Control" parent="MarginContainer/HFlowContainer" unique_id=2106994710]
 custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer" unique_id=153444200]
 custom_minimum_size = Vector2(200, 800)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 theme = SubResource("Theme_omymb")
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HFlowContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HFlowContainer/VBoxContainer" unique_id=235900672]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_06v2v")
 
-[node name="Scores" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer"]
+[node name="Scores" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer" unique_id=419673261]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="MaxScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
+[node name="MaxScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores" unique_id=614442403]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="ScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores"]
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/Scores" unique_id=1564057524]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer" unique_id=366315832]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_constants/separation = 12
 alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1633375062]
 layout_mode = 2
 size_flags_horizontal = 8
 alignment = 2
 
-[node name="LabelMusic" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="LabelMusic" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=918511191]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("5_bsexf")
 theme_override_font_sizes/font_size = 32
 text = "Music: "
 
-[node name="ButtonMusic" type="Button" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="ButtonMusic" type="Button" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1996454021]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 focus_mode = 0
@@ -155,19 +156,19 @@ text = "on"
 flat = true
 alignment = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1103985964]
 layout_mode = 2
 size_flags_horizontal = 8
 alignment = 2
 
-[node name="LabelSound" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
+[node name="LabelSound" type="Label" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2" unique_id=148699505]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0, 1)
 theme_override_fonts/font = ExtResource("5_bsexf")
 theme_override_font_sizes/font_size = 32
 text = "Sound:"
 
-[node name="ButtonSound" type="Button" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2"]
+[node name="ButtonSound" type="Button" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer/HBoxContainer2" unique_id=655068128]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 focus_mode = 0
@@ -186,7 +187,7 @@ text = "on
 flat = true
 alignment = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HFlowContainer/VBoxContainer/PanelContainer/VBoxContainer" unique_id=1596835349]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 

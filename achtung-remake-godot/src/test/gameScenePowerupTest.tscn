@@ -1,7 +1,30 @@
-[gd_scene load_steps=3 format=3 uid="uid://dn2c7b63h8f30"]
+[gd_scene format=3 uid="uid://dn2c7b63h8f30"]
 
 [ext_resource type="PackedScene" uid="uid://c5lppu5lddem8" path="res://src/game/gameScene.tscn" id="1_base"]
-[ext_resource type="Script" uid="uid://d83kj4m9p7t2j" path="res://src/test/game_scene_powerup_test.gd" id="2_powerup_test"]
+[ext_resource type="Script" uid="uid://eoox2p050ybr" path="res://src/test/game_scene_powerup_test.gd" id="2_powerup_test"]
 
-[node name="GameScenePowerupTest" instance=ExtResource("1_base")]
+[node name="GameScenePowerupTest" unique_id=912507493 instance=ExtResource("1_base")]
 script = ExtResource("2_powerup_test")
+auto_start_round = true
+test_powerup_type = 0
+powerup_spawn_position = Vector2(300, 600)
+disable_auto_spawn = true
+player_1_name = "TestP1"
+player_1_color = Color(1, 0, 0, 1)
+player_1_head_preset_override = null
+player_1_position = Vector2(150, 600)
+player_1_direction = Vector2(1, 0)
+player_1_gate_open_delay = 999.0
+player_2_name = "TestP2"
+player_2_color = Color(0, 1, 1, 1)
+player_2_head_preset_override = null
+player_2_position = Vector2(650, 300)
+player_2_direction = Vector2(-1, 0)
+player_2_gate_open_delay = 999.0
+player_3_name = "Observer"
+player_3_color = Color(0.8, 0.8, 0.8, 1)
+player_3_head_preset_override = null
+player_3_position = Vector2(400, 750)
+
+[node name="GameAreaScene" parent="MarginContainer/HFlowContainer" index="0"]
+layout_mode = 2

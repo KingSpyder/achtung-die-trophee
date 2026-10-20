@@ -1,9 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://rt7sopyl1yop"]
+[gd_scene format=3 uid="uid://rt7sopyl1yop"]
 
 [ext_resource type="Script" uid="uid://dxtlnkvb7kd58" path="res://src/lobby/tutorial/tutorial_scene.gd" id="1_jil3f"]
-[ext_resource type="FontFile" uid="uid://55cbgd5iyl0t" path="res://assets/fonts/6_Segoe Print.ttf" id="2_brv2m"]
-[ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken Hotty.otf" id="3_snjue"]
-[ext_resource type="FontFile" uid="uid://cd7jr1vxiq2u2" path="res://assets/fonts/5_Segoe Print.ttf" id="4_3fo5y"]
+[ext_resource type="FontFile" uid="uid://55cbgd5iyl0t" path="res://assets/fonts/6_Segoe_Print.ttf" id="2_brv2m"]
+[ext_resource type="FontFile" uid="uid://dt7pc7pnid0bo" path="res://assets/fonts/Chicken_Hotty.otf" id="3_snjue"]
+[ext_resource type="FontFile" uid="uid://cd7jr1vxiq2u2" path="res://assets/fonts/5_Segoe_Print.ttf" id="4_3fo5y"]
 [ext_resource type="Texture2D" uid="uid://bn0vcgocb7cre" path="res://assets/images/tutorial_image_1.png" id="4_snjue"]
 [ext_resource type="Texture2D" uid="uid://bbtng78ljnjgu" path="res://assets/images/tutorial_image_2.png" id="5_3fo5y"]
 
@@ -76,7 +76,7 @@ layout_mode = 2
 theme_override_colors/default_color = Color(1, 1, 0, 1)
 theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
-text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Play together:[/font][/color] You can play against up to 6
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe_Print.ttf]Play together:[/font][/color] You can play against up to 6
 friends with this game, on 1 keyboard!"
 fit_content = true
 
@@ -85,7 +85,7 @@ layout_mode = 2
 theme_override_colors/default_color = Color(1, 1, 0, 1)
 theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
-text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Goal:[/font][/color] Stay alive and do not crash unto others.
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe_Print.ttf]Goal:[/font][/color] Stay alive and do not crash unto others.
 Everytime someone else dies, you will get a 
 point. The first to reach the goal, will win the
 game."
@@ -96,7 +96,7 @@ layout_mode = 2
 theme_override_colors/default_color = Color(1, 1, 0, 1)
 theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
-text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Controls:[/font][/color] Press your left or right key to turn left
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe_Print.ttf]Controls:[/font][/color] Press your left or right key to turn left
 or right.
 Your curve will make holes, where you and others 
 can try to sneak through."
@@ -107,7 +107,7 @@ layout_mode = 2
 theme_override_colors/default_color = Color(1, 1, 0, 1)
 theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
-text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Game mode:[/font][/color] You can play either in [color=#00d900]arcade[/color] 
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe_Print.ttf]Game mode:[/font][/color] You can play either in [color=#00d900]arcade[/color] 
 mode, or in [color=#00d900]classic[/color] mode. The only difference is 
 that in classic mode there are no powerups, and 
 in arcade mode, there are."
@@ -118,7 +118,7 @@ layout_mode = 2
 theme_override_colors/default_color = Color(1, 1, 0, 1)
 theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
-text = "[color=#ff0000][font=res://assets/fonts/6_Segoe Print.ttf]Powerups:[/font][/color] All the powerups are listed below. They can help you in 
+text = "[color=#ff0000][font=res://assets/fonts/6_Segoe_Print.ttf]Powerups:[/font][/color] All the powerups are listed below. They can help you in 
 you struggle.
 You can chose the powerups to play with by the Configure PowerUps 
 button in the menu and get precsie description of their effect."
