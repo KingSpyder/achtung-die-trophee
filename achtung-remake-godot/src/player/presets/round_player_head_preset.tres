@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlayerHeadPreset" load_steps=5 format=3 uid="uid://bdad7ux073d8w"]
+[gd_resource type="Resource" script_class="PlayerHeadPreset" format=3 uid="uid://bdad7ux073d8w"]
 
 [ext_resource type="Script" uid="uid://c58ra5f7a01o" path="res://src/player/player_head_preset.gd" id="1_hh20m"]
 

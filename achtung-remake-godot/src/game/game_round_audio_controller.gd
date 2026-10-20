@@ -46,8 +46,8 @@ func _ready() -> void:
 	_coverage_timer.one_shot = false
 	_coverage_timer.wait_time = COVERAGE_CHECK_INTERVAL
 	_coverage_timer.timeout.connect(_check_coverage)
-	_coverage_timer.start()
 	add_child(_coverage_timer)
+	_coverage_timer.start()
 
 	normal_music = AudioManager.music_player.stream
 

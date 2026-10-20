@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlayerHeadPreset" load_steps=4 format=3 uid="uid://86iextl7f7cx"]
+[gd_resource type="Resource" script_class="PlayerHeadPreset" format=3 uid="uid://86iextl7f7cx"]
 
 [ext_resource type="Script" uid="uid://c58ra5f7a01o" path="res://src/player/player_head_preset.gd" id="1_n6d7n"]
 [ext_resource type="Texture2D" uid="uid://ye4yvb7gcptl" path="res://assets/images/player_head_texture.png" id="2_u7ksu"]

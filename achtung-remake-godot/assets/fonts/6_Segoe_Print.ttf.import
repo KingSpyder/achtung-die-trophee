@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://25bmeqeqhbte"
-path="res://.godot/imported/Smash Brush.otf-1cb80e29ae5a5ae58fbc9bc1df85d020.fontdata"
+uid="uid://55cbgd5iyl0t"
+path="res://.godot/imported/6_Segoe_Print.ttf-e985ef55aed307a308b16c281ae95555.fontdata"
 
 [deps]
 
-source_file="res://assets/fonts/Smash Brush.otf"
-dest_files=["res://.godot/imported/Smash Brush.otf-1cb80e29ae5a5ae58fbc9bc1df85d020.fontdata"]
+source_file="res://assets/fonts/6_Segoe_Print.ttf"
+dest_files=["res://.godot/imported/6_Segoe_Print.ttf-e985ef55aed307a308b16c281ae95555.fontdata"]
 
 [params]
 

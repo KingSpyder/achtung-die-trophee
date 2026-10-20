@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelData" load_steps=10 format=3 uid="uid://dswop2hs7ecpm"]
+[gd_resource type="Resource" script_class="LevelData" format=3 uid="uid://dswop2hs7ecpm"]
 
 [ext_resource type="Script" uid="uid://buj82sfomhx6g" path="res://src/level_editor/level_objects/level_gate.gd" id="1_smkl1"]
 [ext_resource type="Script" uid="uid://g83fe2du8xvd" path="res://src/level_editor/level_objects/level_obstacle.gd" id="2_sb6sg"]
