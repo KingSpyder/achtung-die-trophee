@@ -119,6 +119,7 @@ func hide() -> void:
 func show() -> void:
 	%LobbyContainer.visible = true
 	%LobbyBackground.visible = true
+	AudioManager.play_music(lobby_music)
 
 
 func _on_button_music_toggled(toggled_on: bool) -> void:
