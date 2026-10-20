@@ -27,8 +27,7 @@ func start_game() -> void:
 	_install_level_players()
 	_build_level_geometry()
 	super.start_game()
-	if not level.enable_powerups and game_physic_controller.powerup_runtime != null:
-		game_physic_controller.powerup_runtime.process_mode = Node.PROCESS_MODE_DISABLED
+
 
 func _setup_ai_players() -> void:
 	GameManager.ai_players.clear()
@@ -64,6 +63,9 @@ func next_round() -> void:
 func start_round(skip_countdown: bool = false) -> void:
 	objective_panel.visible = false
 	await super.start_round(skip_countdown)
+	if not level.enable_powerups and game_physic_controller.powerup_runtime != null:
+		game_physic_controller.powerup_runtime.clear_round_state()
+		game_physic_controller.powerup_runtime.process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func has_completed_level() -> bool:
