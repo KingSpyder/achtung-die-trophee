@@ -111,8 +111,7 @@ func _refresh_head_and_collision_shape() -> void:
 	head.scale = head_preset.get_head_scale_for_size(size)
 	var scaled_collision_shape := head_preset.build_collision_shape_for_size(size)
 	if scaled_collision_shape != null:
-		playercoll.shape = null  # Clean up old shape reference before assigning new one
-		playercoll.shape = scaled_collision_shape
+		playercoll.set_deferred("shape", scaled_collision_shape)
 
 
 ## Set the player's collision layer and mask to collide with everything
